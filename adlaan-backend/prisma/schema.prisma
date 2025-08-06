@@ -1,0 +1,161 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id              String       @id @default(cuid())
+  email           String       @unique
+  name            String
+  password        String? // Optional for OAuth users
+  avatar          String?
+  provider        AuthProvider @default(LOCAL)
+  providerId      String?
+  isEmailVerified Boolean      @default(false)
+
+  // Phone and 2FA settings
+  phoneNumber      String? // Optional phone number
+  isPhoneVerified  Boolean @default(false)
+  twoFactorEnabled Boolean @default(false) // User can enable/disable 2FA
+
+  // Company relationship
+  companyId String? // Optional - user can exist without a company initially
+  company   Company? @relation(fields: [companyId], references: [id])
+
+  // Company ownership - for users who own companies
+  ownedCompanies Company[] @relation("CompanyOwner")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("users")
+}
+
+// Company model
+model Company {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+  logo        String?
+  email       String?
+  phone       String?
+  address     String?
+  website     String?
+
+  // Company owner/creator
+  ownerId String
+  owner   User   @relation("CompanyOwner", fields: [ownerId], references: [id])
+
+  // Company members/employees
+  members User[]
+
+  // Subscription relationship
+  subscriptionId String?       @unique
+  subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
+
+  // Company settings
+  isActive Boolean @default(true)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("companies")
+}
+
+// Subscription model
+model Subscription {
+  id     String             @id @default(cuid())
+  plan   SubscriptionPlan   @default(FREE)
+  status SubscriptionStatus @default(ACTIVE)
+
+  // Billing cycle
+  billingCycle BillingCycle @default(MONTHLY)
+  amount       Float        @default(0) // Amount in USD
+  currency     String       @default("USD")
+
+  // Subscription period
+  startDate       DateTime  @default(now())
+  endDate         DateTime? // null for lifetime/free plans
+  nextBillingDate DateTime? // null for free plans
+
+  // Trial information
+  trialStartDate DateTime?
+  trialEndDate   DateTime?
+  isTrialActive  Boolean   @default(false)
+
+  // Payment information
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+
+  // Features and limits
+  maxUsers            Int     @default(5) // Max users for free plan
+  maxProjects         Int     @default(3) // Max projects for free plan
+  maxStorage          Int     @default(1000) // Storage limit in MB
+  hasAdvancedFeatures Boolean @default(false)
+  hasPrioritySupport  Boolean @default(false)
+
+  // Company relationship
+  company Company?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("subscriptions")
+}
+
+// OTP model for phone number verification
+model Otp {
+  id          String   @id @default(cuid())
+  phoneNumber String
+  code        String
+  type        OtpType
+  expiresAt   DateTime
+  used        Boolean  @default(false)
+  attempts    Int      @default(0)
+  createdAt   DateTime @default(now())
+
+  @@map("otps")
+}
+
+enum AuthProvider {
+  LOCAL
+  GOOGLE
+}
+
+enum OtpType {
+  EMAIL_VERIFICATION
+  LOGIN_VERIFICATION
+  PASSWORD_RESET
+}
+
+enum SubscriptionPlan {
+  FREE
+  BASIC
+  PRO
+  ENTERPRISE
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  CANCELED
+  PAST_DUE
+  TRIALING
+}
+
+enum BillingCycle {
+  MONTHLY
+  YEARLY
+  LIFETIME
+}
