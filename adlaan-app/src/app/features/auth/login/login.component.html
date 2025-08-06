@@ -1,0 +1,285 @@
+<!-- Professional Split Layout Container -->
+<main class="flex h-screen w-screen bg-white font-inter fixed inset-0" role="main">
+  <!-- Left Panel - Dark Professional -->
+  <aside class="w-full lg:w-1/2 bg-gradient-to-br from-gray-900 via-gray-800 to-gray-900 flex flex-col justify-center relative overflow-hidden shadow-2xl" role="complementary" aria-label="Brand information">
+    <!-- Enhanced background pattern -->
+    <div class="absolute inset-0 opacity-10">
+      <div class="absolute inset-0" style="background-image: radial-gradient(circle at 2px 2px, rgba(255,255,255,0.4) 1px, transparent 0); background-size: 32px 32px;"></div>
+    </div>
+    
+    <!-- Subtle gradient overlay -->
+    <div class="absolute inset-0 bg-gradient-to-br from-transparent via-gray-800/20 to-gray-900/40"></div>
+    
+    <!-- Content -->
+    <div class="relative z-10 px-8 lg:px-12 max-w-md mx-auto lg:mx-0">
+      <!-- Logo -->
+      <header class="mb-8 transform transition-all duration-700 ease-out">
+        <h1 class="text-4xl lg:text-3xl font-bold mb-2 tracking-tight bg-gradient-to-r from-white to-gray-300 bg-clip-text text-transparent">Adlaan</h1>
+        <p class="text-gray-300 text-sm font-medium tracking-wide">Legal AI Platform</p>
+      </header>
+
+      <!-- Tagline -->
+      <div class="mb-12 transform transition-all duration-700 ease-out delay-300">
+        <h2 class="text-2xl lg:text-xl font-semibold text-white mb-4 leading-tight">
+          Transform your legal practice with AI-powered precision
+        </h2>
+        <p class="text-gray-300 text-base lg:text-sm leading-relaxed">
+          Built on the principles of justice (ʿadl), precision, and trust to deliver exceptional legal document analysis.
+        </p>
+      </div>
+
+      <!-- Key Features -->
+      <div class="space-y-8 lg:space-y-6">
+        <div class="flex items-start space-x-4 transform transition-all duration-500 ease-out delay-500 hover:translate-x-2">
+          <div class="w-3 h-3 bg-gradient-to-r from-gray-400 to-gray-300 rounded-full mt-2 flex-shrink-0 shadow-lg"></div>
+          <div>
+            <h4 class="text-white text-base lg:text-sm font-semibold mb-2">AI-Powered Analysis</h4>
+            <p class="text-gray-300 text-sm lg:text-xs leading-relaxed">Advanced document review and contract analysis with machine learning</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start space-x-4 transform transition-all duration-500 ease-out delay-700 hover:translate-x-2">
+          <div class="w-3 h-3 bg-gradient-to-r from-gray-400 to-gray-300 rounded-full mt-2 flex-shrink-0 shadow-lg"></div>
+          <div>
+            <h4 class="text-white text-base lg:text-sm font-semibold mb-2">Enterprise Security</h4>
+            <p class="text-gray-300 text-sm lg:text-xs leading-relaxed">Bank-grade encryption and compliance standards for maximum protection</p>
+          </div>
+        </div>
+        
+        <div class="flex items-start space-x-4 transform transition-all duration-500 ease-out delay-900 hover:translate-x-2">
+          <div class="w-3 h-3 bg-gradient-to-r from-gray-400 to-gray-300 rounded-full mt-2 flex-shrink-0 shadow-lg"></div>
+          <div>
+            <h4 class="text-gray-50 text-base lg:text-sm font-semibold mb-2">Global Access</h4>
+            <p class="text-gray-300 text-sm lg:text-xs leading-relaxed">Multi-language support with specialized Arabic legal expertise</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </aside>
+  
+  <!-- Right Panel - Clean Light Interface -->
+  <div class="w-full lg:w-1/2 bg-white flex items-center justify-center px-6 lg:px-8 min-h-screen lg:min-h-0">
+    <div class="w-full max-w-md">
+      <!-- Header -->
+      <div class="text-center mb-8 transform transition-all duration-700 ease-out">
+        <h2 class="text-3xl lg:text-2xl font-bold text-gray-900 mb-3">Welcome back</h2>
+        <p class="text-gray-600 text-base lg:text-sm">Sign in to your account to continue</p>
+        
+        <!-- Development Mode Helper -->
+        <div class="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-800">
+          <p class="font-medium">Development Mode</p>
+          <p class="text-xs mt-1">Use: <span class="font-mono">admin&#64;adlaan.com</span> / <span class="font-mono">password</span></p>
+        </div>
+      </div>
+      
+      <!-- Form -->
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6 transform transition-all duration-700 ease-out delay-300" role="form" aria-label="Sign in form">
+        <!-- Email Field -->
+        <div class="space-y-2">
+          <label for="email" class="block text-sm font-semibold text-gray-800">
+            Email address <span class="text-red-500" aria-label="required">*</span>
+          </label>
+          <div class="relative group">
+            <input
+              type="email"
+              id="email"
+              formControlName="email"
+              placeholder="Enter your email address"
+              class="w-full h-12 px-4 pr-12 border-2 border-gray-200 rounded-lg bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all duration-300 text-sm font-medium shadow-sm hover:shadow-md focus:shadow-lg"
+              [class.border-red-400]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+              [class.border-gray-400]="loginForm.get('email')?.valid && loginForm.get('email')?.touched"
+              [class.bg-red-50]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+              [class.bg-gray-50]="loginForm.get('email')?.valid && loginForm.get('email')?.touched"
+              [attr.aria-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+              [attr.aria-describedby]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched ? 'email-error' : null"
+              autocomplete="email"
+              required />
+            <!-- Valid Email Icon -->
+            <div *ngIf="loginForm.get('email')?.valid && loginForm.get('email')?.touched" 
+                 class="absolute right-4 top-1/2 transform -translate-y-1/2 transition-all duration-300"
+                 role="img" aria-label="Valid email">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <!-- Invalid Email Icon -->
+            <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" 
+                 class="absolute right-4 top-1/2 transform -translate-y-1/2 transition-all duration-300"
+                 role="img" aria-label="Invalid email">
+              <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div 
+            *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+            class="text-sm text-red-600 flex items-center space-x-1 animate-pulse"
+            id="email-error"
+            role="alert"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Please enter a valid email address</span>
+          </div>
+        </div>
+
+        <!-- Password Field -->
+        <div class="space-y-2">
+          <label for="password" class="block text-sm font-semibold text-gray-800">
+            Password <span class="text-red-500" aria-label="required">*</span>
+          </label>
+          <div class="relative group">
+            <input
+              [type]="showPassword ? 'text' : 'password'"
+              id="password"
+              formControlName="password"
+              placeholder="Enter your password"
+              class="w-full h-12 px-4 pr-12 border-2 border-gray-200 rounded-lg bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all duration-300 text-sm font-medium shadow-sm hover:shadow-md focus:shadow-lg"
+              [class.border-red-400]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+              [class.border-gray-400]="loginForm.get('password')?.valid && loginForm.get('password')?.touched"
+              [class.bg-red-50]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+              [class.bg-gray-50]="loginForm.get('password')?.valid && loginForm.get('password')?.touched"
+              [attr.aria-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
+              [attr.aria-describedby]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? 'password-error' : null"
+              autocomplete="current-password"
+              required />
+            <!-- Password Visibility Toggle -->
+            <button 
+              type="button" 
+              class="absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 rounded-md p-1 transition-all duration-200"
+              (click)="togglePasswordVisibility()"
+              [attr.aria-label]="showPassword ? 'Hide password' : 'Show password'"
+              tabindex="0">
+              <svg *ngIf="!showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"></path>
+              </svg>
+              <svg *ngIf="showPassword" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.543-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l3.59 3.59m0 0A9.953 9.953 0 0112 5c4.478 0 8.268 2.943 9.543 7a10.025 10.025 0 01-4.132 5.411m0 0L21 21"></path>
+              </svg>
+            </button>
+          </div>
+          <div 
+            *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+            class="text-sm text-red-600 flex items-center space-x-1 animate-pulse"
+            id="password-error"
+            role="alert"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Password is required</span>
+          </div>
+        </div>
+
+        <!-- Remember Me & Forgot Password -->
+        <div class="flex items-center justify-between pt-2">
+          <div class="flex items-center">
+            <input 
+              type="checkbox" 
+              id="rememberMe" 
+              [(ngModel)]="rememberMe" 
+              [ngModelOptions]="{standalone: true}"
+              class="h-4 w-4 text-gray-600 border-gray-300 rounded focus:ring-gray-400 focus:ring-2 focus:ring-offset-2 transition-all duration-200 cursor-pointer" 
+              aria-describedby="remember-description" />
+            <label for="rememberMe" class="ml-3 text-sm font-medium text-gray-700 cursor-pointer select-none">Remember me</label>
+          </div>
+          <button 
+            type="button" 
+            (click)="onForgotPassword()" 
+            class="text-sm font-medium text-gray-600 hover:text-gray-800 focus:outline-none focus:underline focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 rounded-md px-1 py-1 transition-all duration-200"
+            tabindex="0">
+            Forgot password?
+          </button>
+        </div>
+
+        <!-- Submit Button -->
+        <button 
+          type="submit" 
+          class="w-full h-12 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-900 hover:to-black text-white font-semibold rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-300 focus:ring-offset-2 transform hover:scale-[1.02] active:scale-[0.98]"
+          [disabled]="loginForm.invalid || isLoading"
+          [attr.aria-label]="isLoading ? 'Signing in, please wait' : 'Sign in to your account'"
+        >
+          <span *ngIf="!isLoading" class="flex items-center space-x-2">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+            </svg>
+            <span>Sign In</span>
+          </span>
+          <div *ngIf="isLoading" class="flex items-center space-x-3">
+            <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
+            <span>Signing in...</span>
+          </div>
+        </button>
+
+        <!-- Error Message -->
+        <div 
+          *ngIf="errorMessage"
+          class="text-sm text-red-700 text-center bg-red-50 border-2 border-red-200 rounded-lg p-4 shadow-sm animate-pulse"
+          role="alert"
+          aria-live="polite"
+        >
+          <div class="flex items-center justify-center space-x-2">
+            <svg class="w-5 h-5 text-red-600" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <span class="font-medium">{{ errorMessage }}</span>
+          </div>
+        </div>
+      </form>
+
+      <!-- Divider -->
+      <div class="my-8 relative">
+        <div class="absolute inset-0 flex items-center">
+          <div class="w-full border-t-2 border-gray-200"></div>
+        </div>
+        <div class="relative flex justify-center text-sm">
+          <span class="px-4 bg-white text-gray-500 font-medium">or continue with</span>
+        </div>
+      </div>
+
+      <!-- Google Sign In -->
+      <button 
+        type="button"
+        (click)="onGoogleSignUp()"
+        class="w-full h-12 bg-white border-2 border-gray-200 hover:border-gray-300 hover:shadow-lg text-gray-700 font-semibold rounded-lg transition-all duration-300 flex items-center justify-center mb-8 shadow-sm focus:outline-none focus:ring-4 focus:ring-gray-200 focus:ring-offset-2 transform hover:scale-[1.02] active:scale-[0.98]"
+        aria-label="Sign in with Google"
+      >
+        <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" aria-hidden="true">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        <span>Continue with Google</span>
+      </button>
+
+      <!-- Sign Up Link -->
+      <div class="text-center">
+        <p class="text-sm text-gray-600 mb-4">
+          Don't have an account? 
+          <a href="#" 
+             (click)="onRegister()"
+             class="font-semibold text-gray-800 hover:text-gray-900 focus:outline-none focus:underline focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 rounded-md px-1 py-1 transition-all duration-200"
+             tabindex="0">
+            Start your 14-day free trial
+          </a>
+        </p>
+        <p class="text-xs text-gray-500">
+          No credit card required • Cancel anytime
+        </p>
+      </div>
+
+      <!-- Footer -->
+      <footer class="text-center mt-8">
+        <p class="text-xs text-gray-500 flex items-center justify-center space-x-1">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+          </svg>
+          <span>Secured by enterprise-grade encryption</span>
+        </p>
+      </footer>
+    </div>
+  </div>
+</main>
