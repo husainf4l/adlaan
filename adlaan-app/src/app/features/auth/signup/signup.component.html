@@ -21,10 +21,10 @@
       <!-- Tagline -->
       <div class="mb-12 transform transition-all duration-700 ease-out delay-300">
         <h2 class="text-2xl lg:text-xl font-semibold text-white mb-4 leading-tight">
-          Transform your legal practice with AI-powered precision
+          Join the future of legal practice
         </h2>
         <p class="text-gray-300 text-base lg:text-sm leading-relaxed">
-          Built on the principles of justice (ʿadl), precision, and trust to deliver exceptional legal document analysis.
+          Get started with AI-powered legal document analysis and unlock the potential of your practice.
         </p>
       </div>
 
@@ -33,24 +33,24 @@
         <div class="flex items-start space-x-4 transform transition-all duration-500 ease-out delay-500 hover:translate-x-2">
           <div class="w-3 h-3 bg-gradient-to-r from-gray-400 to-gray-300 rounded-full mt-2 flex-shrink-0 shadow-lg"></div>
           <div>
-            <h4 class="text-white text-base lg:text-sm font-semibold mb-2">AI-Powered Analysis</h4>
-            <p class="text-gray-300 text-sm lg:text-xs leading-relaxed">Advanced document review and contract analysis with machine learning</p>
+            <h4 class="text-white text-base lg:text-sm font-semibold mb-2">Free 14-Day Trial</h4>
+            <p class="text-gray-300 text-sm lg:text-xs leading-relaxed">No credit card required. Full access to all features</p>
           </div>
         </div>
         
         <div class="flex items-start space-x-4 transform transition-all duration-500 ease-out delay-700 hover:translate-x-2">
           <div class="w-3 h-3 bg-gradient-to-r from-gray-400 to-gray-300 rounded-full mt-2 flex-shrink-0 shadow-lg"></div>
           <div>
-            <h4 class="text-white text-base lg:text-sm font-semibold mb-2">Enterprise Security</h4>
-            <p class="text-gray-300 text-sm lg:text-xs leading-relaxed">Bank-grade encryption and compliance standards for maximum protection</p>
+            <h4 class="text-white text-base lg:text-sm font-semibold mb-2">Instant Setup</h4>
+            <p class="text-gray-300 text-sm lg:text-xs leading-relaxed">Get up and running in less than 5 minutes</p>
           </div>
         </div>
         
         <div class="flex items-start space-x-4 transform transition-all duration-500 ease-out delay-900 hover:translate-x-2">
           <div class="w-3 h-3 bg-gradient-to-r from-gray-400 to-gray-300 rounded-full mt-2 flex-shrink-0 shadow-lg"></div>
           <div>
-            <h4 class="text-gray-50 text-base lg:text-sm font-semibold mb-2">Global Access</h4>
-            <p class="text-gray-300 text-sm lg:text-xs leading-relaxed">Multi-language support with specialized Arabic legal expertise</p>
+            <h4 class="text-gray-50 text-base lg:text-sm font-semibold mb-2">Expert Support</h4>
+            <p class="text-gray-300 text-sm lg:text-xs leading-relaxed">24/7 customer support from legal tech experts</p>
           </div>
         </div>
       </div>
@@ -62,14 +62,62 @@
     <div class="w-full max-w-md">
       <!-- Header -->
       <div class="text-center mb-8 transform transition-all duration-700 ease-out">
-        <h2 class="text-3xl lg:text-2xl font-bold text-gray-900 mb-3">Welcome back</h2>
-        <p class="text-gray-600 text-base lg:text-sm">Sign in to your account to continue</p>
-        
-   
+        <h2 class="text-3xl lg:text-2xl font-bold text-gray-900 mb-3">Create your account</h2>
+        <p class="text-gray-600 text-base lg:text-sm">Start your 14-day free trial today</p>
       </div>
       
       <!-- Form -->
-      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="space-y-6 transform transition-all duration-700 ease-out delay-300" role="form" aria-label="Sign in form">
+      <form [formGroup]="signupForm" (ngSubmit)="onSubmit()" class="space-y-6 transform transition-all duration-700 ease-out delay-300" role="form" aria-label="Sign up form">
+        <!-- Name Field -->
+        <div class="space-y-2">
+          <label for="name" class="block text-sm font-semibold text-gray-800">
+            Full name <span class="text-red-500" aria-label="required">*</span>
+          </label>
+          <div class="relative group">
+            <input
+              type="text"
+              id="name"
+              formControlName="name"
+              placeholder="Enter your full name"
+              class="w-full h-12 px-4 pr-12 border-2 border-gray-200 rounded-lg bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all duration-300 text-sm font-medium shadow-sm hover:shadow-md focus:shadow-lg"
+              [class.border-red-400]="signupForm.get('name')?.invalid && signupForm.get('name')?.touched"
+              [class.border-gray-400]="signupForm.get('name')?.valid && signupForm.get('name')?.touched"
+              [class.bg-red-50]="signupForm.get('name')?.invalid && signupForm.get('name')?.touched"
+              [class.bg-gray-50]="signupForm.get('name')?.valid && signupForm.get('name')?.touched"
+              [attr.aria-invalid]="signupForm.get('name')?.invalid && signupForm.get('name')?.touched"
+              [attr.aria-describedby]="signupForm.get('name')?.invalid && signupForm.get('name')?.touched ? 'name-error' : null"
+              autocomplete="name"
+              required />
+            <!-- Valid Name Icon -->
+            <div *ngIf="signupForm.get('name')?.valid && signupForm.get('name')?.touched" 
+                 class="absolute right-4 top-1/2 transform -translate-y-1/2 transition-all duration-300"
+                 role="img" aria-label="Valid name">
+              <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+              </svg>
+            </div>
+            <!-- Invalid Name Icon -->
+            <div *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched" 
+                 class="absolute right-4 top-1/2 transform -translate-y-1/2 transition-all duration-300"
+                 role="img" aria-label="Invalid name">
+              <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+              </svg>
+            </div>
+          </div>
+          <div 
+            *ngIf="signupForm.get('name')?.invalid && signupForm.get('name')?.touched"
+            class="text-sm text-red-600 flex items-center space-x-1 animate-pulse"
+            id="name-error"
+            role="alert"
+          >
+            <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
+              <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
+            </svg>
+            <span>Please enter your full name (at least 2 characters)</span>
+          </div>
+        </div>
+
         <!-- Email Field -->
         <div class="space-y-2">
           <label for="email" class="block text-sm font-semibold text-gray-800">
@@ -82,16 +130,16 @@
               formControlName="email"
               placeholder="Enter your email address"
               class="w-full h-12 px-4 pr-12 border-2 border-gray-200 rounded-lg bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all duration-300 text-sm font-medium shadow-sm hover:shadow-md focus:shadow-lg"
-              [class.border-red-400]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-              [class.border-gray-400]="loginForm.get('email')?.valid && loginForm.get('email')?.touched"
-              [class.bg-red-50]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-              [class.bg-gray-50]="loginForm.get('email')?.valid && loginForm.get('email')?.touched"
-              [attr.aria-invalid]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
-              [attr.aria-describedby]="loginForm.get('email')?.invalid && loginForm.get('email')?.touched ? 'email-error' : null"
+              [class.border-red-400]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
+              [class.border-gray-400]="signupForm.get('email')?.valid && signupForm.get('email')?.touched"
+              [class.bg-red-50]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
+              [class.bg-gray-50]="signupForm.get('email')?.valid && signupForm.get('email')?.touched"
+              [attr.aria-invalid]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
+              [attr.aria-describedby]="signupForm.get('email')?.invalid && signupForm.get('email')?.touched ? 'email-error' : null"
               autocomplete="email"
               required />
             <!-- Valid Email Icon -->
-            <div *ngIf="loginForm.get('email')?.valid && loginForm.get('email')?.touched" 
+            <div *ngIf="signupForm.get('email')?.valid && signupForm.get('email')?.touched" 
                  class="absolute right-4 top-1/2 transform -translate-y-1/2 transition-all duration-300"
                  role="img" aria-label="Valid email">
               <svg class="w-5 h-5 text-gray-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -99,7 +147,7 @@
               </svg>
             </div>
             <!-- Invalid Email Icon -->
-            <div *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched" 
+            <div *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched" 
                  class="absolute right-4 top-1/2 transform -translate-y-1/2 transition-all duration-300"
                  role="img" aria-label="Invalid email">
               <svg class="w-5 h-5 text-red-500" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
@@ -108,7 +156,7 @@
             </div>
           </div>
           <div 
-            *ngIf="loginForm.get('email')?.invalid && loginForm.get('email')?.touched"
+            *ngIf="signupForm.get('email')?.invalid && signupForm.get('email')?.touched"
             class="text-sm text-red-600 flex items-center space-x-1 animate-pulse"
             id="email-error"
             role="alert"
@@ -130,15 +178,15 @@
               [type]="showPassword() ? 'text' : 'password'"
               id="password"
               formControlName="password"
-              placeholder="Enter your password"
+              placeholder="Create a strong password"
               class="w-full h-12 px-4 pr-12 border-2 border-gray-200 rounded-lg bg-white focus:border-gray-400 focus:ring-4 focus:ring-gray-100 transition-all duration-300 text-sm font-medium shadow-sm hover:shadow-md focus:shadow-lg"
-              [class.border-red-400]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-              [class.border-gray-400]="loginForm.get('password')?.valid && loginForm.get('password')?.touched"
-              [class.bg-red-50]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
-              [class.bg-gray-50]="loginForm.get('password')?.valid && loginForm.get('password')?.touched"
-              [attr.aria-invalid]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched" 
-              [attr.aria-describedby]="loginForm.get('password')?.invalid && loginForm.get('password')?.touched ? 'password-error' : null"
-              autocomplete="current-password"
+              [class.border-red-400]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+              [class.border-gray-400]="signupForm.get('password')?.valid && signupForm.get('password')?.touched"
+              [class.bg-red-50]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
+              [class.bg-gray-50]="signupForm.get('password')?.valid && signupForm.get('password')?.touched"
+              [attr.aria-invalid]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched" 
+              [attr.aria-describedby]="signupForm.get('password')?.invalid && signupForm.get('password')?.touched ? 'password-error' : null"
+              autocomplete="new-password"
               required />
             <!-- Password Visibility Toggle -->
             <button 
@@ -157,7 +205,7 @@
             </button>
           </div>
           <div 
-            *ngIf="loginForm.get('password')?.invalid && loginForm.get('password')?.touched"
+            *ngIf="signupForm.get('password')?.invalid && signupForm.get('password')?.touched"
             class="text-sm text-red-600 flex items-center space-x-1 animate-pulse"
             id="password-error"
             role="alert"
@@ -165,47 +213,43 @@
             <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 20 20" aria-hidden="true">
               <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z" clip-rule="evenodd"></path>
             </svg>
-            <span>Password is required</span>
+            <span>Password must be at least 8 characters long</span>
           </div>
         </div>
 
-        <!-- Remember Me & Forgot Password -->
-        <div class="flex items-center justify-between pt-2">
-          <div class="flex items-center">
-            <input 
-              type="checkbox" 
-              id="rememberMe" 
-              [ngModel]="rememberMe()" (ngModelChange)="rememberMe.set($event)" 
-              [ngModelOptions]="{standalone: true}"
-              class="h-4 w-4 text-gray-600 border-gray-300 rounded focus:ring-gray-400 focus:ring-2 focus:ring-offset-2 transition-all duration-200 cursor-pointer" 
-              aria-describedby="remember-description" />
-            <label for="rememberMe" class="ml-3 text-sm font-medium text-gray-700 cursor-pointer select-none">Remember me</label>
-          </div>
-          <button 
-            type="button" 
-            (click)="onForgotPassword()" 
-            class="text-sm font-medium text-gray-600 hover:text-gray-800 focus:outline-none focus:underline focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 rounded-md px-1 py-1 transition-all duration-200"
-            tabindex="0">
-            Forgot password?
-          </button>
+        <!-- Terms Agreement -->
+        <div class="flex items-start space-x-3 pt-2">
+          <input 
+            type="checkbox" 
+            id="agreeToTerms" 
+            [ngModel]="agreeToTerms()" (ngModelChange)="agreeToTerms.set($event)" 
+            [ngModelOptions]="{standalone: true}"
+            class="h-4 w-4 text-gray-600 border-gray-300 rounded focus:ring-gray-400 focus:ring-2 focus:ring-offset-2 transition-all duration-200 cursor-pointer mt-1" 
+            aria-describedby="terms-description" />
+          <label for="agreeToTerms" class="text-sm text-gray-700 cursor-pointer select-none leading-relaxed">
+            I agree to the 
+            <a href="#" class="font-medium text-gray-800 hover:text-gray-900 underline">Terms of Service</a> 
+            and 
+            <a href="#" class="font-medium text-gray-800 hover:text-gray-900 underline">Privacy Policy</a>
+          </label>
         </div>
 
         <!-- Submit Button -->
         <button 
           type="submit" 
           class="w-full h-12 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-900 hover:to-black text-white font-semibold rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-gray-300 focus:ring-offset-2 transform hover:scale-[1.02] active:scale-[0.98]"
-          [disabled]="loginForm.invalid || isLoading()"
-          [attr.aria-label]="isLoading() ? 'Signing in, please wait' : 'Sign in to your account'"
+          [disabled]="signupForm.invalid || !agreeToTerms() || isLoading()"
+          [attr.aria-label]="isLoading() ? 'Creating account, please wait' : 'Create your account'"
         >
           <span *ngIf="!isLoading()" class="flex items-center space-x-2">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" aria-hidden="true">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"></path>
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18 9v3m0 0v3m0-3h3m-3 0h-3m-2-5a4 4 0 11-8 0 4 4 0 018 0zM3 20a6 6 0 0112 0v1H3v-1z"></path>
             </svg>
-            <span>Sign In</span>
+            <span>Create Account</span>
           </span>
           <div *ngIf="isLoading()" class="flex items-center space-x-3">
             <div class="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin"></div>
-            <span>Signing in...</span>
+            <span>Creating account...</span>
           </div>
         </button>
 
@@ -235,12 +279,12 @@
         </div>
       </div>
 
-      <!-- Google Sign In -->
+      <!-- Google Sign Up -->
       <button 
         type="button"
         (click)="onGoogleSignUp()"
         class="w-full h-12 bg-white border-2 border-gray-200 hover:border-gray-300 hover:shadow-lg text-gray-700 font-semibold rounded-lg transition-all duration-300 flex items-center justify-center mb-8 shadow-sm focus:outline-none focus:ring-4 focus:ring-gray-200 focus:ring-offset-2 transform hover:scale-[1.02] active:scale-[0.98]"
-        aria-label="Sign in with Google"
+        aria-label="Sign up with Google"
       >
         <svg class="w-5 h-5 mr-3" viewBox="0 0 24 24" aria-hidden="true">
           <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
@@ -251,19 +295,25 @@
         <span>Continue with Google</span>
       </button>
 
-      <!-- Sign Up Link -->
+      <!-- Sign In Link -->
       <div class="text-center">
         <p class="text-sm text-gray-600 mb-4">
-          Don't have an account? 
+          Already have an account? 
           <a href="#" 
-             (click)="onRegister()"
+             (click)="onSignIn()"
              class="font-semibold text-gray-800 hover:text-gray-900 focus:outline-none focus:underline focus:ring-2 focus:ring-gray-300 focus:ring-offset-2 rounded-md px-1 py-1 transition-all duration-200"
              tabindex="0">
-            Start your 14-day free trial
+            Sign in here
           </a>
         </p>
         <p class="text-xs text-gray-500">
-          No credit card required • Cancel anytime
+          Questions? 
+          <a href="#" 
+             (click)="onContactSales()"
+             class="text-gray-600 hover:text-gray-800 underline"
+             tabindex="0">
+            Contact our team
+          </a>
         </p>
       </div>
 

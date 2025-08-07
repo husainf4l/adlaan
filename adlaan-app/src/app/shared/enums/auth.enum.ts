@@ -1,0 +1,30 @@
+/**
+ * OTP verification types
+ */
+export enum OtpType {
+  EMAIL_VERIFICATION = 'EMAIL_VERIFICATION',
+  LOGIN_VERIFICATION = 'LOGIN_VERIFICATION',
+  PASSWORD_RESET = 'PASSWORD_RESET'
+}
+
+/**
+ * Authentication states
+ */
+export enum AuthState {
+  LOADING = 'LOADING',
+  AUTHENTICATED = 'AUTHENTICATED',
+  UNAUTHENTICATED = 'UNAUTHENTICATED',
+  ERROR = 'ERROR'
+}
+
+/**
+ * HTTP status codes for auth
+ */
+export enum AuthHttpStatus {
+  UNAUTHORIZED = 401,
+  FORBIDDEN = 403,
+  CONFLICT = 409,
+  UNPROCESSABLE_ENTITY = 422,
+  TOO_MANY_REQUESTS = 429,
+  INTERNAL_SERVER_ERROR = 500
+}

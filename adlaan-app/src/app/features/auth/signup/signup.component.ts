@@ -6,13 +6,13 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { AuthService } from '../../../core';
 
 @Component({
-  selector: 'app-login',
+  selector: 'app-signup',
   standalone: true,
   imports: [CommonModule, ReactiveFormsModule, FormsModule],
-  templateUrl: './login.component.html',
+  templateUrl: './signup.component.html',
   changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class LoginComponent {
+export class SignupComponent {
   private authService = inject(AuthService);
   private router = inject(Router);
 
@@ -20,17 +20,18 @@ export class LoginComponent {
   protected isLoading = signal(false);
   protected errorMessage = signal('');
   protected showPassword = signal(false);
-  protected rememberMe = signal(false);
+  protected agreeToTerms = signal(false);
 
   // Modern Angular 20+ pattern: Reactive Forms with Signal integration
-  protected loginForm = new FormGroup({
+  protected signupForm = new FormGroup({
+    name: new FormControl('', [Validators.required, Validators.minLength(2)]),
     email: new FormControl('', [Validators.required, Validators.email]),
-    password: new FormControl('', [Validators.required])
+    password: new FormControl('', [Validators.required, Validators.minLength(8)])
   });
 
   // Signal integration with reactive forms (Angular 20+ pattern)
-  protected formValue = toSignal(this.loginForm.valueChanges, { initialValue: this.loginForm.value });
-  protected isFormValid = computed(() => this.loginForm.valid);
+  protected formValue = toSignal(this.signupForm.valueChanges, { initialValue: this.signupForm.value });
+  protected isFormValid = computed(() => this.signupForm.valid && this.agreeToTerms());
 
   constructor() {
     // Use effect for modern signal-based reactivity
@@ -51,56 +52,59 @@ export class LoginComponent {
 
   onSubmit(): void {
     // Mark all fields as touched to show validation errors
-    this.loginForm.markAllAsTouched();
+    this.signupForm.markAllAsTouched();
     
-    if (this.loginForm.valid) {
+    if (this.signupForm.valid && this.agreeToTerms()) {
       this.isLoading.set(true);
       this.errorMessage.set('');
 
-      const loginData = {
-        email: this.loginForm.value.email!,
-        password: this.loginForm.value.password!
+      const signupData = {
+        name: this.signupForm.value.name,
+        email: this.signupForm.value.email,
+        password: this.signupForm.value.password
       };
 
-      console.log('Sending login request with:', loginData);
+      console.log('Sending signup request with:', signupData);
 
-      this.authService.login(loginData).subscribe({
+      this.authService.register(signupData).subscribe({
         next: (response) => {
-          console.log('Login response:', response);
+          console.log('Signup response:', response);
           this.isLoading.set(false);
 
-          if (response.requiresOtp) {
-            // Handle 2FA scenario
-            console.log('2FA required');
-            // TODO: Navigate to OTP verification page or show OTP input
-            // For now, just show a message
-            this.errorMessage.set('2FA verification required. Please check your phone for the OTP code.');
+          if (response.requiresEmailVerification) {
+            // Handle email verification scenario
+            console.log('Email verification required');
+            this.errorMessage.set('Please check your email to verify your account before signing in.');
           } else if (response.user) {
-            // Successful login without 2FA
-            console.log('Login successful, redirecting to home');
+            // Successful signup without email verification
+            console.log('Signup successful, redirecting to home');
             this.router.navigate(['/']);
           } else {
-            this.errorMessage.set('Login response received but no user data found.');
+            this.errorMessage.set('Signup response received but no user data found.');
           }
         },
         error: (error: any) => {
-          console.error('Login error:', error);
+          console.error('Signup error:', error);
           this.isLoading.set(false);
           
           // Handle different types of errors
-          if (error.status === 401) {
-            this.errorMessage.set('Invalid email or password. Please try again.');
+          if (error.status === 409) {
+            this.errorMessage.set('An account with this email already exists. Please try signing in instead.');
+          } else if (error.status === 422) {
+            this.errorMessage.set('Please check your information and try again.');
           } else if (error.status === 429) {
-            this.errorMessage.set('Too many login attempts. Please try again later.');
+            this.errorMessage.set('Too many signup attempts. Please try again later.');
           } else if (error.status === 500) {
             this.errorMessage.set('Server error. Please try again later.');
           } else {
-            this.errorMessage.set(error.error?.message || 'Login failed. Please try again.');
+            this.errorMessage.set(error.error?.message || 'Signup failed. Please try again.');
           }
         }
       });
+    } else if (!this.agreeToTerms()) {
+      this.errorMessage.set('Please agree to the Terms of Service and Privacy Policy.');
     } else {
-      console.log('Form is invalid:', this.loginForm.errors);
+      console.log('Form is invalid:', this.signupForm.errors);
       this.errorMessage.set('Please fill in all required fields correctly.');
     }
   }
@@ -111,19 +115,13 @@ export class LoginComponent {
     // Placeholder for Google OAuth implementation
   }
 
-  onRegister(): void {
-    this.router.navigate(['/signup']);
+  onSignIn(): void {
+    this.router.navigate(['/login']);
   }
 
   onContactSales(): void {
     // TODO: Open contact sales modal or navigate to contact page
     console.log('Contact sales clicked');
     // window.open('mailto:sales@adlaan.com', '_blank');
-  }
-
-  onForgotPassword(): void {
-    // TODO: Navigate to password reset page or open reset password modal
-    console.log('Forgot password clicked');
-    // this.router.navigate(['/reset-password']);
   }
 }

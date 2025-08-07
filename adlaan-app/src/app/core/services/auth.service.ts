@@ -1,75 +1,49 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject, signal, computed } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { BehaviorSubject, Observable } from 'rxjs';
-import { tap, catchError } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { tap, catchError, map } from 'rxjs/operators';
+
 import { environment } from '../../../environments/environment';
-
-export interface User {
-  id: string;
-  email: string;
-  name: string;
-  avatar?: string | null;
-  phoneNumber?: string | null;
-  twoFactorEnabled?: boolean;
-  companyId?: string | null;
-  company?: any | null;
-}
-
-export interface LoginRequest {
-  email: string;
-  password: string;
-}
-
-export interface LoginResponse {
-  message: string;
-  user?: User;
-  // For 2FA cases
-  id?: string;
-  requiresOtp?: boolean;
-  phoneNumber?: string;
-  otpSent?: boolean;
-  otpCode?: string; // Only in development mode
-}
-
-export interface RegisterResponse {
-  message: string;
-  user?: User;
-  requiresEmailVerification?: boolean;
-  otpSent?: boolean;
-  otpCode?: string;
-}
-
-export interface OtpVerificationRequest {
-  phoneNumber: string;
-  code: string;
-  type: 'EMAIL_VERIFICATION' | 'LOGIN_VERIFICATION' | 'PASSWORD_RESET';
-}
-
-export interface OtpVerificationResponse {
-  message: string;
-  user: User;
-}
+import { API_ENDPOINTS } from '../../shared';
+import { 
+  User, 
+  LoginRequest, 
+  LoginResponse, 
+  RegisterResponse, 
+  OtpVerificationRequest, 
+  OtpVerificationResponse 
+} from '../models';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
+  private http = inject(HttpClient);
+  private router = inject(Router);
+  
+  // Signals for modern Angular state management
+  private currentUserSignal = signal<User | null>(null);
+  private authInitializedSignal = signal<boolean>(false);
+  
+  // Computed signals
+  public currentUser = this.currentUserSignal.asReadonly();
+  public isAuthenticatedSignal = computed(() => this.currentUserSignal() !== null);
+  public isAuthInitializedComputed = computed(() => this.authInitializedSignal());
+  
+  // Legacy observables for backward compatibility (will be removed in future)
   private currentUserSubject = new BehaviorSubject<User | null>(null);
   public currentUser$ = this.currentUserSubject.asObservable();
+  
   private apiUrl = environment.apiUrl;
 
-  constructor(
-    private http: HttpClient,
-    private router: Router
-  ) {
-    // Check auth status on service initialization
-    this.checkAuthStatus();
+  constructor() {
+    // Auth initialization will be handled by APP_INITIALIZER
   }
 
   login(credentials: LoginRequest): Observable<LoginResponse> {
     return this.http.post<LoginResponse>(
-      `${this.apiUrl}/auth/login`, 
+      `${this.apiUrl}${API_ENDPOINTS.AUTH.LOGIN}`, 
       credentials,
       { withCredentials: true } // Important: Include cookies for JWT
     ).pipe(
@@ -77,7 +51,7 @@ export class AuthService {
         console.log('Login response:', response);
         // If login successful and no OTP required
         if (response.user && !response.requiresOtp) {
-          this.currentUserSubject.next(response.user);
+          this.setCurrentUser(response.user);
         }
       }),
       catchError(error => {
@@ -89,14 +63,14 @@ export class AuthService {
 
   verifyOtp(otpData: OtpVerificationRequest): Observable<OtpVerificationResponse> {
     return this.http.post<OtpVerificationResponse>(
-      `${this.apiUrl}/auth/verify-otp`, 
+      `${this.apiUrl}${API_ENDPOINTS.AUTH.VERIFY_OTP}`, 
       otpData,
       { withCredentials: true }
     ).pipe(
       tap(response => {
         console.log('OTP verification response:', response);
         if (response.user) {
-          this.currentUserSubject.next(response.user);
+          this.setCurrentUser(response.user);
         }
       })
     );
@@ -104,62 +78,129 @@ export class AuthService {
 
   register(userData: any): Observable<RegisterResponse> {
     return this.http.post<RegisterResponse>(
-      `${this.apiUrl}/auth/register`,
+      `${this.apiUrl}${API_ENDPOINTS.AUTH.REGISTER}`,
       userData,
       { withCredentials: true }
     ).pipe(
       tap(response => {
         console.log('Registration response:', response);
         if (response.user && !response.requiresEmailVerification) {
-          this.currentUserSubject.next(response.user);
+          this.setCurrentUser(response.user);
         }
       })
     );
   }
 
   getProfile(): Observable<User> {
-    return this.http.get<User>(
-      `${this.apiUrl}/auth/profile`,
-      { withCredentials: true }
+    return this.http.get<{user: User}>(
+      `${this.apiUrl}${API_ENDPOINTS.AUTH.PROFILE}`,
+      { 
+        withCredentials: true,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      }
     ).pipe(
-      tap(user => {
-        this.currentUserSubject.next(user);
-      })
+      tap(response => {
+        this.setCurrentUser(response.user);
+      }),
+      map(response => response.user)
     );
   }
 
   logout(): Observable<any> {
     return this.http.post(
-      `${this.apiUrl}/auth/logout`,
+      `${this.apiUrl}${API_ENDPOINTS.AUTH.LOGOUT}`,
       {},
-      { withCredentials: true }
+      { 
+        withCredentials: true,
+        headers: {
+          'Cache-Control': 'no-cache, no-store, must-revalidate',
+          'Pragma': 'no-cache',
+          'Expires': '0'
+        }
+      }
     ).pipe(
       tap(() => {
-        this.currentUserSubject.next(null);
-        this.router.navigate(['/login']);
+        console.log('Logout: Clearing user state and navigating to login');
+        this.clearAuthState();
+        
+        // Force navigation with replaceUrl to ensure clean state
+        this.router.navigate(['/login'], { replaceUrl: true });
+      }),
+      catchError((error) => {
+        console.error('Logout error, but clearing local state anyway:', error);
+        // Even if server logout fails, clear local state
+        this.clearAuthState();
+        this.router.navigate(['/login'], { replaceUrl: true });
+        return of(null); // Return successful observable to prevent error propagation
       })
     );
   }
 
-  private checkAuthStatus(): void {
-    this.getProfile().subscribe({
-      next: (user) => {
-        console.log('Auth check successful:', user);
-        this.currentUserSubject.next(user);
-      },
-      error: (error) => {
-        console.log('Auth check failed:', error);
-        // User not authenticated, which is fine
-        this.currentUserSubject.next(null);
-      }
+  // Force clear all auth state
+  private clearAuthState(): void {
+    console.log('Clearing all authentication state');
+    this.setCurrentUser(null);
+    this.authInitializedSignal.set(true); // Keep initialized but with null user
+    
+    // Clear any potential cached data
+    if (typeof window !== 'undefined') {
+      // Clear any localStorage or sessionStorage if used
+      localStorage.removeItem('authToken');
+      sessionStorage.removeItem('authToken');
+      
+      // Clear any other auth-related storage
+      const authKeys = Object.keys(localStorage).filter(key => 
+        key.startsWith('auth') || key.startsWith('user') || key.startsWith('token')
+      );
+      authKeys.forEach(key => localStorage.removeItem(key));
+    }
+  }
+
+  // Helper method to update both signal and observable
+  private setCurrentUser(user: User | null): void {
+    this.currentUserSignal.set(user);
+    this.currentUserSubject.next(user);
+  }
+
+  // Initialize auth for APP_INITIALIZER
+  initializeAuth(): Promise<void> {
+    return new Promise((resolve) => {
+      console.log('Initializing auth...');
+      this.getProfile().subscribe({
+        next: (user) => {
+          console.log('Auth initialization successful:', user);
+          console.log('User found during initialization, cookies must be valid');
+          this.setCurrentUser(user);
+          this.authInitializedSignal.set(true);
+          resolve();
+        },
+        error: (error) => {
+          console.log('Auth initialization failed (user not authenticated):', error);
+          console.log('No valid auth cookies found or user logged out');
+          if (error.status === 401 || error.status === 403) {
+            this.setCurrentUser(null);
+          }
+          this.authInitializedSignal.set(true);
+          resolve(); // Always resolve, even on auth failure
+        }
+      });
     });
   }
 
+  // Legacy methods for backward compatibility
+  isAuthInitialized(): boolean {
+    return this.authInitializedSignal();
+  }
+
   isAuthenticated(): boolean {
-    return this.currentUserSubject.value !== null;
+    return this.currentUserSignal() !== null;
   }
 
   getCurrentUser(): User | null {
-    return this.currentUserSubject.value;
+    return this.currentUserSignal();
   }
 }

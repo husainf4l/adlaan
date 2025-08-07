@@ -1,133 +1,16 @@
-import { Component } from '@angular/core';
+import { Component, ChangeDetectionStrategy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
   imports: [CommonModule],
-  template: `
-    <div class="space-y-8">
-      <!-- Welcome Section -->
-      <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-8">
-        <h2 class="text-3xl font-bold text-gray-900 mb-2">Welcome back! 👋</h2>
-        <p class="text-lg text-gray-600">Here's what's happening with your projects today.</p>
-      </div>
-
-      <!-- Stats Cards -->
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-        <!-- Total Users Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="text-2xl font-bold text-gray-900">2,543</div>
-              <div class="text-sm text-gray-600 mt-1">Total Users</div>
-              <div class="text-sm text-green-600 font-medium mt-2">+12.5%</div>
-            </div>
-            <div class="text-3xl">📊</div>
-          </div>
-        </div>
-
-        <!-- Revenue Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="text-2xl font-bold text-gray-900">$45,678</div>
-              <div class="text-sm text-gray-600 mt-1">Revenue</div>
-              <div class="text-sm text-green-600 font-medium mt-2">+8.2%</div>
-            </div>
-            <div class="text-3xl">💰</div>
-          </div>
-        </div>
-
-        <!-- Growth Rate Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="text-2xl font-bold text-gray-900">85%</div>
-              <div class="text-sm text-gray-600 mt-1">Growth Rate</div>
-              <div class="text-sm text-red-600 font-medium mt-2">-2.1%</div>
-            </div>
-            <div class="text-3xl">📈</div>
-          </div>
-        </div>
-
-        <!-- Uptime Card -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
-          <div class="flex items-center justify-between">
-            <div>
-              <div class="text-2xl font-bold text-gray-900">98.5%</div>
-              <div class="text-sm text-gray-600 mt-1">Uptime</div>
-              <div class="text-sm text-green-600 font-medium mt-2">+0.3%</div>
-            </div>
-            <div class="text-3xl">⚡</div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Charts Section -->
-      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
-        <!-- Chart 1 -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">Revenue Overview</h3>
-          <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
-            <div class="text-center">
-              <div class="text-4xl mb-2">📊</div>
-              <p class="text-gray-500">Chart visualization would go here</p>
-            </div>
-          </div>
-        </div>
-
-        <!-- Chart 2 -->
-        <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-          <h3 class="text-lg font-semibold text-gray-900 mb-4">User Activity</h3>
-          <div class="h-64 bg-gray-50 rounded-lg flex items-center justify-center">
-            <div class="text-center">
-              <div class="text-4xl mb-2">📈</div>
-              <p class="text-gray-500">Chart visualization would go here</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- Recent Activity -->
-      <div class="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
-        <h3 class="text-lg font-semibold text-gray-900 mb-4">Recent Activity</h3>
-        <div class="space-y-4">
-          <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-            <div class="w-10 h-10 bg-adlaan-accent rounded-full flex items-center justify-center text-white font-semibold">
-              JS
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">John Smith created a new project</p>
-              <p class="text-xs text-gray-500">2 minutes ago</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-            <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center text-white font-semibold">
-              MD
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">Maria Davis completed a task</p>
-              <p class="text-xs text-gray-500">5 minutes ago</p>
-            </div>
-          </div>
-          
-          <div class="flex items-center space-x-4 p-4 bg-gray-50 rounded-lg">
-            <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center text-white font-semibold">
-              RW
-            </div>
-            <div class="flex-1">
-              <p class="text-sm font-medium text-gray-900">Robert Wilson updated user permissions</p>
-              <p class="text-xs text-gray-500">10 minutes ago</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  `,
-  styles: []
+  templateUrl: './dashboard.component.html',
+  styles: [],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DashboardComponent {
-  constructor() {}
+  constructor() {
+    // Dashboard component ready
+  }
 }
