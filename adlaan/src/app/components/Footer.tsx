@@ -12,39 +12,39 @@ export default function Footer() {
             {/* Company Info */}
             <div className="md:col-span-2">
               <div className="mb-6">
-                <h3 className="font-system text-xl font-light text-white/95 mb-2">
-                  Adlaan
+                <h3 className="font-cairo text-xl font-light text-white/95 mb-2">
+                  أدلان
                 </h3>
-                <p className="font-system text-sm text-gray-400 leading-relaxed max-w-md">
-                  Arabic-rooted AI designed for legal excellence — built on the principle of{' '}
-                  <span className="text-white font-medium">ʿadl</span>{' '}
-                  (justice), powered by advanced agentic workflows.
+                <p className="font-cairo text-sm text-gray-400 leading-relaxed max-w-md">
+                  ذكاء اصطناعي عربي الجذور مصمم للتميز القانوني — مبني على مبدأ{' '}
+                  <span className="text-white font-medium">العدل</span>{' '}
+                  (العدالة)، مدعوم بسير عمل متطور.
                 </p>
               </div>
             </div>
 
             {/* Product Links */}
             <div>
-              <h4 className="font-system text-sm font-semibold text-white mb-4">Product</h4>
+              <h4 className="font-cairo text-sm font-semibold text-white mb-4">المنتج</h4>
               <ul className="space-y-3">
                 <li>
-                  <a href="#" className="font-system text-sm text-gray-400 hover:text-white transition-colors duration-200">
-                    AI Agents
+                  <a href="#" className="font-cairo text-sm text-gray-400 hover:text-white transition-colors duration-200">
+                    الوكلاء الأذكياء
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="font-system text-sm text-gray-400 hover:text-white transition-colors duration-200">
-                    Workflows
+                  <a href="#" className="font-cairo text-sm text-gray-400 hover:text-white transition-colors duration-200">
+                    سير العمل
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="font-system text-sm text-gray-400 hover:text-white transition-colors duration-200">
-                    Integrations
+                  <a href="#" className="font-cairo text-sm text-gray-400 hover:text-white transition-colors duration-200">
+                    التكاملات
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="font-system text-sm text-gray-400 hover:text-white transition-colors duration-200">
-                    Security
+                  <a href="#" className="font-cairo text-sm text-gray-400 hover:text-white transition-colors duration-200">
+                    الأمان
                   </a>
                 </li>
               </ul>
@@ -52,26 +52,26 @@ export default function Footer() {
 
             {/* Company Links */}
             <div>
-              <h4 className="font-system text-sm font-semibold text-white mb-4">Company</h4>
+              <h4 className="font-cairo text-sm font-semibold text-white mb-4">الشركة</h4>
               <ul className="space-y-3">
                 <li>
-                  <a href="#" className="font-system text-sm text-gray-400 hover:text-white transition-colors duration-200">
-                    About
+                  <a href="#" className="font-cairo text-sm text-gray-400 hover:text-white transition-colors duration-200">
+                    عن أدلان
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="font-system text-sm text-gray-400 hover:text-white transition-colors duration-200">
-                    Careers
+                  <a href="#" className="font-cairo text-sm text-gray-400 hover:text-white transition-colors duration-200">
+                    الوظائف
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="font-system text-sm text-gray-400 hover:text-white transition-colors duration-200">
-                    Contact
+                  <a href="#" className="font-cairo text-sm text-gray-400 hover:text-white transition-colors duration-200">
+                    تواصل معنا
                   </a>
                 </li>
                 <li>
-                  <a href="#" className="font-system text-sm text-gray-400 hover:text-white transition-colors duration-200">
-                    Privacy
+                  <a href="#" className="font-cairo text-sm text-gray-400 hover:text-white transition-colors duration-200">
+                    الخصوصية
                   </a>
                 </li>
               </ul>
@@ -80,15 +80,15 @@ export default function Footer() {
 
           {/* Apple-style divider */}
           <div className="border-t border-white/10 pt-8">
-            <div className="flex flex-col sm:flex-row justify-between items-center">
-              <div className="mb-4 sm:mb-0">
-                <p className="font-system text-sm text-gray-500">
-                  © 2025 Adlaan. All rights reserved.
+            <div className="flex flex-col sm:flex-row-reverse justify-between items-center">
+              <div className="mb-4 sm:mb-0 order-2 sm:order-1">
+                <p className="font-cairo text-sm text-gray-500">
+                  © 2025 أدلان. جميع الحقوق محفوظة.
                 </p>
               </div>
               
               {/* Social Links */}
-              <div className="flex items-center space-x-6">
+              <div className="flex items-center gap-6 order-1 sm:order-2">
                 <a href="#" className="text-gray-400 hover:text-white transition-colors duration-200">
                   <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M8.29 20.251c7.547 0 11.675-6.253 11.675-11.675 0-.178 0-.355-.012-.53A8.348 8.348 0 0022 5.92a8.19 8.19 0 01-2.357.646 4.118 4.118 0 001.804-2.27 8.224 8.224 0 01-2.605.996 4.107 4.107 0 00-6.993 3.743 11.65 11.65 0 01-8.457-4.287 4.106 4.106 0 001.27 5.477A4.072 4.072 0 012.8 9.713v.052a4.105 4.105 0 003.292 4.022 4.095 4.095 0 01-1.853.07 4.108 4.108 0 003.834 2.85A8.233 8.233 0 012 18.407a11.616 11.616 0 006.29 1.84"/>

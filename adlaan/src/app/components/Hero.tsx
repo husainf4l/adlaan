@@ -35,69 +35,72 @@ export default function Hero() {
             }`}
           >
             <p className="text-sm font-medium text-white/60 tracking-wider uppercase">
-              Introducing Adlaan
+              قريباً نقدم أدلان
             </p>
           </div>
 
           {/* Refined headline with better spacing */}
           <div
-            className={`mb-12 transition-all duration-1000 delay-400 ease-out ${
+            className={`mb-10 transition-all duration-1000 delay-400 ease-out ${
               mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-6"
             }`}
           >
-            <h1 className="font-system text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-extralight text-white leading-[0.85] tracking-[-0.02em] mb-8">
-              <span className="block">Every</span>
-              <span className="block text-white/90">Agreement.</span>
+            <h1 className="font-cairo text-5xl sm:text-6xl lg:text-7xl xl:text-8xl font-light text-white leading-tight tracking-wide mb-8">
+              <span className="text-white">كل اتفاقية.</span>
             </h1>
 
             <div className="w-24 h-px bg-gradient-to-r from-transparent via-white/40 to-transparent mx-auto mb-8"></div>
 
-            <p className="text-2xl sm:text-3xl lg:text-4xl font-light text-white/80 leading-tight tracking-[-0.01em] italic">
-              Legally Sound. Intelligently Reviewed.
+            <p className="text-2xl sm:text-3xl lg:text-4xl font-light text-white/80 leading-relaxed tracking-wide">
+              قانونياً سليمة. مراجعة ذكية.
             </p>
           </div>
 
           {/* Enhanced descriptive text */}
           <div
-            className={`mb-16 transition-all duration-1000 delay-600 ease-out ${
+            className={`mb-10 transition-all duration-1000 delay-600 ease-out ${
               mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
             <p className="text-xl lg:text-2xl font-light text-gray-300 leading-relaxed max-w-4xl mx-auto">
-              From sales contracts to HR policies, Adlaan automates
-              documentation with{" "}
-              <span className="text-white/90 font-normal">
-                Arabic-rooted legal AI
+              من عقود المبيعات إلى سياسات الموارد البشرية، أدلان يؤتمت التوثيق بـ{" "}
+              <span className="text-white/90 font-medium">
+                ذكاء قانوني عربي الجذور
               </span>{" "}
-              — refined for business, grounded in justice.
+              — مصقول للأعمال، مؤسس على العدالة.
             </p>
           </div>
 
           {/* Apple-style refined CTA buttons */}
           <div
-            className={`flex flex-col sm:flex-row items-center justify-center gap-6 transition-all duration-1000 delay-800 ease-out ${
+            className={`flex flex-col sm:flex-row items-center justify-center gap-6 mb-8 transition-all duration-1000 delay-800 ease-out ${
               mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
-            <button className="group relative w-full sm:w-auto bg-white text-black px-10 py-4 rounded-full text-lg font-medium hover:bg-gray-50 transition-all duration-300 shadow-2xl shadow-white/10 hover:shadow-white/20 hover:scale-105">
-              <span className="relative z-10">Request a Demo</span>
-              <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white to-gray-100 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
+            <button className="group relative w-full sm:w-auto bg-white/10 backdrop-blur-sm text-white px-10 py-4 rounded-full text-lg font-medium border border-white/20 hover:bg-white/20 transition-all duration-300 shadow-2xl shadow-white/10 hover:shadow-white/20 hover:scale-105 cursor-not-allowed">
+              <span className="relative z-10 flex items-center gap-2">
+                طلب عرض توضيحي
+                <span className="text-sm opacity-70">(قريباً)</span>
+              </span>
             </button>
 
-            <button className="group w-full sm:w-auto text-white px-10 py-4 rounded-full text-lg font-medium border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300 backdrop-blur-xl hover:scale-105">
-              <span className="relative z-10">Explore Workflows</span>
+            <button className="group w-full sm:w-auto text-white px-10 py-4 rounded-full text-lg font-medium border border-white/20 hover:border-white/40 hover:bg-white/5 transition-all duration-300 backdrop-blur-xl hover:scale-105 cursor-not-allowed">
+              <span className="relative z-10 flex items-center gap-2">
+                استكشاف سير العمل
+                <span className="text-sm opacity-70">(قريباً)</span>
+              </span>
             </button>
           </div>
 
           {/* Scroll indicator */}
           <div
-            className={`mt-20 transition-all duration-1000 delay-1000 ease-out ${
+            className={`transition-all duration-1000 delay-1000 ease-out ${
               mounted ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4"
             }`}
           >
             <div className="flex flex-col items-center">
               <p className="text-sm text-white/40 mb-4 font-light">
-                Scroll to explore
+                مرر للاستكشاف
               </p>
               <div className="w-6 h-10 border border-white/20 rounded-full flex justify-center">
                 <div className="w-1 h-3 bg-white/40 rounded-full mt-2 animate-bounce"></div>

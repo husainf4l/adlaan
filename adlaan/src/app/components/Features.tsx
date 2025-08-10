@@ -26,39 +26,39 @@ export default function Features() {
   const features = [
     {
       icon: "🤖",
-      title: "AI Legal Assistant",
-      description: "Advanced AI that understands legal context, Arabic legal traditions, and modern business requirements to generate precise documentation.",
-      highlight: "99.7% accuracy rate"
+      title: "مساعد قانوني ذكي",
+      description: "ذكاء اصطناعي متطور يفهم السياق القانوني والتقاليد القانونية العربية ومتطلبات الأعمال الحديثة لإنتاج توثيق دقيق.",
+      highlight: "معدل دقة 99.7%"
     },
     {
       icon: "⚖️",
-      title: "Justice-First Framework",
-      description: "Built on the principle of ʿAdl (justice), ensuring every document balances fairness, compliance, and commercial viability.",
-      highlight: "Cultural intelligence"
+      title: "إطار العدالة أولاً",
+      description: "مبني على مبدأ العدل، يضمن أن كل وثيقة توازن بين العدالة والامتثال والجدوى التجارية.",
+      highlight: "ذكاء ثقافي"
     },
     {
       icon: "🔍",
-      title: "Real-Time Review",
-      description: "Instant document analysis with risk assessment, compliance checking, and improvement suggestions powered by legal AI.",
-      highlight: "15-second analysis"
+      title: "مراجعة فورية",
+      description: "تحليل فوري للوثائق مع تقييم المخاطر وفحص الامتثال واقتراحات التحسين مدعومة بالذكاء الاصطناعي القانوني.",
+      highlight: "تحليل خلال 15 ثانية"
     },
     {
       icon: "🌐",
-      title: "Multi-Language Support",
-      description: "Seamless Arabic-English document creation with proper legal terminology preservation and cultural context awareness.",
-      highlight: "Bilingual expertise"
+      title: "دعم متعدد اللغات",
+      description: "إنشاء وثائق سلس بالعربية والإنجليزية مع الحفاظ على المصطلحات القانونية المناسبة والوعي بالسياق الثقافي.",
+      highlight: "خبرة ثنائية اللغة"
     },
     {
       icon: "🔒",
-      title: "Enterprise Security",
-      description: "SOC 2 Type II certified platform with end-to-end encryption, ensuring your legal data remains confidential and secure.",
-      highlight: "Zero data training"
+      title: "أمان المؤسسات",
+      description: "منصة معتمدة SOC 2 Type II مع تشفير شامل، مضمنة أن بياناتك القانونية تبقى سرية وآمنة.",
+      highlight: "عدم تدريب البيانات"
     },
     {
       icon: "📊",
-      title: "Analytics Dashboard",
-      description: "Comprehensive insights into document performance, compliance metrics, and legal risk assessment across your organization.",
-      highlight: "Real-time insights"
+      title: "لوحة تحليلات",
+      description: "رؤى شاملة حول أداء الوثائق ومقاييس الامتثال وتقييم المخاطر القانونية عبر مؤسستك.",
+      highlight: "رؤى فورية"
     }
   ];
 
@@ -71,14 +71,14 @@ export default function Features() {
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <p className="text-sm font-medium text-gray-500 tracking-wider uppercase mb-4">
-            Core Features
+            الميزات الأساسية
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extralight text-gray-900 leading-tight tracking-[-0.02em] mb-8">
-            Intelligent Legal Technology
+            تقنية قانونية ذكية
           </h2>
           <div className="w-32 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mx-auto mb-8"></div>
           <p className="text-xl lg:text-2xl font-light text-gray-600 leading-relaxed max-w-3xl mx-auto">
-            Discover how Adlaan transforms legal document creation with AI that understands both modern law and timeless principles of justice.
+            اكتشف كيف يحول أدلان إنشاء الوثائق القانونية بذكاء اصطناعي يفهم القانون الحديث والمبادئ الخالدة للعدالة.
           </p>
         </div>
 
@@ -113,10 +113,10 @@ export default function Features() {
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}>
           <p className="text-lg text-gray-600 mb-8">
-            Experience the future of legal AI technology
+            اختبر مستقبل تقنية الذكاء الاصطناعي القانوني
           </p>
           <button className="group bg-gray-900 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-black transition-all duration-300 hover:scale-105">
-            <span className="relative z-10">Explore All Features</span>
+            <span className="relative z-10">استكشف جميع الميزات</span>
           </button>
         </div>
       </div>

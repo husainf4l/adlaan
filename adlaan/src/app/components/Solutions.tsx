@@ -26,37 +26,37 @@ export default function Solutions() {
   const solutions = [
     {
       icon: "🏢",
-      title: "Corporate Law Firms",
-      description: "Streamline contract drafting, due diligence, and legal documentation with AI that understands complex commercial relationships.",
-      features: ["Contract Generation", "Due Diligence Reports", "Corporate Governance"]
+      title: "مكاتب القانون التجاري",
+      description: "تبسيط صياغة العقود والعناية الواجبة والتوثيق القانوني بذكاء اصطناعي يفهم العلاقات التجارية المعقدة.",
+      features: ["إنتاج العقود", "تقارير العناية الواجبة", "حوكمة الشركات"]
     },
     {
       icon: "🏛️",
-      title: "Government & Public Sector",
-      description: "Create policy documents, regulations, and public agreements that balance legal requirements with cultural sensitivity.",
-      features: ["Policy Drafting", "Regulatory Compliance", "Public Agreements"]
+      title: "الحكومة والقطاع العام",
+      description: "إنشاء وثائق السياسات واللوائح والاتفاقيات العامة التي توازن بين المتطلبات القانونية والحساسية الثقافية.",
+      features: ["صياغة السياسات", "الامتثال التنظيمي", "الاتفاقيات العامة"]
     },
     {
       icon: "🏪",
-      title: "Small & Medium Enterprises",
-      description: "Access enterprise-level legal AI without the complexity, perfect for growing businesses in the MENA region.",
-      features: ["Employee Contracts", "Vendor Agreements", "Compliance Checks"]
+      title: "المؤسسات الصغيرة والمتوسطة",
+      description: "الوصول إلى ذكاء اصطناعي قانوني على مستوى المؤسسات دون التعقيد، مثالي للشركات النامية في منطقة الشرق الأوسط وشمال أفريقيا.",
+      features: ["عقود الموظفين", "اتفاقيات الموردين", "فحوصات الامتثال"]
     },
     {
       icon: "🏥",
-      title: "Healthcare & Life Sciences",
-      description: "Navigate complex healthcare regulations while maintaining patient privacy and cultural healthcare practices.",
-      features: ["HIPAA Compliance", "Research Agreements", "Patient Consent Forms"]
+      title: "الرعاية الصحية وعلوم الحياة",
+      description: "التنقل في لوائح الرعاية الصحية المعقدة مع الحفاظ على خصوصية المرضى وممارسات الرعاية الصحية الثقافية.",
+      features: ["امتثال HIPAA", "اتفاقيات البحث", "نماذج موافقة المرضى"]
     }
   ];
 
   const industries = [
-    { name: "Banking & Finance", growth: "+34%" },
-    { name: "Real Estate", growth: "+28%" },
-    { name: "Technology", growth: "+42%" },
-    { name: "Healthcare", growth: "+31%" },
-    { name: "Manufacturing", growth: "+25%" },
-    { name: "Education", growth: "+38%" }
+    { name: "المصارف والتمويل", growth: "+34%" },
+    { name: "العقارات", growth: "+28%" },
+    { name: "التكنولوجيا", growth: "+42%" },
+    { name: "الرعاية الصحية", growth: "+31%" },
+    { name: "التصنيع", growth: "+25%" },
+    { name: "التعليم", growth: "+38%" }
   ];
 
   return (
@@ -68,14 +68,14 @@ export default function Solutions() {
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-12'
         }`}>
           <p className="text-sm font-medium text-gray-500 tracking-wider uppercase mb-4">
-            Solutions
+            الحلول
           </p>
           <h2 className="text-4xl sm:text-5xl lg:text-6xl font-extralight text-gray-900 leading-tight tracking-[-0.02em] mb-8">
-            Built for Every Legal Need
+            مبني لكل احتياج قانوني
           </h2>
           <div className="w-32 h-px bg-gradient-to-r from-transparent via-gray-300 to-transparent mx-auto mb-8"></div>
           <p className="text-xl lg:text-2xl font-light text-gray-600 leading-relaxed max-w-3xl mx-auto">
-            From startups to enterprises, Adlaan scales with your organization while maintaining the highest standards of legal accuracy and cultural intelligence.
+            من الشركات الناشئة إلى المؤسسات، أدلان ينمو مع مؤسستك مع الحفاظ على أعلى معايير الدقة القانونية والذكاء الثقافي.
           </p>
         </div>
 
@@ -99,7 +99,7 @@ export default function Solutions() {
                 </p>
                 <div className="space-y-2">
                   {solution.features.map((feature, featureIndex) => (
-                    <div key={featureIndex} className="flex items-center space-x-3">
+                    <div key={featureIndex} className="flex items-center gap-3">
                       <div className="w-2 h-2 bg-gray-400 rounded-full"></div>
                       <span className="text-sm text-gray-700">{feature}</span>
                     </div>
@@ -116,7 +116,7 @@ export default function Solutions() {
         }`}>
           <div className="bg-white rounded-3xl p-8 shadow-xl shadow-gray-200/50 border border-gray-100">
             <h3 className="text-2xl font-light text-gray-900 mb-8 text-center">
-              Industry Growth with Adlaan
+              نمو الصناعات مع أدلان
             </h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {industries.map((industry, index) => (
@@ -138,13 +138,13 @@ export default function Solutions() {
           isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'
         }`}>
           <h3 className="text-2xl font-light text-gray-900 mb-4">
-            Trusted Across the MENA Region
+            موثوق عبر منطقة الشرق الأوسط وشمال أفريقيا
           </h3>
           <p className="text-lg text-gray-600 mb-8">
-            Supporting legal professionals from Dubai to Riyadh, from Cairo to Casablanca
+            دعم المهنيين القانونيين من دبي إلى الرياض، من القاهرة إلى الدار البيضاء
           </p>
           <button className="group bg-gray-900 text-white px-8 py-4 rounded-full text-lg font-medium hover:bg-black transition-all duration-300 hover:scale-105">
-            <span className="relative z-10">Find Your Solution</span>
+            <span className="relative z-10">اعثر على حلك</span>
           </button>
         </div>
       </div>

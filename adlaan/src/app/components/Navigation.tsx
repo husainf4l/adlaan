@@ -27,7 +27,7 @@ export default function Navigation() {
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         <div className="flex justify-between items-center h-16 lg:h-20">
           {/* Logo with refined spacing */}
-          <div className="flex-shrink-0">
+          <div className="flex-shrink-0 order-1">
             <div className="flex items-center">
               <Image
                 src="/adlaan-darklogo.png"
@@ -41,14 +41,14 @@ export default function Navigation() {
           </div>
 
           {/* Desktop Navigation - Apple-style clean spacing */}
-          <div className="hidden lg:flex">
-            <div className="flex items-center space-x-1">
+          <div className="hidden lg:flex order-2">
+            <div className="flex items-center gap-1">
               {[
-                { name: "Platform", href: "#platform" },
-                { name: "Solutions", href: "#solutions" },
-                { name: "Customers", href: "#customers" },
-                { name: "About", href: "#about" },
-                { name: "Resources", href: "#resources" },
+                { name: "المنصة", href: "#platform" },
+                { name: "الحلول", href: "#solutions" },
+                { name: "العملاء", href: "#customers" },
+                { name: "عن أدلان", href: "#about" },
+                { name: "المصادر", href: "#resources" },
               ].map((item) => (
                 <a
                   key={item.name}
@@ -62,23 +62,23 @@ export default function Navigation() {
           </div>
 
           {/* CTA Button with Apple-style refinement */}
-          <div className="hidden lg:flex items-center space-x-4">
+          <div className="hidden lg:flex items-center gap-4 order-3">
             <button
-              onClick={() =>
-                window.open("http://localhost:4200/login", "_blank")
-              }
+              onClick={() => {
+                window.location.href = "/login";
+              }}
               className="text-gray-300 hover:text-white px-4 py-2.5 text-sm font-medium transition-colors duration-200"
             >
-              Login
+              تسجيل الدخول
             </button>
             <button className="group relative bg-white text-black px-6 py-2.5 rounded-full font-medium text-sm hover:bg-gray-50 transition-all duration-300 hover:scale-105 shadow-lg shadow-white/10">
-              <span className="relative z-10">Request Demo</span>
+              <span className="relative z-10">طلب عرض توضيحي</span>
               <div className="absolute inset-0 rounded-full bg-gradient-to-r from-white to-gray-50 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
             </button>
           </div>
 
           {/* Mobile menu button with smooth animation */}
-          <div className="lg:hidden">
+          <div className="lg:hidden order-4">
             <button
               onClick={() => setIsMenuOpen(!isMenuOpen)}
               className="relative text-gray-300 hover:text-white p-2 transition-colors duration-200 focus:outline-none"
@@ -113,11 +113,11 @@ export default function Navigation() {
         >
           <div className="px-4 pt-4 pb-6 space-y-2 border-t border-white/10">
             {[
-              { name: "Platform", href: "#platform" },
-              { name: "Solutions", href: "#solutions" },
-              { name: "Customers", href: "#customers" },
-              { name: "About", href: "#about" },
-              { name: "Resources", href: "#resources" },
+              { name: "المنصة", href: "#platform" },
+              { name: "الحلول", href: "#solutions" },
+              { name: "العملاء", href: "#customers" },
+              { name: "عن أدلان", href: "#about" },
+              { name: "المصادر", href: "#resources" },
             ].map((item, index) => (
               <a
                 key={item.name}
@@ -143,15 +143,15 @@ export default function Navigation() {
             >
               <button
                 onClick={() => {
-                  window.open("http://localhost:4200/login", "_blank");
+                  window.location.href = "/login";
                   setIsMenuOpen(false);
                 }}
                 className="w-full text-gray-300 hover:text-white px-6 py-3 rounded-full font-medium text-base border border-gray-600 hover:border-gray-400 transition-colors duration-200"
               >
-                Login
+                تسجيل الدخول
               </button>
               <button className="w-full bg-white text-black px-6 py-3 rounded-full font-medium text-base hover:bg-gray-50 transition-colors duration-200">
-                Request Demo
+                طلب عرض توضيحي
               </button>
             </div>
           </div>
