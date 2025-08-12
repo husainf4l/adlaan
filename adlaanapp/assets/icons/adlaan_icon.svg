@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="48" height="48" viewBox="0 0 48 48" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <linearGradient id="iconGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E3A8A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Icon background -->
+  <rect width="48" height="48" rx="12" fill="url(#iconGradient)"/>
+  
+  <!-- Justice scales icon centered -->
+  <g transform="translate(12, 10)">
+    <!-- Scale beam -->
+    <line x1="4" y1="14" x2="20" y2="14" stroke="#FBBF24" stroke-width="2"/>
+    <!-- Center post -->
+    <line x1="12" y1="14" x2="12" y2="26" stroke="#FBBF24" stroke-width="2"/>
+    <!-- Left scale -->
+    <circle cx="7" cy="18" r="4" fill="none" stroke="#FBBF24" stroke-width="1.5"/>
+    <line x1="3" y1="18" x2="11" y2="18" stroke="#FBBF24" stroke-width="1"/>
+    <!-- Right scale -->
+    <circle cx="17" cy="18" r="4" fill="none" stroke="#FBBF24" stroke-width="1.5"/>
+    <line x1="13" y1="18" x2="21" y2="18" stroke="#FBBF24" stroke-width="1"/>
+    <!-- Base -->
+    <line x1="9" y1="26" x2="15" y2="26" stroke="#FBBF24" stroke-width="2"/>
+  </g>
+</svg>

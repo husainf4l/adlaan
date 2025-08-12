@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="80" viewBox="0 0 200 80" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background with gradient -->
+  <defs>
+    <linearGradient id="logoGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#1E3A8A;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#3B82F6;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="textGradient" x1="0%" y1="0%" x2="100%" y2="0%">
+      <stop offset="0%" style="stop-color:#D97706;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#FBBF24;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Logo background -->
+  <rect width="200" height="80" rx="12" fill="url(#logoGradient)"/>
+  
+  <!-- Justice scales icon -->
+  <g transform="translate(20, 15)">
+    <!-- Scale beam -->
+    <line x1="15" y1="25" x2="35" y2="25" stroke="#FBBF24" stroke-width="2"/>
+    <!-- Center post -->
+    <line x1="25" y1="25" x2="25" y2="45" stroke="#FBBF24" stroke-width="2"/>
+    <!-- Left scale -->
+    <circle cx="18" cy="30" r="6" fill="none" stroke="#FBBF24" stroke-width="1.5"/>
+    <line x1="12" y1="30" x2="24" y2="30" stroke="#FBBF24" stroke-width="1"/>
+    <!-- Right scale -->
+    <circle cx="32" cy="30" r="6" fill="none" stroke="#FBBF24" stroke-width="1.5"/>
+    <line x1="26" y1="30" x2="38" y2="30" stroke="#FBBF24" stroke-width="1"/>
+    <!-- Base -->
+    <line x1="20" y1="45" x2="30" y2="45" stroke="#FBBF24" stroke-width="3"/>
+  </g>
+  
+  <!-- Arabic text "أدلان" -->
+  <text x="70" y="35" font-family="Arial" font-size="24" font-weight="bold" fill="white" text-anchor="start">أدلان</text>
+  
+  <!-- English text "Adlaan" -->
+  <text x="70" y="55" font-family="Arial" font-size="16" font-weight="600" fill="url(#textGradient)" text-anchor="start">Justice & Precision</text>
+</svg>
