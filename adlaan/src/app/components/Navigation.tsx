@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 
 export default function Navigation() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -28,16 +29,16 @@ export default function Navigation() {
         <div className="flex justify-between items-center h-16 lg:h-20">
           {/* Logo with refined spacing */}
           <div className="flex-shrink-0 order-1">
-            <div className="flex items-center">
+            <Link href="/" className="flex items-center group">
               <Image
                 src="/adlaan-darklogo.png"
                 alt="Adlaan Logo"
                 width={140}
                 height={44}
-                className="h-8 lg:h-10 w-auto brightness-0 invert transition-all duration-300"
+                className="h-8 lg:h-10 w-auto brightness-0 invert transition-all duration-300 group-hover:scale-105"
                 priority
               />
-            </div>
+            </Link>
           </div>
 
           {/* Desktop Navigation - Apple-style clean spacing */}
