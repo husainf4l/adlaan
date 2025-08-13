@@ -5,6 +5,7 @@ import { ThrottlerModule, ThrottlerGuard } from '@nestjs/throttler';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
+import { ProfileModule } from './profile/profile.module';
 import { CompanyModule } from './company/company.module';
 import { SubscriptionModule } from './subscription/subscription.module';
 import { PrismaService } from './prisma.service';
@@ -18,9 +19,10 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
     }),
     ThrottlerModule.forRoot([{
       ttl: 60000, // 1 minute
-      limit: 100, // 100 requests per minute
+      limit: 1000, // 1000 requests per minute (increased for development)
     }]),
     AuthModule,
+    ProfileModule,
     CompanyModule,
     SubscriptionModule,
   ],

@@ -17,9 +17,17 @@ export interface Company {
   name: string;
   size?: string;
   industry?: string;
-  description?: string;
+  description?: string | null;
+  logo?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  website?: string | null;
+  isActive: boolean;
+  ownerId: string;
   createdAt: string;
   updatedAt: string;
+  subscription?: any | null;
 }
 
 export interface AuthResponse {

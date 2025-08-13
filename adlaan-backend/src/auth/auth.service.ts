@@ -1,21 +1,28 @@
 import { Injectable, UnauthorizedException } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { ConfigService } from '@nestjs/config';
+import { OAuth2Client } from 'google-auth-library';
 import { PrismaService } from '../prisma.service';
 import { OtpService } from './otp.service';
 import * as bcrypt from 'bcryptjs';
 import type { FastifyReply } from 'fastify';
 import { AuthProvider, OtpType } from '../../generated/prisma';
-import { RegisterDto, LoginDto, OtpVerificationDto, GoogleUserDto } from './dto/auth.dto';
+import { RegisterDto, LoginDto, OtpVerificationDto, GoogleUserDto, CompleteProfileDto } from './dto/auth.dto';
 
 @Injectable()
 export class AuthService {
+  private googleClient: OAuth2Client;
+
   constructor(
     private prismaService: PrismaService,
     private jwtService: JwtService,
     private configService: ConfigService,
     private otpService: OtpService,
-  ) {}
+  ) {
+    this.googleClient = new OAuth2Client(
+      this.configService.get('GOOGLE_CLIENT_ID')
+    );
+  }
 
   async register(registerDto: RegisterDto) {
     // Check if user already exists
@@ -163,15 +170,17 @@ export class AuthService {
     (response as any).cookie('access_token', accessToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production', // Only over HTTPS in production
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax', // More permissive in development
       maxAge: 24 * 60 * 60, // 24 hours in seconds (Fastify uses seconds, not milliseconds)
+      path: '/', // Ensure cookie is available for all paths
     });
 
     (response as any).cookie('refresh_token', refreshToken, {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
-      sameSite: 'strict',
+      sameSite: process.env.NODE_ENV === 'production' ? 'strict' : 'lax', // More permissive in development
       maxAge: 7 * 24 * 60 * 60, // 7 days in seconds
+      path: '/', // Ensure cookie is available for all paths
     });
   }
 
@@ -252,6 +261,134 @@ export class AuthService {
       companyId: user.companyId,
       company: user.company,
     };
+  }
+
+  async validateGoogleToken(credential: string) {
+    try {
+      // Verify the Google ID token
+      const ticket = await this.googleClient.verifyIdToken({
+        idToken: credential,
+        audience: this.configService.get('GOOGLE_CLIENT_ID'),
+      });
+
+      const payload = ticket.getPayload();
+      if (!payload) {
+        throw new UnauthorizedException('Invalid Google token');
+      }
+
+      if (!payload.email) {
+        throw new UnauthorizedException('Email not provided by Google');
+      }
+
+      // Extract user information from the token payload
+      const googleUser = {
+        providerId: payload.sub,
+        email: payload.email,
+        name: payload.name || `${payload.given_name || ''} ${payload.family_name || ''}`.trim(),
+        avatar: payload.picture,
+      };
+
+      // Validate or create the user
+      return await this.validateOrCreateGoogleUser(googleUser);
+    } catch (error) {
+      throw new UnauthorizedException('Invalid Google token: ' + error.message);
+    }
+  }
+
+  async completeProfile(userId: string, completeProfileDto: CompleteProfileDto) {
+    // First, update the user's phone number
+    const updatedUser = await this.prismaService.user.update({
+      where: { id: userId },
+      data: {
+        phoneNumber: completeProfileDto.phoneNumber,
+      },
+    });
+
+    // Check if user already has a company
+    if (updatedUser.companyId) {
+      // Update existing company
+      const company = await this.prismaService.company.update({
+        where: { id: updatedUser.companyId },
+        data: {
+          name: completeProfileDto.companyName,
+        },
+        include: {
+          subscription: {
+            select: {
+              id: true,
+              plan: true,
+              status: true,
+              billingCycle: true,
+              amount: true,
+              currency: true,
+              startDate: true,
+              endDate: true,
+              nextBillingDate: true,
+              isTrialActive: true,
+              trialStartDate: true,
+              trialEndDate: true,
+            },
+          },
+        },
+      });
+
+      return {
+        id: updatedUser.id,
+        email: updatedUser.email,
+        name: updatedUser.name,
+        avatar: updatedUser.avatar,
+        phoneNumber: updatedUser.phoneNumber,
+        companyId: company.id,
+        company: company,
+      };
+    } else {
+      // Create new company
+      const company = await this.prismaService.company.create({
+        data: {
+          name: completeProfileDto.companyName,
+          ownerId: userId,
+        },
+        include: {
+          subscription: {
+            select: {
+              id: true,
+              plan: true,
+              status: true,
+              billingCycle: true,
+              amount: true,
+              currency: true,
+              startDate: true,
+              endDate: true,
+              nextBillingDate: true,
+              isTrialActive: true,
+              trialStartDate: true,
+              trialEndDate: true,
+            },
+          },
+        },
+      });
+
+      // Update user with company ID
+      const userWithCompany = await this.prismaService.user.update({
+        where: { id: userId },
+        data: {
+          companyId: company.id,
+        },
+        select: {
+          id: true,
+          email: true,
+          name: true,
+          avatar: true,
+          phoneNumber: true,
+          companyId: true,
+        },
+      });
+
+      return {
+        ...userWithCompany,
+        company: company,
+      };
+    }
   }
 
   async verifyOtpAndLogin(otpDto: OtpVerificationDto) {

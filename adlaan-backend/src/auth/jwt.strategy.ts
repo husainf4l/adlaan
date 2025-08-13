@@ -13,8 +13,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromExtractors([
+        // First try Authorization header (Bearer token)
+        ExtractJwt.fromAuthHeaderAsBearerToken(),
+        // Then try HTTP-only cookie
         (request: Request) => {
-          // Extract JWT from HTTP-only cookie
           let token = null;
           if (request && request.cookies) {
             token = request.cookies['access_token'];
@@ -35,7 +37,48 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
         id: true,
         email: true,
         name: true,
-        // Add other fields you want to include in the request.user object
+        avatar: true,
+        phoneNumber: true,
+        twoFactorEnabled: true,
+        isEmailVerified: true,
+        isPhoneVerified: true,
+        provider: true,
+        providerId: true,
+        companyId: true,
+        createdAt: true,
+        updatedAt: true,
+        company: {
+          select: {
+            id: true,
+            name: true,
+            description: true,
+            logo: true,
+            email: true,
+            phone: true,
+            address: true,
+            website: true,
+            isActive: true,
+            ownerId: true,
+            createdAt: true,
+            updatedAt: true,
+            subscription: {
+              select: {
+                id: true,
+                plan: true,
+                status: true,
+                billingCycle: true,
+                amount: true,
+                currency: true,
+                startDate: true,
+                endDate: true,
+                nextBillingDate: true,
+                isTrialActive: true,
+                trialStartDate: true,
+                trialEndDate: true,
+              },
+            },
+          },
+        },
       },
     });
 

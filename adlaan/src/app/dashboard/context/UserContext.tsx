@@ -7,6 +7,7 @@ import {
   useState,
   ReactNode,
 } from "react";
+import { API_CONFIG } from "@/lib/constants";
 
 interface User {
   id: string;
@@ -31,27 +32,58 @@ export function UserProvider({ children }: { children: ReactNode }) {
 
   const checkAuthStatus = async () => {
     try {
-      const response = await fetch("http://localhost:4007/auth/profile", {
-        credentials: "include",
+      // Get Bearer token from localStorage
+      const token = localStorage.getItem("access_token");
+
+      if (!token) {
+        console.warn(
+          "⚠️ No access token found in UserContext, redirecting to login"
+        );
+        window.location.href = "/login";
+        return;
+      }
+
+      const response = await fetch(`${API_CONFIG.BASE_URL}/api/auth/profile`, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
       });
 
       if (response.ok) {
-        const userData = await response.json();
+        const responseData = await response.json();
+        console.log("🔍 UserContext profile response:", responseData);
+
+        // Extract user data - handle both { user: {...} } and direct user object
+        const userData = responseData.user || responseData;
 
         // Check if user has a company
         if (!userData.companyId) {
           // User doesn't have a company, redirect to complete registration
+          console.log("📝 User missing company, redirecting to registration");
           window.location.href = "/register";
           return;
         }
 
+        console.log("✅ UserContext: User authenticated and has company");
         setUser(userData);
       } else {
+        console.error(
+          `❌ UserContext: Auth check failed with status ${response.status}`
+        );
+
+        // If unauthorized, remove invalid token and redirect to login
+        if (response.status === 401) {
+          localStorage.removeItem("access_token");
+          localStorage.removeItem("refresh_token");
+          console.log("🗑️ Removed invalid tokens");
+        }
+
         // User not authenticated, redirect to login
         window.location.href = "/login";
       }
-    } catch {
-      console.error("Auth check failed");
+    } catch (error) {
+      console.error("❌ UserContext: Auth check failed with error:", error);
       window.location.href = "/login";
     } finally {
       setLoading(false);

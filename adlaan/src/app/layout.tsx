@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Cairo } from "next/font/google";
 import "./globals.css";
 import ClientLayout from "./components/ClientLayout";
@@ -15,8 +15,12 @@ export const metadata: Metadata = {
     "منصة أدلان للذكاء الاصطناعي القانوني - أتمتة المستندات القانونية بتقنية عربية متطورة",
   keywords: ["قانون", "ذكاء اصطناعي", "عقود", "مستندات قانونية", "أتمتة"],
   authors: [{ name: "Adlaan" }],
-  viewport: "width=device-width, initial-scale=1",
   robots: "index, follow",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
 };
 
 export default function RootLayout({

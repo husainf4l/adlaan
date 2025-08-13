@@ -6,54 +6,58 @@ import { useNavigation } from "@/hooks/useNavigation";
 import { useForm } from "@/hooks/useForm";
 import { FormField, SelectField } from "@/components/ui/FormField";
 import { LoadingButton } from "@/components/ui/LoadingButton";
-import { COMPANY_SIZES, INDUSTRIES } from "@/lib/constants";
+import { COMPANY_SIZES, INDUSTRIES, API_CONFIG } from "@/lib/constants";
 import {
   validateProfileForm,
   type ProfileFormData,
 } from "@/lib/profileValidation";
 import { handleAsync, logError } from "@/lib/errorHandling";
+import { AuthDebug } from "@/lib/authDebug";
 import type { User } from "@/types";
 
 export default function ProfileCompletePage() {
   const [user, setUser] = useState<User | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [generalError, setGeneralError] = useState<string>("");
+  const [hasPrefilledForm, setHasPrefilledForm] = useState(false);
 
   const { goToDashboard, goToLogin } = useNavigation();
 
   // Define the form submission handler
   async function handleProfileSubmit(formValues: ProfileFormData) {
     setGeneralError("");
+    console.log("🚀 Starting profile submission with data:", formValues);
 
-    const [, error] = await handleAsync(async () => {
-      // Call API directly since authService.completeProfile doesn't exist yet
-      const response = await fetch("/api/profile/complete", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          companyName: formValues.companyName,
-          companySize: formValues.companySize,
-          industry: formValues.industry,
-          phoneNumber: formValues.phoneNumber,
-        }),
-      });
+    const [result, error] = await handleAsync(async () => {
+      console.log(
+        "📡 Calling authService.completeProfile() with Bearer token..."
+      );
 
-      if (!response.ok) {
-        const errorData = await response.json().catch(() => ({}));
-        throw new Error(errorData.message || "Failed to update profile");
+      // Check if we have a token
+      const token = localStorage.getItem("access_token");
+      console.log("🔐 Access token available:", !!token);
+      if (!token) {
+        throw new Error("No access token found. Please login again.");
       }
 
-      return response.json();
+      const response = await authService.completeProfile({
+        companyName: formValues.companyName,
+        companySize: formValues.companySize,
+        industry: formValues.industry,
+        phoneNumber: formValues.phoneNumber,
+      });
+
+      console.log("✅ Profile completion response:", response);
+      return response;
     }, "Profile completion");
 
     if (error) {
+      console.error("❌ Profile submission failed:", error);
       setGeneralError(error.message);
       throw new Error(error.message);
     }
 
+    console.log("🎉 Profile submission successful:", result);
     // Navigate to dashboard on success
     goToDashboard();
   }
@@ -70,38 +74,102 @@ export default function ProfileCompletePage() {
     onSubmit: handleProfileSubmit,
   });
 
-  const loadUserProfile = useCallback(async () => {
+  const loadUserProfile = useCallback(async (retryCount = 0) => {
+    console.log(`🔄 Loading user profile... (attempt ${retryCount + 1})`);
+
     const [profile, error] = await handleAsync(async () => {
-      return await authService.getProfile();
+      console.log("📡 Calling authService.getProfile() with Bearer token...");
+      console.log("🌐 Current API_CONFIG.BASE_URL:", API_CONFIG.BASE_URL);
+
+      // Check if we have a token
+      const token = localStorage.getItem("access_token");
+      console.log("🔐 Access token available:", !!token);
+      if (token) {
+        console.log("🔐 Token preview:", token.substring(0, 20) + "...");
+      }
+
+      const result = await authService.getProfile();
+      console.log("✅ Profile loaded successfully:", result);
+      return result;
     }, "Loading user profile");
 
     if (error) {
+      console.error("❌ Failed to load user profile:", error);
+      console.error("❌ Error type:", error.constructor.name);
+      console.error("❌ Error message:", error.message);
+      console.error("❌ Error details:", error);
       logError(error, "Failed to load user profile");
-      goToLogin();
+
+      // Retry up to 3 times for network issues
+      if (
+        retryCount < 2 &&
+        (error.message.includes("fetch") || error.message.includes("Network"))
+      ) {
+        console.log(
+          `🔄 Retrying profile load in 2 seconds... (${retryCount + 1}/3)`
+        );
+        setTimeout(() => loadUserProfile(retryCount + 1), 2000);
+        return;
+      }
+
+      // Don't immediately redirect to login - let's see what the error is first
+      console.log(
+        "⚠️ Profile loading failed, but not redirecting yet for debugging"
+      );
+      setGeneralError(`Failed to load profile: ${error.message}`);
+      setIsLoading(false);
       return;
     }
 
     if (profile) {
+      console.log("👤 Setting user profile:", profile);
       setUser(profile);
-
-      // Pre-fill form with existing data using setValue
-      if (profile.company?.name) {
-        form.setValue("companyName", profile.company.name);
-      }
-      if (profile.company?.size) {
-        form.setValue("companySize", profile.company.size);
-      }
-      if (profile.company?.industry) {
-        form.setValue("industry", profile.company.industry);
-      }
-      if (profile.phoneNumber) {
-        form.setValue("phoneNumber", profile.phoneNumber);
-      }
     }
 
     setIsLoading(false);
-  }, [goToLogin, form]);
+  }, []);
 
+  // Separate effect to handle form pre-filling when user data changes
+  useEffect(() => {
+    if (user && !isLoading && !hasPrefilledForm) {
+      console.log("🔧 Pre-filling form with user data...");
+      console.log("👤 User object:", user);
+      console.log("🏢 Company object:", user.company);
+
+      // Pre-fill form with existing data using setValue
+      if (user.company?.name) {
+        console.log("🏢 Pre-filling company name:", user.company.name);
+        form.setValue("companyName", user.company.name);
+      } else {
+        console.log("⚠️ No company name found in user data");
+      }
+
+      // Note: Backend company object doesn't include size and industry yet
+      // These fields will be filled when user completes the profile
+      if (user.company?.size) {
+        console.log("📏 Pre-filling company size:", user.company.size);
+        form.setValue("companySize", user.company.size);
+      } else {
+        console.log("📏 No company size found - user needs to select one");
+      }
+
+      if (user.company?.industry) {
+        console.log("🏭 Pre-filling industry:", user.company.industry);
+        form.setValue("industry", user.company.industry);
+      } else {
+        console.log("🏭 No industry found - user needs to select one");
+      }
+
+      if (user.phoneNumber) {
+        console.log("📞 Pre-filling phone number:", user.phoneNumber);
+        form.setValue("phoneNumber", user.phoneNumber);
+      } else {
+        console.log("📞 No phone number found in user data");
+      }
+
+      setHasPrefilledForm(true);
+    }
+  }, [user, isLoading, hasPrefilledForm]);
   useEffect(() => {
     loadUserProfile();
   }, [loadUserProfile]);
@@ -166,7 +234,7 @@ export default function ProfileCompletePage() {
             <FormField
               label="رقم الهاتف"
               type="tel"
-              placeholder="أدخل رقم هاتفك"
+              placeholder="مثال: +966501234567، +971501234567، +20101234567"
               {...form.getFieldProps("phoneNumber")}
             />
           </div>

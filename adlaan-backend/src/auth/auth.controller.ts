@@ -11,7 +11,7 @@ import {
   Param,
 } from '@nestjs/common';
 import { AuthService } from './auth.service';
-import { RegisterDto, LoginDto, OtpVerificationDto } from './dto/auth.dto';
+import { RegisterDto, LoginDto, OtpVerificationDto, GoogleTokenDto, CompleteProfileDto } from './dto/auth.dto';
 import { Public } from './public.decorator';
 import { GoogleAuthGuard } from './google-auth.guard';
 import type { FastifyReply, FastifyRequest } from 'fastify';
@@ -58,6 +58,11 @@ export class AuthController {
     return {
       message: 'Login successful',
       user: result,
+      // Also return tokens in response body (for development)
+      tokens: {
+        accessToken,
+        refreshToken,
+      },
     };
   }
 
@@ -108,6 +113,30 @@ export class AuthController {
     // Redirect to frontend
     const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3000';
     response.redirect(`${frontendUrl}/auth/success`);
+  }
+
+  @Public()
+  @Post('google/token')
+  @HttpCode(HttpStatus.OK)
+  async googleTokenAuth(
+    @Body() googleTokenDto: GoogleTokenDto,
+    @Response({ passthrough: true }) response: FastifyReply,
+  ) {
+    const user = await this.authService.validateGoogleToken(googleTokenDto.credential);
+    const { accessToken, refreshToken } = this.authService.generateTokens(user.id);
+    
+    // Set HTTP-only cookies (for production)
+    this.authService.setTokenCookies(response, accessToken, refreshToken);
+    
+    return {
+      message: 'Google authentication successful',
+      user,
+      // Also return tokens in response body (for development)
+      tokens: {
+        accessToken,
+        refreshToken,
+      },
+    };
   }
 
   @Post('logout')

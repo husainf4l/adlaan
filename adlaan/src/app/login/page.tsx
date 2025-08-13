@@ -61,7 +61,7 @@ export default function LoginPage() {
     }));
 
     try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/auth/login`, {
+      const response = await fetch(`${API_CONFIG.BASE_URL}/api/auth/login`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -117,18 +117,21 @@ export default function LoginPage() {
     }));
 
     try {
-      const response = await fetch(`${API_CONFIG.BASE_URL}/auth/verify-otp`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          phoneNumber: loginData.phoneNumber,
-          code: otpCode,
-          type: "LOGIN_VERIFICATION",
-        }),
-      });
+      const response = await fetch(
+        `${API_CONFIG.BASE_URL}/api/auth/verify-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            phoneNumber: loginData.phoneNumber,
+            code: otpCode,
+            type: "LOGIN_VERIFICATION",
+          }),
+        }
+      );
 
       const data = await response.json();
 

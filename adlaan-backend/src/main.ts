@@ -42,6 +42,9 @@ async function bootstrap() {
   // Global logging interceptor
   app.useGlobalInterceptors(new LoggingInterceptor());
   
+  // Set global API prefix
+  app.setGlobalPrefix('api');
+  
   // Swagger API Documentation
   const config = new DocumentBuilder()
     .setTitle('Adlaan Backend API')

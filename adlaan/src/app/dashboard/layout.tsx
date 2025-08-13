@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import { UserProvider, useUser } from "./context/UserContext";
+import { API_CONFIG } from "@/lib/constants";
 
 // Custom SVG Icons
 const HomeIcon = () => (
@@ -226,7 +227,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
 
   const handleLogout = async () => {
     try {
-      await fetch("http://localhost:4007/auth/logout", {
+      await fetch(`${API_CONFIG.BASE_URL}/api/auth/logout`, {
         method: "POST",
         credentials: "include",
       });
@@ -332,7 +333,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
           {/* Notifications in Sidebar */}
           {!sidebarCollapsed && (
             <div className="mb-4">
-              <button 
+              <button
                 onClick={() => setShowNotifications(!showNotifications)}
                 className="w-full flex items-center justify-between p-2 text-gray-600 hover:text-[#002764] hover:bg-gray-50 rounded-lg transition-colors"
               >
@@ -350,7 +351,9 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
                 <div className="mt-2 bg-gray-50 rounded-lg border border-gray-200">
                   <div className="p-3 border-b border-gray-200">
                     <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-gray-900">الإشعارات</span>
+                      <span className="text-sm font-medium text-gray-900">
+                        الإشعارات
+                      </span>
                       <span className="text-xs bg-[#002764] text-white px-2 py-1 rounded-full">
                         {notifications.filter((n) => n.unread).length}
                       </span>
@@ -367,7 +370,9 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
                         <div className="flex items-start gap-2">
                           <div
                             className={`w-1.5 h-1.5 rounded-full mt-2 ${
-                              notification.unread ? "bg-[#002764]" : "bg-gray-300"
+                              notification.unread
+                                ? "bg-[#002764]"
+                                : "bg-gray-300"
                             }`}
                           ></div>
                           <div className="flex-1 min-w-0">

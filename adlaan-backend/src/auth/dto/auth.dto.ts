@@ -56,3 +56,24 @@ export class GoogleUserDto {
   @IsString({ message: 'Avatar must be a string' })
   avatar?: string;
 }
+
+export class GoogleTokenDto {
+  @IsString({ message: 'Google credential must be a string' })
+  @MinLength(1, { message: 'Google credential is required' })
+  credential: string;
+}
+
+export class CompleteProfileDto {
+  @IsString({ message: 'Company name must be a string' })
+  @MinLength(2, { message: 'Company name must be at least 2 characters long' })
+  companyName: string;
+
+  @IsString({ message: 'Company size must be a string' })
+  companySize: string;
+
+  @IsString({ message: 'Industry must be a string' })
+  industry: string;
+
+  @IsPhoneNumber(undefined, { message: 'Please provide a valid phone number' })
+  phoneNumber: string;
+}

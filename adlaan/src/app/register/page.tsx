@@ -5,6 +5,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Script from "next/script";
 import { triggerGoogleSignIn, resetGoogleSignIn } from "@/lib/googleAuth";
+import { API_CONFIG } from "@/lib/constants";
 
 interface RegisterData {
   // User data
@@ -122,14 +123,17 @@ export default function RegisterPage() {
       try {
         console.log("Google credential received:", response.credential);
 
-        const res = await fetch("http://localhost:4007/auth/google/token", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          credentials: "include",
-          body: JSON.stringify({ credential: response.credential }),
-        });
+        const res = await fetch(
+          `${API_CONFIG.BASE_URL}/api/auth/google/token`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            credentials: "include",
+            body: JSON.stringify({ credential: response.credential }),
+          }
+        );
 
         const data = await res.json();
 
@@ -293,7 +297,7 @@ export default function RegisterPage() {
       });
 
       const response = await fetch(
-        "http://localhost:4007/auth/signup-complete",
+        `${API_CONFIG.BASE_URL}/api/auth/signup-complete`,
         {
           method: "POST",
           headers: {
@@ -351,18 +355,21 @@ export default function RegisterPage() {
     }
 
     try {
-      const response = await fetch("http://localhost:4007/auth/verify-otp", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        credentials: "include",
-        body: JSON.stringify({
-          phoneNumber: registerData.phoneNumber,
-          code: otpCode,
-          type: "SIGNUP_VERIFICATION",
-        }),
-      });
+      const response = await fetch(
+        `${API_CONFIG.BASE_URL}/api/auth/verify-otp`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          credentials: "include",
+          body: JSON.stringify({
+            phoneNumber: registerData.phoneNumber,
+            code: otpCode,
+            type: "SIGNUP_VERIFICATION",
+          }),
+        }
+      );
 
       const data = await response.json();
 
