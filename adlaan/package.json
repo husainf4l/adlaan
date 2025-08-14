@@ -9,10 +9,13 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@hello-pangea/dnd": "^18.0.1",
     "@types/jsonwebtoken": "^9.0.10",
+    "@types/react-color": "^3.0.13",
     "jsonwebtoken": "^9.0.2",
     "next": "15.4.5",
     "react": "19.1.0",
+    "react-color": "^2.19.3",
     "react-dom": "19.1.0"
   },
   "devDependencies": {

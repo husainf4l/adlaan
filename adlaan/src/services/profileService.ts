@@ -1,17 +1,20 @@
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+import { API_CONFIG } from '@/lib/constants';
+
+const API_BASE = API_CONFIG.BASE_URL;
 
 export interface CompanyProfile {
   id: string;
   name: string;
-  nameEn?: string;
-  email: string;
-  phone: string;
-  address: string;
-  addressEn?: string;
-  website?: string;
-  taxNumber?: string;
-  commercialRegister?: string;
-  logo?: string;
+  nameEn?: string | null;
+  email?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  addressEn?: string | null;
+  website?: string | null;
+  taxNumber?: string | null;
+  commercialRegister?: string | null;
+  logo?: string | null;
+  description?: string | null;
   isActive: boolean;
   createdAt: string;
   updatedAt: string;
@@ -40,15 +43,16 @@ export interface DocumentLayout {
 
 export interface CreateCompanyProfileDto {
   name: string;
-  email: string;
-  phone: string;
-  address: string;
-  nameEn?: string;
-  addressEn?: string;
-  website?: string;
-  taxNumber?: string;
-  commercialRegister?: string;
-  logo?: string;
+  email?: string | null;
+  phone?: string | null;
+  address?: string | null;
+  nameEn?: string | null;
+  addressEn?: string | null;
+  website?: string | null;
+  taxNumber?: string | null;
+  commercialRegister?: string | null;
+  logo?: string | null;
+  description?: string | null;
 }
 
 export interface CreateDocumentLayoutDto {
@@ -69,23 +73,44 @@ export interface CreateDocumentLayoutDto {
 
 class ProfileApiService {
   private async request(endpoint: string, options: RequestInit = {}) {
-    const token = localStorage.getItem('authToken') || localStorage.getItem('token');
+    const token = localStorage.getItem('access_token');
+    
+    if (!token) {
+      throw new Error('لا يوجد رمز مصادقة. يرجى تسجيل الدخول مرة أخرى.');
+    }
+
+    console.log('🔑 Making API request to:', `${API_BASE}${endpoint}`);
+    console.log('🔑 Token present:', !!token);
     
     const response = await fetch(`${API_BASE}${endpoint}`, {
       ...options,
       headers: {
         'Content-Type': 'application/json',
-        ...(token && { 'Authorization': `Bearer ${token}` }),
+        'Authorization': `Bearer ${token}`,
         ...options.headers,
       },
     });
 
+    console.log('📡 Response status:', response.status);
+
     if (!response.ok) {
+      if (response.status === 401) {
+        throw new Error('انتهت صلاحية جلسة العمل. يرجى تسجيل الدخول مرة أخرى.');
+      }
       const errorData = await response.json().catch(() => ({}));
       throw new Error(errorData.message || `HTTP ${response.status}: ${response.statusText}`);
     }
 
-    return response.json();
+    const result = await response.json();
+    console.log('📦 API Response:', result);
+    
+    // Handle wrapped response format {success: true, data: ...}
+    if (result.success && result.data !== undefined) {
+      return result.data;
+    }
+    
+    // Fallback to direct response
+    return result;
   }
 
   // Company Profile API methods
