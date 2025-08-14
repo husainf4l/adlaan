@@ -8,6 +8,8 @@ import { AuthModule } from './auth/auth.module';
 import { ProfileModule } from './profile/profile.module';
 import { CompanyModule } from './company/company.module';
 import { SubscriptionModule } from './subscription/subscription.module';
+import { DocumentModule } from './documents/document.module';
+import { FoldersModule } from './folders/folders.module';
 import { PrismaService } from './prisma.service';
 import { JwtAuthGuard } from './auth/jwt-auth.guard';
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
@@ -25,6 +27,8 @@ import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
     ProfileModule,
     CompanyModule,
     SubscriptionModule,
+    DocumentModule,
+    FoldersModule,
   ],
   controllers: [AppController],
   providers: [

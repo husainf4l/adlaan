@@ -211,7 +211,7 @@ const menuItems: MenuItem[] = [
 
 function DashboardContent({ children }: { children: React.ReactNode }) {
   const { user, loading } = useUser();
-  const [sidebarCollapsed, setSidebarCollapsed] = useState(false);
+  const [sidebarCollapsed, setSidebarCollapsed] = useState(true); // Start collapsed for contracts page
   const [searchQuery, setSearchQuery] = useState("");
   const [showNotifications, setShowNotifications] = useState(false);
   const [notifications] = useState([
@@ -254,13 +254,13 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
       <div
         className={`${
           sidebarCollapsed ? "w-16" : "w-64"
-        } transition-all duration-300 bg-white shadow-lg border-r border-gray-200 flex flex-col`}
+        } transition-all duration-300 bg-white shadow-xl border-l border-gray-300 flex flex-col fixed right-0 top-0 h-screen overflow-hidden z-40`}
       >
         {/* Logo Section with Collapse Button */}
-        <div className="p-6 border-b border-gray-100 flex items-center justify-between">
+        <div className={`${sidebarCollapsed ? "p-3" : "p-6"} border-b border-gray-200 flex items-center justify-between`}>
           {!sidebarCollapsed && (
             <Image
-              src="/adlaan-darklogo.png"
+              src="/adlaan-black.png"
               alt="Adlaan Logo"
               width={140}
               height={44}
@@ -270,26 +270,37 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
           )}
           <button
             onClick={() => setSidebarCollapsed(!sidebarCollapsed)}
-            className="p-2 hover:bg-gray-100 rounded-lg transition-colors"
+            className="p-2 hover:bg-[#002764]/10 rounded-lg transition-colors text-[#002764] hover:shadow-sm"
           >
             {sidebarCollapsed ? <MenuIcon /> : <CloseIcon />}
           </button>
         </div>
 
         {/* Navigation Menu */}
-        <nav className="flex-1 p-4">
-          <ul className="space-y-2">
+        <nav className={`flex-1 ${sidebarCollapsed ? "p-2" : "p-4"}`}>
+          <ul className={`${sidebarCollapsed ? "space-y-1" : "space-y-2"}`}>
             {menuItems.map((item) => (
               <li key={item.name}>
                 <a
                   href={item.href}
-                  className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium rounded-lg transition-all duration-200 ${
-                    sidebarCollapsed ? "justify-center" : "text-right"
-                  } text-gray-700 hover:bg-gray-50 hover:text-[#002764]`}
+                  className={`group w-full flex items-center gap-3 rounded-lg transition-all duration-200 relative ${
+                    sidebarCollapsed 
+                      ? "justify-center p-3 hover:bg-[#002764]/10 text-gray-600 hover:text-[#002764] hover:shadow-md" 
+                      : "px-4 py-3 text-right text-gray-700 hover:bg-[#002764]/5 hover:text-[#002764]"
+                  } text-sm font-medium`}
                   title={sidebarCollapsed ? item.name : undefined}
                 >
-                  <item.icon />
-                  {!sidebarCollapsed && item.name}
+                  <div className={`${sidebarCollapsed ? "text-[#002764]" : ""}`}>
+                    <item.icon />
+                  </div>
+                  {!sidebarCollapsed && (
+                    <span className="flex-1">{item.name}</span>
+                  )}
+                  {sidebarCollapsed && (
+                    <div className="absolute right-full mr-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                      {item.name}
+                    </div>
+                  )}
                 </a>
               </li>
             ))}
@@ -297,9 +308,9 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
         </nav>
 
         {/* User Profile & Logout */}
-        <div className="p-4 border-t border-gray-100">
+        <div className={`${sidebarCollapsed ? "p-2" : "p-4"} border-t border-gray-200`}>
           {!sidebarCollapsed && (
-            <div className="flex items-center gap-3 mb-4 p-3 bg-gray-50 rounded-lg">
+            <div className="flex items-center gap-3 mb-4 p-3 bg-gray-50 rounded-lg border border-gray-200">
               <div className="w-8 h-8 bg-[#002764] rounded-full flex items-center justify-center text-white text-sm font-medium">
                 {user?.name?.charAt(0)}
               </div>
@@ -330,7 +341,7 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
             </div>
           )}
 
-          {/* Notifications in Sidebar */}
+          {/* Notifications in Sidebar - Simple indicator only */}
           {!sidebarCollapsed && (
             <div className="mb-4">
               <button
@@ -345,68 +356,33 @@ function DashboardContent({ children }: { children: React.ReactNode }) {
                   <span className="w-2 h-2 bg-red-500 rounded-full"></span>
                 )}
               </button>
-
-              {/* Notifications Dropdown in Sidebar */}
-              {showNotifications && (
-                <div className="mt-2 bg-gray-50 rounded-lg border border-gray-200">
-                  <div className="p-3 border-b border-gray-200">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-gray-900">
-                        الإشعارات
-                      </span>
-                      <span className="text-xs bg-[#002764] text-white px-2 py-1 rounded-full">
-                        {notifications.filter((n) => n.unread).length}
-                      </span>
-                    </div>
-                  </div>
-                  <div className="max-h-48 overflow-y-auto">
-                    {notifications.map((notification) => (
-                      <div
-                        key={notification.id}
-                        className={`p-3 border-b border-gray-100 last:border-b-0 hover:bg-gray-100 cursor-pointer ${
-                          notification.unread ? "bg-blue-50/50" : ""
-                        }`}
-                      >
-                        <div className="flex items-start gap-2">
-                          <div
-                            className={`w-1.5 h-1.5 rounded-full mt-2 ${
-                              notification.unread
-                                ? "bg-[#002764]"
-                                : "bg-gray-300"
-                            }`}
-                          ></div>
-                          <div className="flex-1 min-w-0">
-                            <p className="text-xs font-medium text-gray-900 line-clamp-2">
-                              {notification.title}
-                            </p>
-                            <p className="text-xs text-gray-500 mt-1">
-                              {notification.time}
-                            </p>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              )}
             </div>
           )}
 
           <button
             onClick={handleLogout}
-            className={`w-full flex items-center gap-3 px-4 py-3 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all duration-200 ${
-              sidebarCollapsed ? "justify-center" : ""
+            className={`group w-full flex items-center gap-3 text-sm font-medium text-gray-700 hover:bg-red-50 hover:text-red-600 rounded-lg transition-all duration-200 relative ${
+              sidebarCollapsed ? "justify-center p-3 hover:shadow-md" : "px-4 py-3"
             }`}
             title={sidebarCollapsed ? "تسجيل الخروج" : undefined}
           >
             <LogoutIcon />
             {!sidebarCollapsed && "تسجيل الخروج"}
+            {sidebarCollapsed && (
+              <div className="absolute right-full mr-2 px-2 py-1 bg-gray-900 text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity duration-200 pointer-events-none whitespace-nowrap z-50">
+                تسجيل الخروج
+              </div>
+            )}
           </button>
         </div>
       </div>
 
       {/* Main Content Area */}
-      <div className="flex-1 flex flex-col overflow-hidden">
+      <div 
+        className={`flex-1 flex flex-col overflow-hidden transition-all duration-300 ${
+          sidebarCollapsed ? "mr-16" : "mr-64"
+        }`}
+      >
         {/* Main Content */}
         <main className="flex-1 overflow-y-auto bg-gray-50 p-6">
           {children}

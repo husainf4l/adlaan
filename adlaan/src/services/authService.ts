@@ -1,6 +1,7 @@
 // Authentication service for NestJS backend integration
 
 import { API_CONFIG } from '@/lib/constants';
+import { documentService } from './documentService';
 import type { 
   GoogleSignInRequest, 
   AuthResponse, 
@@ -155,8 +156,12 @@ class AuthService {
       console.log('💾 Storing access token in localStorage');
       this.setToken(result.tokens.accessToken);
       
+      // Update document service with new tokens
+      console.log('📁 Setting document service tokens');
+      documentService.setTokens(result.tokens.accessToken, result.tokens.refreshToken);
+      
       if (result.tokens.refreshToken) {
-        console.log('� Storing refresh token in localStorage');
+        console.log('🔄 Storing refresh token in localStorage');
         localStorage.setItem('refresh_token', result.tokens.refreshToken);
       }
     } else {
@@ -241,12 +246,16 @@ class AuthService {
 
       // Remove token from localStorage regardless of backend response
       this.removeToken();
+      // Also clear document service tokens
+      documentService.clearTokens();
       console.log("🔐 Logout successful - access token removed");
       
       return response;
     } catch (error) {
       // Remove token even if backend call fails
       this.removeToken();
+      // Also clear document service tokens
+      documentService.clearTokens();
       console.log("🔐 Logout - access token removed (backend call failed)");
       throw error;
     }

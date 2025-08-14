@@ -7,10 +7,19 @@ import { GlobalExceptionFilter } from './common/filters/global-exception.filter'
 import { LoggingInterceptor } from './common/interceptors/logging.interceptor';
 
 async function bootstrap() {
-  // Create Fastify application
+  // Configure BigInt serialization for JSON
+  (BigInt.prototype as any).toJSON = function() {
+    return this.toString();
+  };
+
+  // Create Fastify application with ignoreTrailingSlash and disableRequestLogging
   const app = await NestFactory.create<NestFastifyApplication>(
     AppModule,
-    new FastifyAdapter({ logger: false }), // Disable fastify logger to use NestJS logger
+    new FastifyAdapter({ 
+      logger: false,
+      ignoreTrailingSlash: true,
+      disableRequestLogging: true,
+    }), // Disable fastify logger to use NestJS logger
   );
   
   const logger = new Logger('Bootstrap');
@@ -18,6 +27,14 @@ async function bootstrap() {
   // Register Fastify plugins
   await app.register(require('@fastify/cookie'), {
     secret: process.env.JWT_SECRET || 'my-secret-key', // for signed cookies
+  });
+
+  // Register multipart plugin for file uploads
+  await app.register(require('@fastify/multipart'), {
+    limits: {
+      fileSize: 50 * 1024 * 1024, // 50MB file size limit
+      files: 10, // Maximum number of files
+    },
   });
   
   // Enable CORS with Fastify
@@ -41,6 +58,17 @@ async function bootstrap() {
   
   // Global logging interceptor
   app.useGlobalInterceptors(new LoggingInterceptor());
+
+  // Add Fastify hook to handle empty JSON bodies - using onRequest hook which runs earlier
+  app.getHttpAdapter().getInstance().addHook('onRequest', async (request: any, reply: any) => {
+    if (request.method === 'DELETE' && 
+        request.headers['content-type'] === 'application/json') {
+      // Remove content-type header for DELETE requests with no body to avoid parser issues
+      if (!request.headers['content-length'] || request.headers['content-length'] === '0') {
+        delete request.headers['content-type'];
+      }
+    }
+  });
   
   // Set global API prefix
   app.setGlobalPrefix('api');

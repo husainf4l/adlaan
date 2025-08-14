@@ -36,6 +36,12 @@ model User {
   // Company ownership - for users who own companies
   ownedCompanies Company[] @relation("CompanyOwner")
 
+  // Document relationships
+  createdDocuments    DocumentItem[]       @relation("DocumentCreatedBy")
+  modifiedDocuments   DocumentItem[]       @relation("DocumentModifiedBy")
+  documentPermissions DocumentPermission[]
+  documentVersions    DocumentVersion[]
+
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
@@ -46,12 +52,18 @@ model User {
 model Company {
   id          String  @id @default(cuid())
   name        String
+  nameEn      String? // English company name
   description String?
   logo        String?
-  email       String?
+  email       String? @unique
   phone       String?
   address     String?
+  addressEn   String? // English address
   website     String?
+  
+  // Additional profile fields
+  taxNumber           String? // Tax registration number
+  commercialRegister  String? // Commercial register number
 
   // Company owner/creator
   ownerId String
@@ -64,6 +76,12 @@ model Company {
   subscriptionId String?       @unique
   subscription   Subscription? @relation(fields: [subscriptionId], references: [id])
 
+  // Document relationship
+  documents DocumentItem[]
+  
+  // Document layouts relationship
+  documentLayouts DocumentLayout[]
+
   // Company settings
   isActive Boolean @default(true)
 
@@ -71,6 +89,28 @@ model Company {
   updatedAt DateTime @updatedAt
 
   @@map("companies")
+}
+
+// Document Layout model
+model DocumentLayout {
+  id             String @id @default(cuid())
+  name           String
+  headerTemplate String @db.Text // HTML template for document header
+  footerTemplate String @db.Text // HTML template for document footer
+  margins        Json   // Object containing top, bottom, left, right margins in pixels
+  fontSize       Int    @default(14) // Font size in pixels
+  fontFamily     String @default("Arial, sans-serif") // Font family CSS value
+  isDefault      Boolean @default(false) // Whether this is the default layout
+  isActive       Boolean @default(true) // Soft delete flag
+
+  // Company relationship
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("document_layouts")
 }
 
 // Subscription model
@@ -158,4 +198,119 @@ enum BillingCycle {
   MONTHLY
   YEARLY
   LIFETIME
+}
+
+// Document Management Models
+model DocumentItem {
+  id       String           @id @default(cuid())
+  name     String
+  type     DocumentItemType
+  parentId String?
+
+  // Hierarchy relationship
+  parent   DocumentItem?  @relation("DocumentHierarchy", fields: [parentId], references: [id])
+  children DocumentItem[] @relation("DocumentHierarchy")
+
+  // File-specific fields (only for files)
+  size         BigInt?
+  mimeType     String?
+  extension    String?
+  checksum     String?
+  version      Int?     @default(1)
+  isLocked     Boolean? @default(false)
+  downloadUrl  String?
+  previewUrl   String?
+  thumbnailUrl String?
+
+  // Storage information (for files stored in S3)
+  s3Key String? // S3 object key for file operations
+
+  // Folder-specific fields (only for folders)
+  color       String?
+  description String?
+
+  // Common metadata
+  path         String
+  documentType DocumentType? @default(OTHER)
+  isStarred    Boolean       @default(false)
+  isShared     Boolean       @default(false)
+  tags         String[]
+
+  // User relationships
+  createdById      String
+  lastModifiedById String
+  createdBy        User   @relation("DocumentCreatedBy", fields: [createdById], references: [id])
+  lastModifiedBy   User   @relation("DocumentModifiedBy", fields: [lastModifiedById], references: [id])
+
+  // Company relationship
+  companyId String
+  company   Company @relation(fields: [companyId], references: [id])
+
+  // Permissions
+  permissions DocumentPermission[]
+
+  // File versions (for files only)
+  versions DocumentVersion[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("document_items")
+}
+
+model DocumentPermission {
+  id     String                 @id @default(cuid())
+  itemId String
+  userId String
+  role   DocumentPermissionRole
+
+  item DocumentItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  user User         @relation(fields: [userId], references: [id])
+
+  createdAt DateTime @default(now())
+
+  @@unique([itemId, userId])
+  @@map("document_permissions")
+}
+
+model DocumentVersion {
+  id       String  @id @default(cuid())
+  itemId   String
+  version  Int
+  size     BigInt
+  checksum String
+  url      String
+  comment  String?
+
+  item      DocumentItem @relation(fields: [itemId], references: [id], onDelete: Cascade)
+  createdBy User         @relation(fields: [createdById], references: [id])
+
+  createdById String
+  createdAt   DateTime @default(now())
+
+  @@unique([itemId, version])
+  @@map("document_versions")
+}
+
+enum DocumentItemType {
+  FILE
+  FOLDER
+}
+
+enum DocumentType {
+  CONTRACT
+  INVOICE
+  PROPOSAL
+  REPORT
+  PRESENTATION
+  SPREADSHEET
+  IMAGE
+  PDF
+  OTHER
+}
+
+enum DocumentPermissionRole {
+  OWNER
+  EDITOR
+  VIEWER
 }

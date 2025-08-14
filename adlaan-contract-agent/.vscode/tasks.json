@@ -1,0 +1,19 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "Run Adlaan FastAPI",
+      "type": "shell",
+      "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+      },
+      "command": "zsh",
+      "args": [
+        "-lc",
+        "if [ -f .venv/bin/activate ]; then source .venv/bin/activate && exec uvicorn main:app --reload --host 127.0.0.1 --port 8000; else exec uvicorn main:app --reload --host 127.0.0.1 --port 8000; fi"
+      ],
+      "problemMatcher": []
+    }
+  ]
+}
