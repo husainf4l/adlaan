@@ -9,8 +9,14 @@ langgraph-prebuilt==0.6.4
 langgraph-sdk==0.2.0
 langsmith==0.4.14
 
+# PostgreSQL checkpointer for LangGraph
+langgraph-checkpoint-postgres
+
 # Google AI integration
 langchain-google-genai
+
+# HTTP client for search functionality
+httpx
 
 # Environment loading
 python-dotenv

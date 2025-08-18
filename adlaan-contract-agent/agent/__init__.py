@@ -1,18 +1,25 @@
 """
-Agent package for contract generation workflows.
-
-This package contains the LangGraph-based agent architecture including:
-- Graph definition and workflow orchestration
-- Node implementations for contract generation
-- Tool definitions for legal compliance
-- Core infrastructure (state, config, LLM)
+Adlaan Contract Agent.
+A specialized agent for Arabic and English contract generation and analysis.
 """
 
-from .graph import create_streaming_graph
-from .core import ContractAgentState, AgentConfig
+# Import main components from reorganized structure
+from .nodes import get_graph, chat_node, contract_analysis_node
+from .tools import get_llm, extract_content_type, sanitize_user_input
+from .state import AgentState
+from .contract_types import ContractSection, ContractMetadata, ContractDelta
+
+__version__ = "1.0.0"
 
 __all__ = [
-    "create_streaming_graph",
-    "ContractAgentState", 
-    "AgentConfig",
+    "get_graph",
+    "chat_node",
+    "contract_analysis_node",
+    "get_llm",
+    "extract_content_type",
+    "sanitize_user_input",
+    "AgentState",
+    "ContractSection",
+    "ContractMetadata",
+    "ContractDelta",
 ]

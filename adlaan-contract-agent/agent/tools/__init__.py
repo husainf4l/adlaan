@@ -1,41 +1,44 @@
 """
-Contract generation tools package.
-
-Provides tools for creating legal contracts with jurisdiction-specific
-compliance for Jordan, KSA, and Dubai.
+Agent tools package.
+Contains utility functions and configurations for the agent.
 """
 
-from .contract_generation import (
-    identify_contract_type,
-    get_jurisdiction_requirements,
-    generate_information_questions,
-    generate_contract_clause,
-    validate_contract_completeness,
+from .llm_config import (
+    get_llm,
+    get_streaming_response,
+    CONTRACT_SYSTEM_PROMPT,
+    ARABIC_CONTRACT_PROMPT,
 )
-
-from .database import (
-    store_client_session,
-    retrieve_client_session,
-    save_contract_draft,
-    get_contract_templates,
+from .content_utils import (
+    extract_content_type,
+    is_contract_content,
+    classify_content_batch,
 )
-
-from .registry import contract_tool_registry
+from .validation import (
+    validate_contract_section,
+    validate_contract_metadata,
+    sanitize_user_input,
+)
+from .search_tool import (
+    web_search,
+    contract_research,
+    legal_precedent_search,
+    GoogleSearchTool,
+)
 
 __all__ = [
-    # Contract generation tools
-    "identify_contract_type",
-    "get_jurisdiction_requirements", 
-    "generate_information_questions",
-    "generate_contract_clause",
-    "validate_contract_completeness",
-    
-    # Database tools
-    "store_client_session",
-    "retrieve_client_session",
-    "save_contract_draft",
-    "get_contract_templates",
-    
-    # Registry
-    "contract_tool_registry",
+    "get_llm",
+    "get_streaming_response",
+    "CONTRACT_SYSTEM_PROMPT",
+    "ARABIC_CONTRACT_PROMPT",
+    "extract_content_type",
+    "is_contract_content",
+    "classify_content_batch",
+    "validate_contract_section",
+    "validate_contract_metadata",
+    "sanitize_user_input",
+    "web_search",
+    "contract_research",
+    "legal_precedent_search",
+    "GoogleSearchTool",
 ]

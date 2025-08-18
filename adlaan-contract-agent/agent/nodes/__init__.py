@@ -1,36 +1,19 @@
 """
-Contract generation workflow nodes.
-
-Provides streaming nodes for interactive contract generation including
-type identification, information gathering, and document creation.
+Agent nodes package.
+Contains graph node implementations for different processing modes.
 """
 
-from .contract_generation import (
-    stream_router_node,
-    stream_type_identification_node,
-    stream_information_gathering_node,
-    stream_contract_generation_node,
-    stream_final_response_node,
-)
-
-from .registry import (
-    contract_node_registry,
-    get_all_nodes,
-    get_node_by_name,
-    get_node_names,
-)
+from .chat_node import chat_node, streaming_chat_node, enhanced_chat_node
+from .contract_analysis_node import contract_analysis_node, extract_contract_sections
+from .graph import get_graph, default_graph, streaming_graph
 
 __all__ = [
-    # Contract generation nodes
-    "stream_router_node",
-    "stream_type_identification_node",
-    "stream_information_gathering_node", 
-    "stream_contract_generation_node",
-    "stream_final_response_node",
-    
-    # Registry and utilities
-    "contract_node_registry",
-    "get_all_nodes",
-    "get_node_by_name", 
-    "get_node_names",
+    "chat_node",
+    "streaming_chat_node",
+    "enhanced_chat_node",
+    "contract_analysis_node",
+    "extract_contract_sections",
+    "get_graph",
+    "default_graph",
+    "streaming_graph",
 ]

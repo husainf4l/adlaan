@@ -1,39 +1,36 @@
 """
-State management for the contract agent.
-
-Defines the core state structure that flows through the agent workflow.
+State definition for the LangGraph agent.
+Following LangGraph best practices for state management.
 """
 
-from typing import List, Dict, Any, Optional
-from typing_extensions import TypedDict
+from typing import TypedDict, List, Dict, Any, Optional
+from langgraph.graph.message import add_messages
+from langchain_core.messages import BaseMessage
 
 
-class ContractAgentState(TypedDict):
+class AgentState(TypedDict):
     """
-    State object that flows through the agent workflow.
+    Clean state definition following LangGraph best practices.
 
-    This represents the complete state of a contract processing session,
-    including messages, context, and intermediate results.
+    This state contains only the essential fields needed for a streaming agent:
+    - messages: Conversation history with automatic message aggregation
+    - current_message: The current user message being processed
+    - response_buffer: Buffer for streaming response chunks
+    - metadata: Optional metadata for the conversation
     """
 
-    # Core conversation state
-    messages: List[Dict[str, Any]]
+    # Messages with automatic aggregation using LangGraph's add_messages
+    messages: List[BaseMessage]
 
-    # Contract-specific context
-    contract_text: Optional[str] = None
-    contract_metadata: Optional[Dict[str, Any]] = None
+    # Current message being processed
+    current_message: str
 
-    # Processing state
-    current_step: str = "start"
-    processing_status: str = "pending"
+    # Buffer for streaming response chunks
+    response_buffer: str
 
-    # Tool outputs and intermediate results
-    tool_outputs: Dict[str, Any] = {}
-    analysis_results: Dict[str, Any] = {}
+    # Optional metadata
+    metadata: Optional[Dict[str, Any]]
 
-    # Error handling
-    errors: List[str] = []
 
-    # Session metadata
-    session_id: Optional[str] = None
-    user_id: Optional[str] = None
+# Configure message aggregation following LangGraph best practices
+AgentState.__annotations__["messages"] = add_messages
