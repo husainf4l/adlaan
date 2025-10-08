@@ -1,0 +1,98 @@
+{% load i18n %}
+{% load static %}
+{% get_current_language as LANGUAGE_CODE %}
+{% get_current_language_bidi as LANGUAGE_BIDI %}
+<!DOCTYPE html>
+<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}{% trans "Adlaan App" %}{% endblock %}</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <style>
+        /* RTL support for Arabic */
+        [dir="rtl"] {
+            text-align: right;
+        }
+        [dir="rtl"] .space-x-8 > * + * {
+            margin-left: 0;
+            margin-right: 2rem;
+        }
+        [dir="rtl"] .space-x-6 > * + * {
+            margin-left: 0;
+            margin-right: 1.5rem;
+        }
+        [dir="rtl"] .space-x-4 > * + * {
+            margin-left: 0;
+            margin-right: 1rem;
+        }
+        [dir="rtl"] .space-x-3 > * + * {
+            margin-left: 0;
+            margin-right: 0.75rem;
+        }
+        /* Ensure proper Arabic font rendering */
+        [dir="rtl"] body {
+            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+        }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="bg-gray-50 text-gray-900 font-sans antialiased">
+    <header>
+        {% include 'components/navbar.html' %}
+    </header>
+
+    <main class="flex-1">
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer class="bg-white border-t border-gray-200">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+            <div class="text-center text-gray-600">
+                <p>&copy; 2025 {% trans "Adlaan App. All rights reserved." %}</p>
+            </div>
+        </div>
+    </footer>
+
+    {% block extra_scripts %}
+    <script>
+        // Mobile menu toggle with Tailwind
+        document.addEventListener('DOMContentLoaded', function() {
+            const mobileMenuButton = document.querySelector('.mobile-menu-button');
+            const mobileMenu = document.querySelector('.mobile-menu');
+            const hamburgerIcon = mobileMenuButton?.querySelector('svg:first-child');
+            const closeIcon = mobileMenuButton?.querySelector('svg:last-child');
+
+            if (mobileMenuButton && mobileMenu) {
+                mobileMenuButton.addEventListener('click', function() {
+                    const isOpen = !mobileMenu.classList.contains('hidden');
+
+                    if (isOpen) {
+                        // Close menu
+                        mobileMenu.classList.add('hidden');
+                        hamburgerIcon?.classList.remove('hidden');
+                        closeIcon?.classList.add('hidden');
+                    } else {
+                        // Open menu
+                        mobileMenu.classList.remove('hidden');
+                        hamburgerIcon?.classList.add('hidden');
+                        closeIcon?.classList.remove('hidden');
+                    }
+                });
+            }
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function(event) {
+                if (!mobileMenuButton?.contains(event.target) && !mobileMenu?.contains(event.target)) {
+                    mobileMenu?.classList.add('hidden');
+                    hamburgerIcon?.classList.remove('hidden');
+                    closeIcon?.classList.add('hidden');
+                }
+            });
+        });
+    </script>
+    {% endblock %}
+</body>
+</body>
+</html>

@@ -1,0 +1,138 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block title %}{% trans "Home" %} - {% trans "Adlaan App" %}{% endblock %}
+
+{% block content %}
+<main class="min-h-screen bg-gradient-to-br from-gray-50 to-white">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+            <div class="text-center">
+                <h1 class="text-4xl sm:text-6xl lg:text-7xl font-bold text-gray-900 mb-6 tracking-tight">
+                    {% trans "AI-Powered Legal Solutions" %}
+                    <span class="block text-blue-600">{% trans "for the MENA Region" %}</span>
+                </h1>
+                <p class="text-xl sm:text-2xl text-gray-600 mb-8 max-w-3xl mx-auto leading-relaxed">
+                    {% trans "Empower your legal practice with cutting-edge AI technology designed specifically for Middle Eastern and North African legal systems." %}
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
+                    <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                        {% trans "Get Started" %}
+                    </button>
+                    <button class="border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 bg-white hover:bg-gray-50">
+                        {% trans "Learn More" %}
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Background decoration -->
+        <div class="absolute top-0 left-0 w-full h-full overflow-hidden -z-10">
+            <div class="absolute -top-40 -right-40 w-80 h-80 bg-blue-100 rounded-full opacity-20 blur-3xl"></div>
+            <div class="absolute -bottom-40 -left-40 w-80 h-80 bg-purple-100 rounded-full opacity-20 blur-3xl"></div>
+        </div>
+    </section>
+
+    <!-- HTMX Counter Demo Section -->
+    <section class="py-16 bg-white">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                    {% trans "HTMX Counter Demo" %}
+                </h2>
+                <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+                    {% trans "Experience seamless interactions without page refreshes. Click the buttons below to see HTMX in action." %}
+                </p>
+            </div>
+
+            <div class="bg-gradient-to-r from-blue-50 to-purple-50 rounded-3xl p-8 sm:p-12 shadow-xl">
+                <div class="flex flex-col items-center space-y-8">
+                    <!-- Counter Display -->
+                    <div class="bg-white rounded-2xl p-8 shadow-lg border border-gray-100">
+                        <div class="flex items-center justify-center space-x-6">
+                            <button
+                                hx-get="{% url 'counter' %}?action=decrement"
+                                hx-target="#counter-value"
+                                hx-swap="innerHTML"
+                                class="w-16 h-16 bg-red-500 hover:bg-red-600 text-white rounded-full flex items-center justify-center text-2xl font-bold transition-all duration-200 transform hover:scale-110 shadow-lg hover:shadow-xl"
+                            >
+                                −
+                            </button>
+
+                            <div class="bg-gray-50 rounded-xl px-8 py-4 min-w-[120px] text-center">
+                                <span id="counter-value" class="text-4xl font-bold text-gray-900">0</span>
+                            </div>
+
+                            <button
+                                hx-get="{% url 'counter' %}?action=increment"
+                                hx-target="#counter-value"
+                                hx-swap="innerHTML"
+                                class="w-16 h-16 bg-green-500 hover:bg-green-600 text-white rounded-full flex items-center justify-center text-2xl font-bold transition-all duration-200 transform hover:scale-110 shadow-lg hover:shadow-xl"
+                            >
+                                +
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="text-center max-w-md">
+                        <p class="text-gray-600 text-lg">
+                            {% trans "No page refreshes needed! HTMX handles the magic behind the scenes." %}
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section class="py-16 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-4">
+                    {% trans "Why Choose This Stack?" %}
+                </h2>
+                <p class="text-lg text-gray-600">
+                    {% trans "Modern technologies for modern web applications" %}
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Django -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Django</h3>
+                    <p class="text-gray-600">{% trans "Powerful backend framework with built-in security, ORM, and admin interface." %}</p>
+                </div>
+
+                <!-- HTMX -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-blue-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">HTMX</h3>
+                    <p class="text-gray-600">{% trans "Simple, elegant way to add interactivity without complex JavaScript frameworks." %}</p>
+                </div>
+
+                <!-- Tailwind CSS -->
+                <div class="bg-white rounded-2xl p-8 shadow-lg hover:shadow-xl transition-shadow duration-300">
+                    <div class="w-12 h-12 bg-cyan-100 rounded-xl flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-cyan-600" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2">Tailwind CSS</h3>
+                    <p class="text-gray-600">{% trans "Utility-first CSS framework for rapid, responsive, and maintainable styling." %}</p>
+                </div>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
