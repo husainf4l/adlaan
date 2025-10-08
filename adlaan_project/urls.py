@@ -17,18 +17,10 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 from django.contrib.auth import views as auth_views
-from django.conf.urls.i18n import i18n_patterns
-from django.views.i18n import set_language
 from . import views
 
-# URLs that don't need language prefix
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('i18n/setlang/', set_language, name='set_language'),  # Language switcher
-]
-
-# URLs with language prefix (e.g., /en/, /ar/)
-urlpatterns += i18n_patterns(
     path('', views.home, name='home'),
     path('counter/', views.counter, name='counter'),
     
@@ -36,4 +28,4 @@ urlpatterns += i18n_patterns(
     path('login/', views.login_view, name='login'),
     path('signup/', views.signup_view, name='signup'),
     path('logout/', views.logout_view, name='logout'),
-)
+]

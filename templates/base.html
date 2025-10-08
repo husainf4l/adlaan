@@ -1,44 +1,27 @@
-{% load i18n %}
 {% load static %}
-{% get_current_language as LANGUAGE_CODE %}
-{% get_current_language_bidi as LANGUAGE_BIDI %}
 <!DOCTYPE html>
-<html lang="{{ LANGUAGE_CODE }}" dir="{% if LANGUAGE_BIDI %}rtl{% else %}ltr{% endif %}">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{% block title %}{% trans "Adlaan App" %}{% endblock %}</title>
+    <title>{% block title %}Adlaan App{% endblock %}</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <style>
-        /* RTL support for Arabic */
-        [dir="rtl"] {
-            text-align: right;
+        @keyframes scroll {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
         }
-        [dir="rtl"] .space-x-8 > * + * {
-            margin-left: 0;
-            margin-right: 2rem;
+        .animate-scroll {
+            animation: scroll 30s linear infinite;
         }
-        [dir="rtl"] .space-x-6 > * + * {
-            margin-left: 0;
-            margin-right: 1.5rem;
-        }
-        [dir="rtl"] .space-x-4 > * + * {
-            margin-left: 0;
-            margin-right: 1rem;
-        }
-        [dir="rtl"] .space-x-3 > * + * {
-            margin-left: 0;
-            margin-right: 0.75rem;
-        }
-        /* Ensure proper Arabic font rendering */
-        [dir="rtl"] body {
-            font-family: 'Segoe UI', Tahoma, Arial, sans-serif;
+        .animate-scroll:hover {
+            animation-play-state: paused;
         }
     </style>
     {% block extra_head %}{% endblock %}
 </head>
-<body class="bg-gray-50 text-gray-900 font-sans antialiased">
+<body class="bg-gray-50 text-gray-900 font-sans antialiased pt-14">
     <header>
         {% include 'components/navbar.html' %}
     </header>
@@ -50,7 +33,7 @@
     <footer class="bg-white border-t border-gray-200">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
             <div class="text-center text-gray-600">
-                <p>&copy; 2025 {% trans "Adlaan App. All rights reserved." %}</p>
+                <p>&copy; 2025 Adlaan App. All rights reserved.</p>
             </div>
         </div>
     </footer>
@@ -91,6 +74,49 @@
                 }
             });
         });
+
+        // Domain selection function
+        function showDomain(domain) {
+            const content = document.getElementById('domain-content');
+            const text = document.getElementById('domain-text');
+            const image = document.getElementById('domain-image');
+
+            const domains = {
+                'innovation': {
+                    text: 'Our AI solutions help innovation and R&D departments accelerate product development cycles, protect intellectual property, and navigate complex regulatory landscapes with intelligent automation and predictive analytics.',
+                    image: 'bg-gradient-to-br from-blue-100 to-indigo-200'
+                },
+                'in-house': {
+                    text: 'Streamline corporate legal operations with AI-powered contract analysis, compliance monitoring, and risk assessment tools designed specifically for in-house legal teams managing high-volume workloads.',
+                    image: 'bg-gradient-to-br from-green-100 to-emerald-200'
+                },
+                'transactional': {
+                    text: 'Accelerate deal cycles with AI-driven due diligence, automated contract generation, and intelligent clause analysis for mergers, acquisitions, and complex commercial transactions.',
+                    image: 'bg-gradient-to-br from-purple-100 to-violet-200'
+                },
+                'litigation': {
+                    text: 'Win more cases with AI-powered case analysis, predictive outcomes modeling, evidence correlation, and automated brief generation for litigation and dispute resolution.',
+                    image: 'bg-gradient-to-br from-red-100 to-rose-200'
+                }
+            };
+
+            if (domains[domain]) {
+                text.innerHTML = `<p class="text-lg text-gray-700 font-sans leading-relaxed">${domains[domain].text}</p>`;
+                image.innerHTML = `
+                    <div class="w-full h-48 ${domains[domain].image} rounded-lg flex items-center justify-center">
+                        <div class="text-center">
+                            <div class="w-16 h-16 bg-white rounded-full mx-auto mb-2 flex items-center justify-center shadow-lg">
+                                <span class="text-2xl">${domain === 'innovation' ? '🧠' : domain === 'in-house' ? '🏢' : domain === 'transactional' ? '📄' : '⚖️'}</span>
+                            </div>
+                            <span class="text-gray-700 font-sans font-medium capitalize">${domain.replace('-', ' ')} Solutions</span>
+                        </div>
+                    </div>
+                `;
+
+                content.classList.remove('opacity-0', 'max-h-0');
+                content.classList.add('opacity-100', 'max-h-96');
+            }
+        }
     </script>
     {% endblock %}
 </body>
