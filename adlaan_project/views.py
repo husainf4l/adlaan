@@ -70,3 +70,43 @@ def logout_view(request):
     logout(request)
     messages.success(request, 'You have been logged out successfully.')
     return redirect('home')
+
+def overview(request):
+    """Platform Overview page"""
+    return render(request, 'platform/overview.html')
+
+def features(request):
+    """Platform Features page"""
+    return render(request, 'platform/features.html')
+
+def ai_engine(request):
+    """AI Engine page"""
+    return render(request, 'platform/ai_engine.html')
+
+def draft_review(request):
+    """Draft and Review Workflow page"""
+    return render(request, 'workflows/draft_review.html')
+
+def approve_store(request):
+    """Approve and Store Workflow page"""
+    return render(request, 'workflows/approve_store.html')
+
+def vault(request):
+    """Vault - Document Management page"""
+    return render(request, 'vault.html')
+
+def knowledge(request):
+    """Knowledge - Legal Research & Resources page"""
+    return render(request, 'knowledge.html')
+
+def outlook_integration(request):
+    """Outlook Integration page"""
+    return render(request, 'integrations/outlook.html')
+
+def word_integration(request):
+    """Word Integration page"""
+    return render(request, 'integrations/word.html')
+
+def teams_integration(request):
+    """Teams Integration page"""
+    return render(request, 'integrations/teams.html')

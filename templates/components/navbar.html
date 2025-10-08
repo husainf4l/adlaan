@@ -22,9 +22,9 @@
                         </a>
                         <div class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-200">
                             <div class="py-1">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Overview</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Features</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">AI Engine</a>
+                                <a href="{% url 'overview' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Overview</a>
+                                <a href="{% url 'features' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Features</a>
+                                <a href="{% url 'ai_engine' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">AI Engine</a>
                             </div>
                         </div>
                     </div>
@@ -39,23 +39,17 @@
                         </a>
                         <div class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-200">
                             <div class="py-1">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Draft → Review</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Approve → Store</a>
+                                <a href="{% url 'draft_review' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Draft → Review</a>
+                                <a href="{% url 'approve_store' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Approve → Store</a>
                             </div>
                         </div>
                     </div>
 
                     <!-- Vault -->
-                    <a href="#" class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors duration-200 relative">
-                        Vault
-                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-200 hover:w-full"></span>
-                    </a>
+                    <a href="{% url 'vault' %}" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Vault</a>
 
                     <!-- Knowledge -->
-                    <a href="#" class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors duration-200 relative">
-                        Knowledge
-                        <span class="absolute bottom-0 left-0 w-0 h-0.5 bg-gray-900 transition-all duration-200 hover:w-full"></span>
-                    </a>
+                    <a href="{% url 'knowledge' %}" class="text-gray-600 hover:text-gray-900 px-3 py-2 rounded-md text-sm font-medium transition-colors">Knowledge</a>
 
                     <!-- Microsoft Integrations Dropdown -->
                     <div class="relative group">
@@ -67,9 +61,9 @@
                         </a>
                         <div class="absolute left-0 mt-1 w-48 bg-white rounded-md shadow-lg opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200 border border-gray-200">
                             <div class="py-1">
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Outlook</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Word</a>
-                                <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Teams</a>
+                                <a href="{% url 'outlook_integration' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Outlook</a>
+                                <a href="{% url 'word_integration' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Word</a>
+                                <a href="{% url 'teams_integration' %}" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-50 hover:text-gray-900">Teams</a>
                             </div>
                         </div>
                     </div>
@@ -88,8 +82,8 @@
                         <a href="{% url 'login' %}" class="text-gray-700 hover:text-gray-900 px-3 py-2 text-sm font-medium transition-colors duration-200 mr-4">
                             Sign In
                         </a>
-                        <a href="#" class="bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-200">
-                            Request a Demo
+                        <a href="#" class="bg-black hover:bg-gray-800 text-white px-6 py-2 rounded-full text-sm font-medium transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl">
+                            🚀 Request a Demo
                         </a>
                     {% endif %}
                 </div>
@@ -118,27 +112,27 @@
             <!-- Platform -->
             <div class="space-y-1">
                 <div class="text-gray-900 px-3 py-2 text-base font-medium">Platform</div>
-                <a href="#" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Overview</a>
-                <a href="#" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Features</a>
-                <a href="#" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">AI Engine</a>
+                <a href="{% url 'overview' %}" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Overview</a>
+                <a href="{% url 'features' %}" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Features</a>
+                <a href="{% url 'ai_engine' %}" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">AI Engine</a>
             </div>
 
             <!-- Workflows -->
             <div class="space-y-1">
                 <div class="text-gray-900 px-3 py-2 text-base font-medium">Workflows</div>
-                <a href="#" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Draft → Review</a>
-                <a href="#" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Approve → Store</a>
+                <a href="{% url 'draft_review' %}" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Draft → Review</a>
+                <a href="{% url 'approve_store' %}" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Approve → Store</a>
             </div>
 
-            <a href="#" class="text-gray-900 hover:text-gray-900 block px-3 py-2 text-base font-medium">Vault</a>
-            <a href="#" class="text-gray-900 hover:text-gray-900 block px-3 py-2 text-base font-medium">Knowledge</a>
+            <a href="{% url 'vault' %}" class="text-gray-900 hover:text-gray-900 block px-3 py-2 text-base font-medium">Vault</a>
+            <a href="{% url 'knowledge' %}" class="text-gray-900 hover:text-gray-900 block px-3 py-2 text-base font-medium">Knowledge</a>
 
             <!-- Integrations -->
             <div class="space-y-1">
                 <div class="text-gray-900 px-3 py-2 text-base font-medium">Integrations</div>
-                <a href="#" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Outlook</a>
-                <a href="#" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Word</a>
-                <a href="#" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Teams</a>
+                <a href="{% url 'outlook_integration' %}" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Outlook</a>
+                <a href="{% url 'word_integration' %}" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Word</a>
+                <a href="{% url 'teams_integration' %}" class="text-gray-600 hover:text-gray-900 block px-6 py-1 text-sm">Teams</a>
             </div>
             
             <div class="pt-4 pb-3 border-t border-gray-200 space-y-2">
@@ -150,8 +144,8 @@
                         Logout
                     </a>
                 {% else %}
-                    <a href="#" class="w-full block text-center bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-md text-sm font-medium transition-all duration-200 mb-2">
-                        Request a Demo
+                    <a href="#" class="w-full block text-center bg-black hover:bg-gray-800 text-white px-4 py-2 rounded-full text-sm font-medium transition-all duration-200 mb-2 transform hover:scale-105">
+                        🚀 Request a Demo
                     </a>
                     <a href="{% url 'login' %}" class="w-full block text-center border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-md text-sm font-medium transition-all duration-200">
                         Sign In
