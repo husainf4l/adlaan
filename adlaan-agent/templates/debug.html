@@ -6,7 +6,32 @@
     <title>Legal Agent - Adlaan</title>
     <script src="https://unpkg.com/htmx.org@1.9.10"></script>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/fo            eventSource.onerror = function(event) {
+                updateWorkflowStep('error');
+                statusBar.innerHTML = `
+                    <div class="flex items-center text-red-400">
+                        <i class="fas fa-exclamation-circle mr-2"></i>
+                        <span>Connection error - please try again</span>
+                    </div>
+                `;
+                eventSource.close();
+            };
+
+            input.value = '';
+            input.focus();
+        }
+
+        // Initialize workflow visualization on page load
+        document.addEventListener('DOMContentLoaded', function() {
+            updateWorkflowStep('default');
+        });
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (eventSource) {
+                eventSource.close();
+            }
+        });/all.min.css" rel="stylesheet">
     <style>
         .message-user { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
         .message-agent { background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%); }
@@ -35,6 +60,71 @@
             <div class="flex items-center text-gray-400">
                 <i class="fas fa-circle text-gray-500 mr-2"></i>
                 <span>Ready to assist with legal matters</span>
+            </div>
+        </div>
+
+        <!-- Workflow Visualization -->
+        <div class="bg-gray-800/50 backdrop-blur-sm rounded-xl border border-gray-700/50 shadow-2xl overflow-hidden mb-6">
+            <div class="p-4 border-b border-gray-700/50 bg-gradient-to-r from-gray-800 to-gray-700">
+                <div class="flex items-center">
+                    <i class="fas fa-project-diagram text-purple-400 mr-2"></i>
+                    <h3 class="text-lg font-semibold text-white">Agent Workflow</h3>
+                </div>
+            </div>
+            <div class="p-6">
+                <div id="workflow-visualization" class="flex items-center justify-center space-x-4">
+                    <!-- Thinking Node -->
+                    <div id="thinking-node" class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-gray-600 border-2 border-gray-500 flex items-center justify-center transition-all duration-300">
+                            <i class="fas fa-brain text-gray-400 text-xl"></i>
+                        </div>
+                        <span class="text-xs text-gray-400 mt-2">Thinking</span>
+                    </div>
+                    
+                    <!-- Arrow 1 -->
+                    <div class="flex items-center">
+                        <i class="fas fa-arrow-right text-gray-600 text-xl"></i>
+                    </div>
+                    
+                    <!-- Planning Node -->
+                    <div id="planning-node" class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-gray-600 border-2 border-gray-500 flex items-center justify-center transition-all duration-300">
+                            <i class="fas fa-list-check text-gray-400 text-xl"></i>
+                        </div>
+                        <span class="text-xs text-gray-400 mt-2">Planning</span>
+                    </div>
+                    
+                    <!-- Arrow 2 -->
+                    <div class="flex items-center">
+                        <i class="fas fa-arrow-right text-gray-600 text-xl"></i>
+                    </div>
+                    
+                    <!-- Execution Node -->
+                    <div id="execution-node" class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-gray-600 border-2 border-gray-500 flex items-center justify-center transition-all duration-300">
+                            <i class="fas fa-gavel text-gray-400 text-xl"></i>
+                        </div>
+                        <span class="text-xs text-gray-400 mt-2">Execution</span>
+                    </div>
+                    
+                    <!-- Arrow 3 -->
+                    <div class="flex items-center">
+                        <i class="fas fa-arrow-right text-gray-600 text-xl"></i>
+                    </div>
+                    
+                    <!-- Final Step Node -->
+                    <div id="final-node" class="flex flex-col items-center">
+                        <div class="w-16 h-16 rounded-full bg-gray-600 border-2 border-gray-500 flex items-center justify-center transition-all duration-300">
+                            <i class="fas fa-check-circle text-gray-400 text-xl"></i>
+                        </div>
+                        <span class="text-xs text-gray-400 mt-2">Complete</span>
+                    </div>
+                </div>
+                
+                <!-- Current Step Indicator -->
+                <div id="current-step" class="text-center mt-4">
+                    <span class="text-sm text-gray-400">Ready to process your request</span>
+                </div>
             </div>
         </div>
 
@@ -109,6 +199,56 @@
     <script>
         let eventSource = null;
 
+        // Workflow visualization functions
+        function updateWorkflowStep(step) {
+            // Reset all nodes
+            document.querySelectorAll('#workflow-visualization .w-16').forEach(node => {
+                node.className = 'w-16 h-16 rounded-full bg-gray-600 border-2 border-gray-500 flex items-center justify-center transition-all duration-300';
+            });
+            
+            const stepIndicator = document.getElementById('current-step');
+            
+            switch(step) {
+                case 'thinking':
+                    document.querySelector('#thinking-node .w-16').className = 'w-16 h-16 rounded-full bg-blue-600 border-2 border-blue-400 flex items-center justify-center transition-all duration-300 animate-pulse';
+                    document.querySelector('#thinking-node i').className = 'fas fa-brain text-blue-100 text-xl';
+                    stepIndicator.innerHTML = '<span class="text-sm text-blue-400">🧠 Analyzing your request...</span>';
+                    break;
+                case 'planning':
+                    document.querySelector('#thinking-node .w-16').className = 'w-16 h-16 rounded-full bg-green-600 border-2 border-green-400 flex items-center justify-center transition-all duration-300';
+                    document.querySelector('#thinking-node i').className = 'fas fa-brain text-green-100 text-xl';
+                    document.querySelector('#planning-node .w-16').className = 'w-16 h-16 rounded-full bg-yellow-600 border-2 border-yellow-400 flex items-center justify-center transition-all duration-300 animate-pulse';
+                    document.querySelector('#planning-node i').className = 'fas fa-list-check text-yellow-100 text-xl';
+                    stepIndicator.innerHTML = '<span class="text-sm text-yellow-400">📋 Creating execution plan...</span>';
+                    break;
+                case 'execution':
+                    document.querySelector('#thinking-node .w-16').className = 'w-16 h-16 rounded-full bg-green-600 border-2 border-green-400 flex items-center justify-center transition-all duration-300';
+                    document.querySelector('#thinking-node i').className = 'fas fa-brain text-green-100 text-xl';
+                    document.querySelector('#planning-node .w-16').className = 'w-16 h-16 rounded-full bg-green-600 border-2 border-green-400 flex items-center justify-center transition-all duration-300';
+                    document.querySelector('#planning-node i').className = 'fas fa-list-check text-green-100 text-xl';
+                    document.querySelector('#execution-node .w-16').className = 'w-16 h-16 rounded-full bg-purple-600 border-2 border-purple-400 flex items-center justify-center transition-all duration-300 animate-pulse';
+                    document.querySelector('#execution-node i').className = 'fas fa-gavel text-purple-100 text-xl';
+                    stepIndicator.innerHTML = '<span class="text-sm text-purple-400">⚡ Executing legal analysis...</span>';
+                    break;
+                case 'complete':
+                    document.querySelectorAll('#workflow-visualization .w-16').forEach(node => {
+                        node.className = 'w-16 h-16 rounded-full bg-green-600 border-2 border-green-400 flex items-center justify-center transition-all duration-300';
+                    });
+                    document.querySelectorAll('#workflow-visualization i').forEach(icon => {
+                        icon.className = icon.className.replace('text-gray-400', 'text-green-100');
+                    });
+                    document.querySelector('#final-node .w-16').className = 'w-16 h-16 rounded-full bg-green-500 border-2 border-green-300 flex items-center justify-center transition-all duration-300 shadow-lg';
+                    document.querySelector('#final-node i').className = 'fas fa-check-circle text-green-100 text-xl';
+                    stepIndicator.innerHTML = '<span class="text-sm text-green-400">✅ Response completed successfully!</span>';
+                    break;
+                case 'error':
+                    stepIndicator.innerHTML = '<span class="text-sm text-red-400">❌ Error occurred during processing</span>';
+                    break;
+                default:
+                    stepIndicator.innerHTML = '<span class="text-sm text-gray-400">Ready to process your request</span>';
+            }
+        }
+
         function sendMessage() {
             const input = document.getElementById('message-input');
             const message = input.value.trim();
@@ -117,6 +257,9 @@
 
             const statusBar = document.getElementById('status-bar');
             const chatArea = document.getElementById('chat-area');
+
+            // Start workflow visualization
+            updateWorkflowStep('thinking');
 
             // Add user message to chat
             const userMessageDiv = document.createElement('div');
@@ -136,6 +279,10 @@
                     <span>Legal Agent is analyzing your request...</span>
                 </div>
             `;
+
+            // Simulate workflow progression with timeouts
+            setTimeout(() => updateWorkflowStep('planning'), 1500);
+            setTimeout(() => updateWorkflowStep('execution'), 3000);
 
             // Close any existing connection
             if (eventSource) {
@@ -158,22 +305,72 @@
                         accumulatedContent = '';
                         currentMessageDiv = null;
                         currentDocDiv = null;
+                        
+                        // Show typing indicator for immediate feedback
+                        currentMessageDiv = document.createElement('div');
+                        currentMessageDiv.className = 'flex justify-start mb-3';
+                        currentMessageDiv.innerHTML = `
+                            <div class="message-agent text-white px-4 py-2 rounded-lg max-w-lg shadow-lg">
+                                <div class="font-semibold text-sm mb-1 flex items-center">
+                                    <i class="fas fa-robot mr-1"></i>Legal Agent
+                                    <span class="ml-2 text-xs text-blue-400">
+                                        <i class="fas fa-circle animate-pulse"></i> Thinking...
+                                    </span>
+                                </div>
+                                <div class="message-content">
+                                    <div class="flex items-center text-gray-300">
+                                        <div class="typing-indicator flex space-x-1">
+                                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
+                                            <div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                                        </div>
+                                        <span class="ml-2">AI is crafting your response...</span>
+                                    </div>
+                                </div>
+                            </div>
+                        `;
+                        chatArea.appendChild(currentMessageDiv);
+                        chatArea.scrollTop = chatArea.scrollHeight;
+                        
                     } else if (data.type === 'token') {
-                        // Accumulate tokens for real-time streaming display
+                        // Accumulate tokens and show streaming
                         accumulatedContent += data.content;
                         
-                        // Try to parse as JSON to determine if it's a message or doc
+                        // Replace loading indicator with streaming content on first token
+                        if (currentMessageDiv && currentMessageDiv.querySelector('.fa-spinner')) {
+                            currentMessageDiv.innerHTML = `
+                                <div class="message-agent text-white px-4 py-2 rounded-lg max-w-lg shadow-lg">
+                                    <div class="font-semibold text-sm mb-1 flex items-center">
+                                        <i class="fas fa-robot mr-1"></i>Legal Agent
+                                        <span class="ml-2 text-xs text-gray-400">
+                                            <i class="fas fa-circle text-green-400 animate-pulse"></i> Streaming...
+                                        </span>
+                                    </div>
+                                    <div class="message-content"></div>
+                                </div>
+                            `;
+                        }
+                        
+                        // Try to parse as JSON to extract clean content for streaming
                         try {
                             const parsed = JSON.parse(accumulatedContent);
                             
-                            // Successfully parsed - we have complete JSON
+                            // Successfully parsed - display streaming content
                             if (Array.isArray(parsed)) {
-                                // Clear old divs
-                                currentMessageDiv = null;
-                                currentDocDiv = null;
+                                // Remove loading indicator if still present
+                                if (currentMessageDiv && currentMessageDiv.querySelector('.fa-spinner')) {
+                                    currentMessageDiv.remove();
+                                    currentMessageDiv = null;
+                                }
                                 
-                                // Display all items
-                                parsed.forEach(item => {
+                                // Clear docs area loading state
+                                const docsArea = document.getElementById('docs-area');
+                                if (docsArea.querySelector('.text-center')) {
+                                    docsArea.innerHTML = '';
+                                }
+                                
+                                // Display streaming results
+                                parsed.forEach((item, index) => {
                                     if (item.type === 'message') {
                                         if (!currentMessageDiv) {
                                             currentMessageDiv = document.createElement('div');
@@ -182,6 +379,9 @@
                                                 <div class="message-agent text-white px-4 py-2 rounded-lg max-w-lg shadow-lg">
                                                     <div class="font-semibold text-sm mb-1 flex items-center">
                                                         <i class="fas fa-robot mr-1"></i>Legal Agent
+                                                        <span class="ml-2 text-xs text-green-400">
+                                                            <i class="fas fa-circle animate-pulse"></i> Complete
+                                                        </span>
                                                     </div>
                                                     <div class="message-content"></div>
                                                 </div>
@@ -190,8 +390,8 @@
                                         }
                                         const contentDiv = currentMessageDiv.querySelector('.message-content');
                                         contentDiv.innerHTML = item.content.replace(/\n/g, '<br>');
+                                        
                                     } else if (item.type === 'doc') {
-                                        const docsArea = document.getElementById('docs-area');
                                         if (!currentDocDiv) {
                                             currentDocDiv = document.createElement('div');
                                             currentDocDiv.className = 'doc-card p-4 rounded-lg shadow-lg';
@@ -199,6 +399,9 @@
                                                 <div class="flex items-center mb-2">
                                                     <i class="fas fa-file-contract text-white mr-2"></i>
                                                     <span class="font-semibold text-white">Legal Document</span>
+                                                    <span class="ml-2 text-xs text-green-400">
+                                                        <i class="fas fa-circle animate-pulse"></i> Generated
+                                                    </span>
                                                 </div>
                                                 <div class="doc-content text-white whitespace-pre-wrap text-sm leading-relaxed"></div>
                                             `;
@@ -212,23 +415,23 @@
                                 chatArea.scrollTop = chatArea.scrollHeight;
                             }
                         } catch (e) {
-                            // Not yet valid JSON - show raw streaming in a temporary div
-                            if (!currentMessageDiv) {
-                                currentMessageDiv = document.createElement('div');
-                                currentMessageDiv.className = 'flex justify-start mb-3';
-                                currentMessageDiv.innerHTML = `
-                                    <div class="message-agent text-white px-4 py-2 rounded-lg max-w-lg shadow-lg">
-                                        <div class="font-semibold text-sm mb-1 flex items-center">
-                                            <i class="fas fa-robot mr-1"></i>Legal Agent
-                                        </div>
-                                        <div class="message-content text-gray-300 font-mono text-xs"></div>
-                                    </div>
-                                `;
-                                chatArea.appendChild(currentMessageDiv);
+                            // Not yet complete JSON - show raw streaming for immediate feedback
+                            if (currentMessageDiv && !currentMessageDiv.querySelector('.fa-spinner')) {
+                                const contentDiv = currentMessageDiv.querySelector('.message-content');
+                                if (contentDiv) {
+                                    // Clean the accumulated content for display
+                                    let displayContent = accumulatedContent;
+                                    
+                                    // Remove JSON artifacts if they appear
+                                    displayContent = displayContent.replace(/^\[\{"type":"message","content":"/g, '');
+                                    displayContent = displayContent.replace(/"\}\]$/g, '');
+                                    displayContent = displayContent.replace(/\\n/g, '\n');
+                                    displayContent = displayContent.replace(/\\"/g, '"');
+                                    
+                                    contentDiv.innerHTML = displayContent.replace(/\n/g, '<br>');
+                                    chatArea.scrollTop = chatArea.scrollHeight;
+                                }
                             }
-                            const contentDiv = currentMessageDiv.querySelector('.message-content');
-                            contentDiv.textContent = accumulatedContent;
-                            chatArea.scrollTop = chatArea.scrollHeight;
                         }
                     } else if (data.type === 'message') {
                         const messageDiv = document.createElement('div');
@@ -259,7 +462,29 @@
                         docsArea.appendChild(docDiv);
                         docsArea.scrollTop = docsArea.scrollHeight;
                     } else if (data.type === 'end') {
+                        // Clean up streaming indicators and finalize response
+                        if (currentMessageDiv) {
+                            const statusSpan = currentMessageDiv.querySelector('.text-blue-400, .text-green-400');
+                            if (statusSpan) {
+                                statusSpan.innerHTML = '<i class="fas fa-check-circle text-green-400"></i> Complete';
+                                statusSpan.className = 'ml-2 text-xs text-green-400';
+                            }
+                            
+                            // If still showing typing indicator, show accumulated content as fallback
+                            const contentDiv = currentMessageDiv.querySelector('.message-content');
+                            if (contentDiv && (contentDiv.innerHTML.includes('typing-indicator') || contentDiv.innerHTML.includes('fa-spinner'))) {
+                                let displayContent = accumulatedContent;
+                                // Clean JSON artifacts
+                                displayContent = displayContent.replace(/^\[\{"type":"message","content":"/g, '');
+                                displayContent = displayContent.replace(/"\}\]$/g, '');
+                                displayContent = displayContent.replace(/\\n/g, '\n');
+                                displayContent = displayContent.replace(/\\"/g, '"');
+                                contentDiv.innerHTML = displayContent.replace(/\n/g, '<br>');
+                            }
+                        }
+                        
                         eventSource.close();
+                        updateWorkflowStep('complete');
                         statusBar.innerHTML = `
                             <div class="flex items-center text-green-400">
                                 <i class="fas fa-check-circle mr-2"></i>
@@ -267,6 +492,18 @@
                             </div>
                         `;
                     } else if (data.type === 'error') {
+                        // Clean up loading indicator
+                        if (currentMessageDiv && currentMessageDiv.querySelector('.fa-spinner')) {
+                            const contentDiv = currentMessageDiv.querySelector('.message-content');
+                            contentDiv.innerHTML = `
+                                <div class="flex items-center text-red-400">
+                                    <i class="fas fa-exclamation-triangle mr-2"></i>
+                                    <span>Error: ${data.content}</span>
+                                </div>
+                            `;
+                        }
+                        
+                        updateWorkflowStep('error');
                         statusBar.innerHTML = `
                             <div class="flex items-center text-red-400">
                                 <i class="fas fa-exclamation-triangle mr-2"></i>
@@ -281,6 +518,18 @@
             };
 
             eventSource.onerror = function() {
+                // Clean up loading indicator on connection error
+                if (currentMessageDiv && currentMessageDiv.querySelector('.fa-spinner')) {
+                    const contentDiv = currentMessageDiv.querySelector('.message-content');
+                    contentDiv.innerHTML = `
+                        <div class="flex items-center text-red-400">
+                            <i class="fas fa-exclamation-circle mr-2"></i>
+                            <span>Connection error - please try again</span>
+                        </div>
+                    `;
+                }
+                
+                updateWorkflowStep('error');
                 statusBar.innerHTML = `
                     <div class="flex items-center text-red-400">
                         <i class="fas fa-exclamation-circle mr-2"></i>
