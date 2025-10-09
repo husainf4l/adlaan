@@ -160,3 +160,58 @@ msgstr "Or sign up with"
 
 msgid "Already have an account?"
 msgstr "Already have an account?"
+
+# Password Reset
+msgid "Reset your password"
+msgstr "Reset your password"
+
+msgid "Enter your email address and we'll send you a link to reset your password."
+msgstr "Enter your email address and we'll send you a link to reset your password."
+
+msgid "Email Address"
+msgstr "Email Address"
+
+msgid "Enter your email address"
+msgstr "Enter your email address"
+
+msgid "Send Reset Link"
+msgstr "Send Reset Link"
+
+msgid "Back to Sign In"
+msgstr "Back to Sign In"
+
+msgid "Check Your Email"
+msgstr "Check Your Email"
+
+msgid "We've sent you an email with instructions to reset your password."
+msgstr "We've sent you an email with instructions to reset your password."
+
+msgid "Set your new password"
+msgstr "Set your new password"
+
+msgid "New Password"
+msgstr "New Password"
+
+msgid "Enter your new password"
+msgstr "Enter your new password"
+
+msgid "Confirm New Password"
+msgstr "Confirm New Password"
+
+msgid "Confirm your new password"
+msgstr "Confirm your new password"
+
+msgid "Reset Password"
+msgstr "Reset Password"
+
+msgid "Password Reset Complete"
+msgstr "Password Reset Complete"
+
+msgid "Your password has been successfully reset!"
+msgstr "Your password has been successfully reset!"
+
+msgid "You can now sign in with your new password."
+msgstr "You can now sign in with your new password."
+
+msgid "Sign In Now"
+msgstr "Sign In Now"
