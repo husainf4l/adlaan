@@ -1,0 +1,549 @@
+{% extends 'base.html' %}
+
+{% block title %}Adlaan + Microsoft Teams Integration - Adlaan{% endblock %}
+
+{% block content %}
+<main class="min-h-screen bg-gray-50">
+    <!-- Integration Header -->
+    <section class="bg-gradient-to-br from-indigo-600 via-purple-600 to-pink-600 text-white relative overflow-hidden">
+        <div class="absolute inset-0 bg-black opacity-10"></div>
+        <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <div>
+                    <div class="flex items-center mb-6">
+                        <div class="w-16 h-16 bg-white rounded-xl flex items-center justify-center mr-4">
+                            <svg class="w-10 h-10 text-indigo-600" viewBox="0 0 24 24" fill="currentColor">
+                                <path d="M8.75 5.5C8.33579 5.5 8 5.16421 8 4.75V3.75C8 3.33579 8.33579 3 8.75 3H15.25C15.6642 3 16 3.33579 16 3.75V4.75C16 5.16421 15.6642 5.5 15.25 5.5H8.75Z"/>
+                                <path d="M6 7C5.44772 7 5 7.44772 5 8V19C5 20.1046 5.89543 21 7 21H17C18.1046 21 19 20.1046 19 19V8C19 7.44772 18.5523 7 18 7H6ZM8 10H16V12H8V10ZM8 14H12V16H8V14Z"/>
+                            </svg>
+                        </div>
+                        <div class="w-16 h-16 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-xl flex items-center justify-center">
+                            <span class="text-white font-bold text-xl">H</span>
+                        </div>
+                    </div>
+                    <h1 class="text-4xl lg:text-5xl font-serif font-bold mb-6">
+                        Adlaan + Microsoft Teams
+                        <span class="block text-purple-200">Collaborative Legal Intelligence</span>
+                    </h1>
+                    <p class="text-xl text-purple-100 mb-8 font-sans leading-relaxed">
+                        Bring AI-powered legal assistance directly to your team conversations. Adlaan integrates seamlessly with Microsoft Teams for instant legal support and collaboration.
+                    </p>
+                    <div class="flex flex-col sm:flex-row gap-4">
+                        <button class="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-purple-50 transition-colors shadow-lg">
+                            Add to Teams
+                        </button>
+                        <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-indigo-600 transition-colors">
+                            Watch Demo
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Teams Chat Preview -->
+                <div class="relative">
+                    <div class="bg-white rounded-2xl shadow-2xl transform -rotate-2 hover:rotate-0 transition-transform duration-500">
+                        <!-- Teams Header -->
+                        <div class="bg-indigo-600 h-12 rounded-t-2xl flex items-center px-4">
+                            <div class="flex items-center space-x-2">
+                                <div class="w-3 h-3 bg-white rounded-full opacity-30"></div>
+                                <div class="w-3 h-3 bg-white rounded-full opacity-30"></div>
+                                <div class="w-3 h-3 bg-white rounded-full opacity-30"></div>
+                            </div>
+                            <div class="ml-4 text-white text-sm font-sans">Legal Team - Contract Review</div>
+                        </div>
+                        
+                        <!-- Chat Content -->
+                        <div class="p-4 space-y-3">
+                            <div class="flex items-start space-x-2">
+                                <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center">
+                                    <span class="text-white text-xs font-bold">SM</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-900 font-sans">Sarah Mitchell</p>
+                                    <p class="text-sm text-gray-700 font-sans">Can someone review this NDA clause about data retention?</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-2">
+                                <div class="w-8 h-8 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
+                                    <span class="text-white text-xs font-bold">H</span>
+                                </div>
+                                <div class="flex-1 bg-purple-50 rounded-lg p-3 border-l-4 border-purple-500">
+                                    <p class="text-sm font-medium text-purple-900 font-sans">Adlaan AI</p>
+                                    <p class="text-sm text-purple-800 font-sans">I've analyzed the clause. The 7-year retention period exceeds GDPR requirements. Consider reducing to 6 years for EU compliance. Would you like me to draft alternative language?</p>
+                                </div>
+                            </div>
+                            
+                            <div class="flex items-start space-x-2">
+                                <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center">
+                                    <span class="text-white text-xs font-bold">JD</span>
+                                </div>
+                                <div class="flex-1">
+                                    <p class="text-sm font-medium text-gray-900 font-sans">John Davis</p>
+                                    <p class="text-sm text-gray-700 font-sans">@Adlaan that's exactly what I was thinking! Can you show the revised clause?</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
+        <!-- Key Features -->
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
+            <div class="bg-white rounded-xl shadow-sm p-8 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-indigo-100 rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-serif font-bold text-black mb-4">AI Chat Assistant</h3>
+                <p class="text-gray-600 font-sans mb-4">Ask Adlaan legal questions directly in Teams chat. Get instant answers, document analysis, and legal research.</p>
+                <ul class="space-y-2 text-sm text-gray-600 font-sans">
+                    <li class="flex items-center"><span class="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>Natural language queries</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>Real-time legal advice</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-indigo-500 rounded-full mr-2"></span>Document summaries</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-8 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-serif font-bold text-black mb-4">Team Collaboration</h3>
+                <p class="text-gray-600 font-sans mb-4">Collaborate on legal documents, share insights, and get team-wide notifications for important legal matters.</p>
+                <ul class="space-y-2 text-sm text-gray-600 font-sans">
+                    <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>Shared document review</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>Legal deadline alerts</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-purple-500 rounded-full mr-2"></span>Team knowledge sharing</li>
+                </ul>
+            </div>
+
+            <div class="bg-white rounded-xl shadow-sm p-8 hover:shadow-lg transition-shadow">
+                <div class="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-6">
+                    <svg class="w-6 h-6 text-pink-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v4"/>
+                    </svg>
+                </div>
+                <h3 class="text-xl font-serif font-bold text-black mb-4">Meeting Intelligence</h3>
+                <p class="text-gray-600 font-sans mb-4">Adlaan analyzes meeting transcripts, extracts action items, and identifies legal issues discussed in meetings.</p>
+                <ul class="space-y-2 text-sm text-gray-600 font-sans">
+                    <li class="flex items-center"><span class="w-2 h-2 bg-pink-500 rounded-full mr-2"></span>Meeting summaries</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-pink-500 rounded-full mr-2"></span>Action item tracking</li>
+                    <li class="flex items-center"><span class="w-2 h-2 bg-pink-500 rounded-full mr-2"></span>Compliance monitoring</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- Use Cases -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-serif font-bold text-black mb-4">Adlaan in Teams Use Cases</h2>
+                <p class="text-xl text-gray-600 font-sans max-w-3xl mx-auto">
+                    From daily legal questions to complex contract negotiations, Adlaan enhances every aspect of legal teamwork in Microsoft Teams.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div class="bg-gradient-to-br from-blue-50 to-indigo-50 rounded-2xl p-8">
+                    <div class="w-12 h-12 bg-blue-500 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-black mb-4">Contract Review Sessions</h3>
+                    <p class="text-gray-700 font-sans mb-4">
+                        Teams can collaboratively review contracts with Adlaan providing real-time analysis, risk assessment, and clause recommendations.
+                    </p>
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-blue-500">
+                        <p class="text-sm font-medium text-blue-900 font-sans mb-1">Example: "@Adlaan analyze this liability clause"</p>
+                        <p class="text-xs text-blue-700 font-sans">Adlaan instantly provides risk analysis and suggests improvements</p>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-purple-50 to-pink-50 rounded-2xl p-8">
+                    <div class="w-12 h-12 bg-purple-500 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-black mb-4">Legal Deadline Management</h3>
+                    <p class="text-gray-700 font-sans mb-4">
+                        Adlaan tracks legal deadlines and sends proactive reminders to team channels, ensuring nothing falls through the cracks.
+                    </p>
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-purple-500">
+                        <p class="text-sm font-medium text-purple-900 font-sans mb-1">🚨 Deadline Alert</p>
+                        <p class="text-xs text-purple-700 font-sans">Patent filing due in 3 days for Project Alpha</p>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-green-50 to-emerald-50 rounded-2xl p-8">
+                    <div class="w-12 h-12 bg-green-500 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.228 9c.549-1.165 2.03-2 3.772-2 2.21 0 4 1.343 4 3 0 1.4-1.278 2.575-3.006 2.907-.542.104-.994.54-.994 1.093m0 3h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-black mb-4">Legal Q&A Support</h3>
+                    <p class="text-gray-700 font-sans mb-4">
+                        Team members can ask Adlaan quick legal questions without leaving their conversation, getting expert answers instantly.
+                    </p>
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-green-500">
+                        <p class="text-sm font-medium text-green-900 font-sans mb-1">Q: "What's the statute of limitations for breach of contract in NY?"</p>
+                        <p class="text-xs text-green-700 font-sans">Adlaan: "6 years for written contracts under NY law (NY Civil Practice Law § 213)"</p>
+                    </div>
+                </div>
+
+                <div class="bg-gradient-to-br from-orange-50 to-red-50 rounded-2xl p-8">
+                    <div class="w-12 h-12 bg-orange-500 rounded-xl flex items-center justify-center mb-6">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-black mb-4">Document Templates</h3>
+                    <p class="text-gray-700 font-sans mb-4">
+                        Access and customize legal document templates directly in Teams, with Adlaan ensuring compliance and best practices.
+                    </p>
+                    <div class="bg-white rounded-lg p-4 border-l-4 border-orange-500">
+                        <p class="text-sm font-medium text-orange-900 font-sans mb-1">Template: Employment Agreement</p>
+                        <p class="text-xs text-orange-700 font-sans">✓ State-specific clauses included • ✓ Compliance verified</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Interactive Teams Demo -->
+        <section class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-3xl p-8 lg:p-12 mb-16">
+            <div class="text-center mb-8">
+                <h2 class="text-3xl font-serif font-bold text-black mb-4">Adlaan in Action - Teams Chat</h2>
+                <p class="text-lg text-gray-600 font-sans">Experience how Adlaan transforms legal collaboration in Microsoft Teams</p>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden max-w-4xl mx-auto">
+                <!-- Teams Interface Header -->
+                <div class="bg-indigo-600 px-6 py-4 flex items-center justify-between">
+                    <div class="flex items-center">
+                        <svg class="w-6 h-6 text-white mr-3" viewBox="0 0 24 24" fill="currentColor">
+                            <path d="M8.75 5.5C8.33579 5.5 8 5.16421 8 4.75V3.75C8 3.33579 8.33579 3 8.75 3H15.25C15.6642 3 16 3.33579 16 3.75V4.75C16 5.16421 15.6642 5.5 15.25 5.5H8.75Z"/>
+                        </svg>
+                        <span class="text-white font-semibold font-sans">Legal Team - General Channel</span>
+                    </div>
+                    <div class="flex items-center space-x-2 text-white text-sm font-sans">
+                        <span>5 members online</span>
+                        <div class="w-2 h-2 bg-green-400 rounded-full"></div>
+                    </div>
+                </div>
+
+                <!-- Chat Messages -->
+                <div class="p-6 space-y-4 max-h-96 overflow-y-auto">
+                    <!-- User Message 1 -->
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">AM</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <span class="font-semibold text-gray-900 text-sm font-sans">Alex Martinez</span>
+                                <span class="text-xs text-gray-500 font-sans">10:30 AM</span>
+                            </div>
+                            <p class="text-gray-800 font-sans text-sm">Hi team, I need help with this merger agreement. The indemnification clause seems too broad. @Adlaan can you take a look?</p>
+                        </div>
+                    </div>
+
+                    <!-- Adlaan Response -->
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">H</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <span class="font-semibold text-purple-700 text-sm font-sans">Adlaan AI</span>
+                                <span class="text-xs text-gray-500 font-sans">10:30 AM</span>
+                                <span class="inline-flex items-center px-2 py-1 rounded-full text-xs font-medium bg-purple-100 text-purple-800">BOT</span>
+                            </div>
+                            <div class="bg-purple-50 rounded-lg p-4 border-l-4 border-purple-500">
+                                <p class="text-gray-800 font-sans text-sm mb-3">
+                                    I've analyzed the indemnification clause. You're right to be concerned. Here are the key issues:
+                                </p>
+                                <ul class="text-sm text-gray-700 font-sans space-y-1 mb-3">
+                                    <li>• ⚠️ Unlimited liability exposure for the acquiring company</li>
+                                    <li>• ⚠️ No time limit on indemnification obligations</li>
+                                    <li>• ⚠️ Covers "any and all" claims without exclusions</li>
+                                </ul>
+                                <p class="text-sm text-gray-700 font-sans mb-2">
+                                    <strong>Recommendation:</strong> Add liability caps, time limitations, and specific exclusions for gross negligence.
+                                </p>
+                                <button class="bg-purple-600 hover:bg-purple-700 text-white px-3 py-1 rounded text-xs font-semibold transition-colors">
+                                    Generate Revised Clause
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- User Response -->
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 bg-green-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">SM</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <span class="font-semibold text-gray-900 text-sm font-sans">Sarah Mitchell</span>
+                                <span class="text-xs text-gray-500 font-sans">10:32 AM</span>
+                            </div>
+                            <p class="text-gray-800 font-sans text-sm">Excellent analysis @Adlaan! This matches exactly what I was thinking. Can you also check the termination provisions in Section 8?</p>
+                        </div>
+                    </div>
+
+                    <!-- Adlaan Second Response -->
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">H</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <span class="font-semibold text-purple-700 text-sm font-sans">Adlaan AI</span>
+                                <span class="text-xs text-gray-500 font-sans">10:32 AM</span>
+                            </div>
+                            <div class="bg-blue-50 rounded-lg p-4 border-l-4 border-blue-500">
+                                <p class="text-gray-800 font-sans text-sm mb-2">
+                                    Section 8 analysis complete ✅
+                                </p>
+                                <p class="text-sm text-green-700 font-sans mb-2">
+                                    <strong>Good news:</strong> The termination provisions are well-structured with appropriate notice periods and material breach definitions.
+                                </p>
+                                <p class="text-sm text-gray-700 font-sans">
+                                    <strong>Minor suggestion:</strong> Consider adding a cure period for non-material breaches (typically 30 days).
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Another User -->
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 bg-orange-500 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">JD</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <span class="font-semibold text-gray-900 text-sm font-sans">John Davis</span>
+                                <span class="text-xs text-gray-500 font-sans">10:35 AM</span>
+                            </div>
+                            <p class="text-gray-800 font-sans text-sm">Thanks @Adlaan! This is incredibly helpful. I'm scheduling a client call for 2 PM to discuss these changes. Can you prepare a summary document?</p>
+                        </div>
+                    </div>
+
+                    <!-- Adlaan Summary Response -->
+                    <div class="flex items-start space-x-3">
+                        <div class="w-10 h-10 bg-gradient-to-br from-indigo-600 to-purple-600 rounded-full flex items-center justify-center">
+                            <span class="text-white font-bold text-sm">H</span>
+                        </div>
+                        <div class="flex-1">
+                            <div class="flex items-center space-x-2 mb-1">
+                                <span class="font-semibold text-purple-700 text-sm font-sans">Adlaan AI</span>
+                                <span class="text-xs text-gray-500 font-sans">10:35 AM</span>
+                            </div>
+                            <div class="bg-green-50 rounded-lg p-4 border-l-4 border-green-500">
+                                <p class="text-gray-800 font-sans text-sm mb-2">
+                                    📄 <strong>Summary document ready!</strong> I've created a comprehensive review covering:
+                                </p>
+                                <ul class="text-sm text-gray-700 font-sans space-y-1 mb-3">
+                                    <li>• Indemnification clause issues & recommendations</li>
+                                    <li>• Termination provisions analysis</li>
+                                    <li>• Suggested revisions with legal precedents</li>
+                                    <li>• Risk assessment matrix</li>
+                                </ul>
+                                <div class="flex space-x-2">
+                                    <button class="bg-green-600 hover:bg-green-700 text-white px-3 py-1 rounded text-xs font-semibold transition-colors">
+                                        Download PDF
+                                    </button>
+                                    <button class="border border-green-600 text-green-600 hover:bg-green-50 px-3 py-1 rounded text-xs font-semibold transition-colors">
+                                        Share in Channel
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Message Input -->
+                <div class="border-t border-gray-200 p-4">
+                    <div class="flex items-center bg-gray-50 rounded-lg px-4 py-2">
+                        <input type="text" placeholder="Type a message... (@Adlaan for AI assistance)" class="flex-1 bg-transparent border-none outline-none text-sm font-sans">
+                        <div class="flex items-center space-x-2 ml-4">
+                            <button class="p-2 text-gray-400 hover:text-gray-600 transition-colors">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.172 7l-6.586 6.586a2 2 0 102.828 2.828l6.414-6.586a4 4 0 00-5.656-5.656l-6.415 6.585a6 6 0 108.486 8.486L20.5 13"/>
+                                </svg>
+                            </button>
+                            <button class="bg-indigo-600 hover:bg-indigo-700 text-white p-2 rounded-full transition-colors">
+                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Adlaan Commands -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-serif font-bold text-black mb-4">Adlaan Commands in Teams</h2>
+                <p class="text-xl text-gray-600 font-sans max-w-3xl mx-auto">
+                    Use simple @Adlaan commands to access powerful legal AI features directly in your team conversations.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold text-gray-900 font-serif text-lg mb-4">Document Analysis</h4>
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan analyze [document]</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Get comprehensive document analysis and risk assessment</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan review clause</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Review specific clauses for legal compliance and best practices</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan compare contracts</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Compare multiple contracts and highlight differences</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold text-gray-900 font-serif text-lg mb-4">Legal Research</h4>
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan research [topic]</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Get instant legal research with case law and statutes</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan find cases about [issue]</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Search case law database for relevant precedents</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan summarize law [statute]</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Get plain English summaries of complex legal statutes</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold text-gray-900 font-serif text-lg mb-4">Document Creation</h4>
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan draft [document type]</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Generate legal documents from templates or custom requirements</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan create clause for [purpose]</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Generate specific legal clauses for contracts and agreements</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan improve language</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Enhance legal language for clarity and precision</p>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-xl p-6 shadow-sm border border-gray-200">
+                    <h4 class="font-semibold text-gray-900 font-serif text-lg mb-4">Team Collaboration</h4>
+                    <div class="space-y-3">
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan set deadline [date]</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Track legal deadlines and send team reminders</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan meeting summary</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Generate summaries of legal meetings and action items</p>
+                        </div>
+                        <div class="bg-gray-50 rounded-lg p-3">
+                            <p class="font-mono text-sm text-purple-600">@Adlaan share knowledge</p>
+                            <p class="text-xs text-gray-600 font-sans mt-1">Share legal insights and best practices with the team</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Setup Guide -->
+        <section class="mb-16">
+            <div class="text-center mb-12">
+                <h2 class="text-3xl lg:text-4xl font-serif font-bold text-black mb-4">Add Adlaan to Your Team</h2>
+                <p class="text-xl text-gray-600 font-sans max-w-3xl mx-auto">
+                    Getting Adlaan into your Microsoft Teams workspace takes just a few clicks. Your team will have AI legal assistance immediately.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-indigo-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-indigo-600">1</span>
+                    </div>
+                    <h3 class="text-lg font-serif font-bold text-black mb-4">Install Adlaan App</h3>
+                    <p class="text-gray-600 font-sans mb-4">
+                        Install Adlaan from the Microsoft Teams App Store or sideload via your organization's app catalog.
+                    </p>
+                    <div class="bg-indigo-50 rounded-lg p-4">
+                        <p class="text-sm text-indigo-700 font-sans">
+                            💡 Admin approval may be required for organization-wide installation
+                        </p>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-purple-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-purple-600">2</span>
+                    </div>
+                    <h3 class="text-lg font-serif font-bold text-black mb-4">Configure Settings</h3>
+                    <p class="text-gray-600 font-sans mb-4">
+                        Set up Adlaan's permissions, notification preferences, and legal specialization areas for your team.
+                    </p>
+                    <div class="bg-purple-50 rounded-lg p-4">
+                        <p class="text-sm text-purple-700 font-sans">
+                            ⚙️ Customize Adlaan's responses based on your practice areas
+                        </p>
+                    </div>
+                </div>
+
+                <div class="text-center">
+                    <div class="w-20 h-20 bg-pink-100 rounded-full flex items-center justify-center mx-auto mb-6">
+                        <span class="text-2xl font-bold text-pink-600">3</span>
+                    </div>
+                    <h3 class="text-lg font-serif font-bold text-black mb-4">Start Collaborating</h3>
+                    <p class="text-gray-600 font-sans mb-4">
+                        Begin using @Adlaan commands in any team channel or private chat for instant legal assistance.
+                    </p>
+                    <div class="bg-pink-50 rounded-lg p-4">
+                        <p class="text-sm text-pink-700 font-sans">
+                            🚀 Try "@Adlaan help" to see all available commands
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CTA Section -->
+        <section class="bg-gradient-to-br from-indigo-600 to-purple-700 rounded-3xl p-8 lg:p-12 text-white text-center">
+            <h2 class="text-3xl lg:text-4xl font-serif font-bold mb-4">Bring AI Legal Intelligence to Your Teams</h2>
+            <p class="text-xl text-purple-100 mb-8 font-sans max-w-3xl mx-auto">
+                Transform how your legal team collaborates with Adlaan's seamless Microsoft Teams integration. Get instant legal assistance, document analysis, and compliance support.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <button class="bg-white text-indigo-600 px-8 py-4 rounded-lg font-semibold text-lg hover:bg-purple-50 transition-colors shadow-lg">
+                    Add Adlaan to Teams
+                </button>
+                <button class="border-2 border-white text-white px-8 py-4 rounded-lg font-semibold text-lg hover:bg-white hover:text-indigo-600 transition-colors">
+                    Schedule Demo
+                </button>
+            </div>
+        </section>
+    </div>
+</main>
+{% endblock %}

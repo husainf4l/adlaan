@@ -1,0 +1,18 @@
+# Core FastAPI and async web framework - Latest as of October 2025
+fastapi==0.118.2
+uvicorn[standard]==0.37.0
+
+# AI/ML dependencies - Latest versions as of October 2025
+langgraph==0.6.8
+langchain==0.3.27
+langchain-openai==0.3.35
+
+# Configuration and utilities - Latest versions as of October 2025
+python-multipart==0.0.20
+pydantic-settings==2.11.0
+python-dotenv==1.0.1
+
+# Database dependencies - Latest async versions as of October 2025
+sqlalchemy==2.0.43
+asyncpg==0.30.0
+alembic==1.16.5

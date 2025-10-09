@@ -1,0 +1,488 @@
+{% extends 'base.html' %}
+
+{% block title %}Draft → Review Workflow - Adlaan{% endblock %}
+
+{% block content %}
+<main class="min-h-screen bg-white">
+    <!-- Hero Section -->
+    <section class="relative overflow-hidden bg-gradient-to-br from-indigo-900 via-blue-900 to-purple-900">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
+            <div class="text-center relative z-10">
+                <div class="inline-flex items-center bg-white/10 backdrop-blur-sm rounded-full px-4 py-2 mb-6">
+                    <span class="text-white text-sm font-semibold">📝 Draft → Review Workflow</span>
+                </div>
+                <h1 class="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold text-white mb-6 tracking-tight leading-tight">
+                    From Concept to Contract
+                </h1>
+                <p class="text-xl sm:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto leading-relaxed font-sans">
+                    Adlaan streamlines document creation and review with AI-powered drafting, intelligent collaboration, and comprehensive review workflows.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                    <a href="#demo-workflow" class="bg-white hover:bg-gray-100 text-black px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl font-sans">
+                        See Workflow in Action
+                    </a>
+                    <a href="#features" class="border-2 border-white hover:border-gray-300 text-white hover:text-gray-300 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 bg-transparent hover:bg-white/10 font-sans">
+                        Explore Features
+                    </a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Animated Workflow Background -->
+        <div class="absolute inset-0 overflow-hidden opacity-20">
+            <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-white rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-1/4 right-1/4 w-40 h-40 bg-white rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-64 h-64 bg-white rounded-full blur-3xl animate-pulse" style="animation-delay: 4s;"></div>
+        </div>
+    </section>
+
+    <!-- Workflow Overview -->
+    <section class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-serif font-bold text-black mb-6">
+                    Intelligent Draft → Review Process
+                </h2>
+                <p class="text-xl text-gray-600 font-sans max-w-4xl mx-auto leading-relaxed">
+                    Adlaan transforms traditional document workflows by combining AI-powered drafting with collaborative review processes, reducing time from concept to final document by 85%.
+                </p>
+            </div>
+
+            <!-- Workflow Steps -->
+            <div class="grid grid-cols-1 lg:grid-cols-4 gap-8 mb-16">
+                <!-- Step 1: Initial Draft -->
+                <div class="relative">
+                    <div class="bg-blue-50 rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl">📝</span>
+                        </div>
+                        <div class="text-6xl font-bold text-blue-600 mb-2">01</div>
+                        <h3 class="text-xl font-serif font-bold text-black mb-4">AI Drafting</h3>
+                        <p class="text-gray-600 font-sans text-sm leading-relaxed">
+                            Adlaan generates initial drafts from natural language instructions, templates, or existing documents with legal precision.
+                        </p>
+                        <div class="mt-4 space-y-2 text-xs text-gray-500">
+                            <div>• Natural language to legal document</div>
+                            <div>• Template-based generation</div>
+                            <div>• Clause library integration</div>
+                        </div>
+                    </div>
+                    <!-- Arrow -->
+                    <div class="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                        <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Step 2: Intelligent Review -->
+                <div class="relative">
+                    <div class="bg-purple-50 rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl">🔍</span>
+                        </div>
+                        <div class="text-6xl font-bold text-purple-600 mb-2">02</div>
+                        <h3 class="text-xl font-serif font-bold text-black mb-4">Smart Review</h3>
+                        <p class="text-gray-600 font-sans text-sm leading-relaxed">
+                            AI-powered review identifies risks, inconsistencies, and compliance issues while suggesting improvements and alternatives.
+                        </p>
+                        <div class="mt-4 space-y-2 text-xs text-gray-500">
+                            <div>• Risk identification</div>
+                            <div>• Compliance checking</div>
+                            <div>• Improvement suggestions</div>
+                        </div>
+                    </div>
+                    <!-- Arrow -->
+                    <div class="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                        <svg class="w-8 h-8 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Step 3: Collaborative Editing -->
+                <div class="relative">
+                    <div class="bg-green-50 rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl">👥</span>
+                        </div>
+                        <div class="text-6xl font-bold text-green-600 mb-2">03</div>
+                        <h3 class="text-xl font-serif font-bold text-black mb-4">Team Review</h3>
+                        <p class="text-gray-600 font-sans text-sm leading-relaxed">
+                            Real-time collaborative editing with role-based permissions, comment threads, and version control for seamless teamwork.
+                        </p>
+                        <div class="mt-4 space-y-2 text-xs text-gray-500">
+                            <div>• Real-time collaboration</div>
+                            <div>• Comment & suggestion system</div>
+                            <div>• Role-based permissions</div>
+                        </div>
+                    </div>
+                    <!-- Arrow -->
+                    <div class="hidden lg:block absolute top-1/2 -right-4 transform -translate-y-1/2 z-10">
+                        <svg class="w-8 h-8 text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                        </svg>
+                    </div>
+                </div>
+
+                <!-- Step 4: Final Polish -->
+                <div class="relative">
+                    <div class="bg-orange-50 rounded-2xl p-8 text-center hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+                        <div class="w-16 h-16 bg-orange-600 rounded-full flex items-center justify-center mx-auto mb-6">
+                            <span class="text-3xl">✨</span>
+                        </div>
+                        <div class="text-6xl font-bold text-orange-600 mb-2">04</div>
+                        <h3 class="text-xl font-serif font-bold text-black mb-4">Finalization</h3>
+                        <p class="text-gray-600 font-sans text-sm leading-relaxed">
+                            Final formatting, citation checks, and quality assurance before document approval and distribution to all parties.
+                        </p>
+                        <div class="mt-4 space-y-2 text-xs text-gray-500">
+                            <div>• Automated formatting</div>
+                            <div>• Citation verification</div>
+                            <div>• Quality assurance</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Interactive Demo -->
+    <section id="demo-workflow" class="py-20 bg-gray-50">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-serif font-bold text-black mb-6">
+                    See the Workflow in Action
+                </h2>
+                <p class="text-xl text-gray-600 font-sans max-w-4xl mx-auto leading-relaxed">
+                    Experience Adlaan's Draft → Review workflow with this interactive demonstration of contract creation and collaborative review.
+                </p>
+            </div>
+
+            <!-- Demo Interface -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <!-- Demo Header -->
+                <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4">
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center">
+                            <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center mr-3">
+                                <span class="text-black font-bold text-sm">H</span>
+                            </div>
+                            <div>
+                                <div class="text-white font-sans font-semibold">Adlaan Workflow Demo</div>
+                                <div class="text-blue-100 text-xs font-sans">NDA Draft → Review Process</div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-2">
+                            <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                            <span class="text-white text-sm font-sans">Live Session</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Demo Content -->
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-0">
+                    <!-- Left Panel: Drafting -->
+                    <div class="p-6 border-r border-gray-200">
+                        <div class="flex items-center mb-4">
+                            <div class="w-6 h-6 bg-blue-100 rounded-full flex items-center justify-center mr-3">
+                                <span class="text-blue-600 text-sm font-bold">1</span>
+                            </div>
+                            <h3 class="text-lg font-serif font-bold text-black">AI Drafting Phase</h3>
+                        </div>
+                        
+                        <!-- Input Box -->
+                        <div class="bg-gray-50 rounded-lg p-4 mb-4">
+                            <div class="text-sm text-gray-600 font-sans mb-2">Natural Language Input:</div>
+                            <div class="bg-white rounded border p-3 text-sm font-sans">
+                                "Create a mutual NDA between TechCorp Inc. and DataSolutions LLC for sharing proprietary algorithms. 2-year term, standard confidentiality provisions."
+                            </div>
+                        </div>
+
+                        <!-- Generated Document Preview -->
+                        <div class="bg-white border rounded-lg p-4 h-80 overflow-y-auto">
+                            <div class="text-center mb-4">
+                                <h4 class="text-lg font-serif font-bold text-black">MUTUAL NON-DISCLOSURE AGREEMENT</h4>
+                                <div class="text-sm text-gray-600 font-sans mt-2">Generated by Adlaan AI</div>
+                            </div>
+                            
+                            <div class="space-y-4 text-sm font-sans">
+                                <div>
+                                    <div class="font-semibold text-gray-800 mb-2">1. PARTIES</div>
+                                    <div class="text-gray-700 leading-relaxed">
+                                        This Mutual Non-Disclosure Agreement ("Agreement") is entered into on [DATE] between TechCorp Inc., a [STATE] corporation ("TechCorp"), and DataSolutions LLC, a [STATE] limited liability company ("DataSolutions").
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="font-semibold text-gray-800 mb-2">2. CONFIDENTIAL INFORMATION</div>
+                                    <div class="text-gray-700 leading-relaxed">
+                                        "Confidential Information" includes but is not limited to proprietary algorithms, source code, technical specifications, business plans...
+                                        <span class="inline-flex items-center bg-yellow-100 text-yellow-800 px-2 py-1 rounded text-xs ml-2">
+                                            <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                                <path fill-rule="evenodd" d="M8.257 3.099c.765-1.36 2.722-1.36 3.486 0l5.58 9.92c.75 1.334-.213 2.98-1.742 2.98H4.42c-1.53 0-2.493-1.646-1.743-2.98l5.58-9.92zM11 13a1 1 0 11-2 0 1 1 0 012 0zm-1-8a1 1 0 00-1 1v3a1 1 0 002 0V6a1 1 0 00-1-1z" clip-rule="evenodd"/>
+                                            </svg>
+                                            AI Suggestion
+                                        </span>
+                                    </div>
+                                </div>
+                                
+                                <div>
+                                    <div class="font-semibold text-gray-800 mb-2">3. TERM</div>
+                                    <div class="text-gray-700 leading-relaxed">
+                                        This Agreement shall remain in effect for a period of two (2) years from the date first written above...
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- AI Insights -->
+                        <div class="mt-4 bg-blue-50 rounded-lg p-3">
+                            <div class="flex items-center mb-2">
+                                <svg class="w-4 h-4 text-blue-600 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+                                </svg>
+                                <span class="text-sm font-semibold text-blue-800">Adlaan AI Insights</span>
+                            </div>
+                            <div class="text-xs text-blue-700 font-sans">
+                                ✓ Standard NDA clauses included<br>
+                                ⚠ Consider adding specific algorithm protection clause<br>
+                                ✓ Term duration appropriate for stated purpose
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Panel: Review -->
+                    <div class="p-6">
+                        <div class="flex items-center mb-4">
+                            <div class="w-6 h-6 bg-purple-100 rounded-full flex items-center justify-center mr-3">
+                                <span class="text-purple-600 text-sm font-bold">2</span>
+                            </div>
+                            <h3 class="text-lg font-serif font-bold text-black">Collaborative Review</h3>
+                        </div>
+
+                        <!-- Review Panel -->
+                        <div class="space-y-4">
+                            <!-- Reviewer 1 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-8 h-8 bg-green-500 rounded-full flex items-center justify-center mr-3">
+                                        <span class="text-white text-xs font-bold">JS</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-sm text-gray-800">Jane Smith, Senior Associate</div>
+                                        <div class="text-xs text-gray-600">2 minutes ago</div>
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded p-3 text-sm text-gray-700 font-sans">
+                                    "The algorithm protection clause needs to be more specific. Suggest adding language about machine learning models and training data."
+                                    <div class="mt-2 flex items-center text-xs text-green-600">
+                                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Suggestion implemented
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Reviewer 2 -->
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center mr-3">
+                                        <span class="text-white text-xs font-bold">MJ</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-sm text-gray-800">Mike Johnson, Partner</div>
+                                        <div class="text-xs text-gray-600">5 minutes ago</div>
+                                    </div>
+                                </div>
+                                <div class="bg-white rounded p-3 text-sm text-gray-700 font-sans">
+                                    "Liability limitations look good. Adlaan's standard provisions are comprehensive for this type of agreement."
+                                    <div class="mt-2 flex items-center text-xs text-blue-600">
+                                        <svg class="w-3 h-3 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        Approved
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Adlaan AI Review -->
+                            <div class="bg-gradient-to-r from-purple-50 to-blue-50 rounded-lg p-4 border-2 border-purple-200">
+                                <div class="flex items-center mb-3">
+                                    <div class="w-8 h-8 bg-gradient-to-r from-purple-600 to-blue-600 rounded-full flex items-center justify-center mr-3">
+                                        <span class="text-white text-xs font-bold">H</span>
+                                    </div>
+                                    <div>
+                                        <div class="font-semibold text-sm text-gray-800">Adlaan AI Analysis</div>
+                                        <div class="text-xs text-gray-600">Real-time</div>
+                                    </div>
+                                </div>
+                                <div class="space-y-2 text-sm font-sans">
+                                    <div class="flex items-center text-green-700">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span>Compliance: ✓ All jurisdictions</span>
+                                    </div>
+                                    <div class="flex items-center text-green-700">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span>Risk Level: Low</span>
+                                    </div>
+                                    <div class="flex items-center text-blue-700">
+                                        <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
+                                            <path fill-rule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7-4a1 1 0 11-2 0 1 1 0 012 0zM9 9a1 1 0 000 2v3a1 1 0 001 1h1a1 1 0 100-2v-3a1 1 0 00-1-1H9z" clip-rule="evenodd"/>
+                                        </svg>
+                                        <span>Recommendation: Ready for execution</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Action Buttons -->
+                        <div class="mt-6 flex space-x-3">
+                            <button class="flex-1 bg-green-600 hover:bg-green-700 text-white px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                                Approve & Finalize
+                            </button>
+                            <button class="flex-1 border border-gray-300 text-gray-700 hover:bg-gray-50 px-4 py-2 rounded-lg text-sm font-semibold transition-colors">
+                                Request Changes
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Progress Bar -->
+                <div class="px-6 py-4 bg-gray-50 border-t">
+                    <div class="flex items-center justify-between mb-2">
+                        <span class="text-sm font-semibold text-gray-800">Workflow Progress</span>
+                        <span class="text-sm text-gray-600">85% Complete</span>
+                    </div>
+                    <div class="w-full bg-gray-200 rounded-full h-2">
+                        <div class="bg-gradient-to-r from-blue-600 to-purple-600 h-2 rounded-full" style="width: 85%;"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Key Features -->
+    <section id="features" class="py-20 bg-white">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-serif font-bold text-black mb-6">
+                    Workflow Features
+                </h2>
+                <p class="text-xl text-gray-600 font-sans max-w-4xl mx-auto leading-relaxed">
+                    Adlaan's Draft → Review workflow combines cutting-edge AI with intuitive collaboration tools to streamline your document creation process.
+                </p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- Natural Language Processing -->
+                <div class="bg-blue-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-blue-600 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-black mb-3">Natural Language Drafting</h3>
+                    <p class="text-gray-600 font-sans leading-relaxed">
+                        Transform plain English instructions into professional legal documents with proper formatting, clauses, and terminology.
+                    </p>
+                </div>
+
+                <!-- AI-Powered Review -->
+                <div class="bg-purple-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-purple-600 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-black mb-3">Intelligent Review</h3>
+                    <p class="text-gray-600 font-sans leading-relaxed">
+                        AI identifies potential issues, suggests improvements, and ensures compliance with relevant laws and regulations.
+                    </p>
+                </div>
+
+                <!-- Real-time Collaboration -->
+                <div class="bg-green-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-green-600 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-black mb-3">Team Collaboration</h3>
+                    <p class="text-gray-600 font-sans leading-relaxed">
+                        Multiple team members can review, comment, and edit simultaneously with real-time sync and conflict resolution.
+                    </p>
+                </div>
+
+                <!-- Version Control -->
+                <div class="bg-orange-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-orange-600 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-black mb-3">Version Control</h3>
+                    <p class="text-gray-600 font-sans leading-relaxed">
+                        Track all changes, compare versions, and restore previous drafts with comprehensive revision history.
+                    </p>
+                </div>
+
+                <!-- Compliance Checking -->
+                <div class="bg-red-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-red-600 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-black mb-3">Compliance Monitoring</h3>
+                    <p class="text-gray-600 font-sans leading-relaxed">
+                        Continuous compliance checking against jurisdictional requirements and industry standards throughout the workflow.
+                    </p>
+                </div>
+
+                <!-- Template Library -->
+                <div class="bg-indigo-50 rounded-2xl p-8 hover:shadow-lg transition-all duration-300">
+                    <div class="w-12 h-12 bg-indigo-600 rounded-lg flex items-center justify-center mb-4">
+                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"/>
+                        </svg>
+                    </div>
+                    <h3 class="text-xl font-serif font-bold text-black mb-3">Smart Templates</h3>
+                    <p class="text-gray-600 font-sans leading-relaxed">
+                        Access thousands of pre-built templates that adapt to your specific requirements and jurisdiction.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="py-20 bg-black">
+        <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+            <h2 class="text-4xl sm:text-5xl font-serif font-bold text-white mb-6">
+                Ready to Streamline Your Drafting Process?
+            </h2>
+            <p class="text-xl text-gray-300 mb-10 font-sans">
+                Experience Adlaan's Draft → Review workflow and transform how your team creates legal documents.
+            </p>
+            <div class="flex flex-col sm:flex-row gap-4 justify-center">
+                <a href="#" class="inline-flex items-center bg-white hover:bg-gray-100 text-black px-10 py-5 rounded-full text-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl font-sans group">
+                    <span class="mr-3">📝</span>
+                    Start Drafting
+                    <svg class="ml-3 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+                    </svg>
+                </a>
+                <a href="#" class="border-2 border-white hover:border-gray-300 text-white hover:text-gray-300 px-8 py-5 rounded-full text-xl font-semibold transition-all duration-200 bg-transparent hover:bg-white/10 font-sans">
+                    Schedule Demo
+                </a>
+            </div>
+        </div>
+    </section>
+</main>
+{% endblock %}
