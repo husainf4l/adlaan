@@ -1,0 +1,85 @@
+# Python
+*.py[cod]
+*$py.class
+*.so
+__pycache__/
+*.pyc
+
+# Virtual Environment
+.venv/
+venv/
+ENV/
+env/
+.virtualenv/
+
+# Environment Variables
+.env
+.env.local
+.env.*.local
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.DS_Store
+
+# Testing
+.pytest_cache/
+.coverage
+htmlcov/
+.tox/
+.hypothesis/
+
+# Distribution / Packaging
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+develop-eggs/
+lib/
+lib64/
+parts/
+sdist/
+var/
+wheels/
+pip-wheel-metadata/
+.installed.cfg
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+*.log
+
+# Alembic
+# Uncomment if you want to ignore migration versions
+# migrations/versions/*.py
+
+# FastAPI/Uvicorn
+*.pid
+
+# Jupyter Notebook
+.ipynb_checkpoints
+
+# mypy
+.mypy_cache/
+.dmypy.json
+dmypy.json
+
+# Pyre
+.pyre/
+
+# pytype
+.pytype/
+
+# Cython
+*.c
+*.cpp
+cython_debug/
+
+# System files
+Thumbs.db
+.directory
