@@ -72,6 +72,7 @@ urlpatterns = [
     path('vault/', views.vault, name='vault'),
     path('knowledge/', views.knowledge, name='knowledge'),
     path('legaldoc/', views.legal_doc_creator, name='legal_doc_creator'),
+    path('chat/', views.chat, name='chat'),
     
     # Integration URLs
     path('integrations/outlook/', views.outlook_integration, name='outlook_integration'),

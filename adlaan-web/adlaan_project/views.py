@@ -117,4 +117,8 @@ def dashboard(request):
 
 def legal_doc_creator(request):
     """Legal Document Creator - AI Chat with Document Creation - Split view with streaming chat and document editor"""
-    return render(request, 'legal_doc_creator.html')
+    return render(request, 'legal_doc_creator_new.html')
+
+def chat(request):
+    """Redirect to AI Agent Chat Interface"""
+    return redirect('http://localhost:8005/chat/')
