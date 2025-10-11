@@ -1,0 +1,65 @@
+{
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "🌐 Debug Django Web Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/adlaan-web/manage.py",
+            "args": [
+                "runserver",
+                "127.0.0.1:8000"
+            ],
+            "django": true,
+            "autoReload": {
+                "enable": true
+            },
+            "cwd": "${workspaceFolder}/adlaan-web",
+            "python": "${workspaceFolder}/adlaan-web/venv/bin/python",
+            "env": {
+                "DJANGO_SETTINGS_MODULE": "adlaan_project.settings"
+            },
+            "console": "integratedTerminal"
+        },
+        {
+            "name": "🤖 Debug AI Agent Server",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/adlaan-agent/main.py",
+            "cwd": "${workspaceFolder}/adlaan-agent",
+            "python": "${workspaceFolder}/adlaan-agent/venv/bin/python",
+            "console": "integratedTerminal",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}/adlaan-agent"
+            }
+        },
+        {
+            "name": "🧪 Debug Password Reset Test",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/adlaan-web/manage.py",
+            "args": [
+                "shell",
+                "-c",
+                "from django.contrib.auth.models import User; from django.test import Client; client = Client(); response = client.get('/password_reset/'); print(f'Status: {response.status_code}'); response = client.post('/password_reset/', {'email': 'test@example.com'}); print('Password reset triggered!')"
+            ],
+            "django": true,
+            "cwd": "${workspaceFolder}/adlaan-web",
+            "python": "${workspaceFolder}/adlaan-web/venv/bin/python",
+            "env": {
+                "DJANGO_SETTINGS_MODULE": "adlaan_project.settings"
+            },
+            "console": "integratedTerminal"
+        }
+    ],
+    "compounds": [
+        {
+            "name": "🚀 Debug Both Servers",
+            "configurations": [
+                "🌐 Debug Django Web Server",
+                "🤖 Debug AI Agent Server"
+            ],
+            "stopAll": true
+        }
+    ]
+}

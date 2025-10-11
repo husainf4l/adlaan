@@ -1,0 +1,152 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "🌐 Run Django Web Server",
+            "type": "shell",
+            "command": "source venv/bin/activate && python manage.py runserver",
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "isBackground": true,
+            "options": {
+                "cwd": "${workspaceFolder}/adlaan-web"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": [],
+            "runOptions": {
+                "runOn": "folderOpen"
+            }
+        },
+        {
+            "label": "🤖 Run AI Agent Server",
+            "type": "shell",
+            "command": "source venv/bin/activate && python main.py",
+            "group": "build",
+            "isBackground": true,
+            "options": {
+                "cwd": "${workspaceFolder}/adlaan-agent"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new",
+                "showReuseMessage": true,
+                "clear": false
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "🚀 Run Both Servers",
+            "dependsOrder": "parallel",
+            "dependsOn": [
+                "🌐 Run Django Web Server",
+                "🤖 Run AI Agent Server"
+            ],
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": false,
+                "panel": "new",
+                "showReuseMessage": true,
+                "clear": false
+            }
+        },
+        {
+            "label": "📦 Install Web Dependencies",
+            "type": "shell",
+            "command": "source venv/bin/activate && pip install -r requirements.txt",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/adlaan-web"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "🧠 Install Agent Dependencies",
+            "type": "shell",
+            "command": "source venv/bin/activate && pip install -r requirements.txt",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/adlaan-agent"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "🗄️ Django Migrate",
+            "type": "shell",
+            "command": "source venv/bin/activate && python manage.py migrate",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/adlaan-web"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "👤 Django Create Superuser",
+            "type": "shell",
+            "command": "source venv/bin/activate && python manage.py createsuperuser",
+            "group": "build",
+            "options": {
+                "cwd": "${workspaceFolder}/adlaan-web"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "🧪 Test Password Reset",
+            "type": "shell",
+            "command": "source venv/bin/activate && python -c \"import os, django; os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'adlaan_project.settings'); django.setup(); from django.contrib.auth.models import User; user, created = User.objects.get_or_create(username='testuser', defaults={'email': 'test@example.com'}); user.email = 'test@example.com' if not user.email else user.email; user.save(); print(f'Test user: {user.username} ({user.email})')\"",
+            "group": "test",
+            "options": {
+                "cwd": "${workspaceFolder}/adlaan-web"
+            },
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        },
+        {
+            "label": "🧹 Clean & Setup",
+            "type": "shell",
+            "command": "find . -name '__pycache__' -type d -exec rm -rf {} + 2>/dev/null || true && find . -name '*.pyc' -delete 2>/dev/null || true",
+            "group": "build",
+            "presentation": {
+                "echo": true,
+                "reveal": "always",
+                "focus": true,
+                "panel": "shared"
+            }
+        }
+    ]
+}

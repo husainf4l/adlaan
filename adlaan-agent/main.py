@@ -281,9 +281,21 @@ async def debug_interface(request: Request):
 
 if __name__ == "__main__":
     import uvicorn
+    import argparse
+    
+    parser = argparse.ArgumentParser(description='Run Adlaan AI Agent')
+    parser.add_argument('--host', default='0.0.0.0', help='Host to bind to')
+    parser.add_argument('--port', type=int, default=int(os.getenv('PORT', 8005)), help='Port to bind to')
+    parser.add_argument('--reload', action='store_true', default=True, help='Enable auto-reload')
+    args = parser.parse_args()
+    
+    # For production, disable reload
+    if os.getenv('ENVIRONMENT') == 'production':
+        args.reload = False
+    
     uvicorn.run(
         "main:app",
-        host="0.0.0.0",
-        port=8005,
-        reload=True
+        host=args.host,
+        port=args.port,
+        reload=args.reload
     )
