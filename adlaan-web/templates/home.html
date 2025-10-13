@@ -4,28 +4,28 @@
 {% block title %}Home - Adlaan App{% endblock %}
 
 {% block content %}
-<main class="min-h-screen bg-white">
+<main class="min-h-screen bg-[#000000]">
     <!-- Hero Section -->
-    <section class="relative overflow-hidden bg-white">
-        <!-- Static Hero Background Image -->
-        <div class="absolute inset-0">
-            <img src="{% static 'images/heroes/home.jpg' %}" alt="Adlaan AI" class="w-full h-full object-cover">
+    <section class="relative overflow-hidden bg-[#000000]">
+        <!-- Static Hero Background Image with dark overlay -->
+        <div class="absolute inset-0 bg-[#14213d]/80">
+            <img src="{% static 'images/heroes/home.jpg' %}" alt="Adlaan AI" class="w-full h-full object-cover opacity-20">
         </div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
                 <!-- Left side: Text content -->
                 <div class="text-left">
-                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold text-black mb-6 tracking-tight leading-tight">
+                    <h1 class="text-5xl sm:text-6xl lg:text-7xl font-serif font-bold text-[#000000] mb-6 tracking-tight leading-tight">
                         Professional Class AI for Legal Work
                     </h1>
-                    <p class="text-xl sm:text-2xl text-gray-600 mb-8 max-w-2xl leading-relaxed font-sans">
+                    <p class="text-xl sm:text-2xl text-[#e5e5e5] mb-8 max-w-2xl leading-relaxed font-sans">
                         Boost productivity by 300% while ensuring enterprise-grade security and compliance for your legal practice.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4">
-                        <button class="bg-blue-600 hover:bg-blue-700 text-white px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl font-sans">
+                        <button class="bg-[#fca311] hover:bg-[#fdb541] text-[#000000] px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 transform hover:scale-105 shadow-lg hover:shadow-xl font-sans">
                             Request a Demo
                         </button>
-                        <button class="border-2 border-gray-300 hover:border-gray-400 text-gray-700 hover:text-gray-900 px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 bg-white hover:bg-gray-50 font-sans">
+                        <button class="border-2 border-[#fca311] hover:border-[#fdb541] text-[#fca311] hover:text-[#fdb541] px-8 py-4 rounded-full text-lg font-semibold transition-all duration-200 bg-transparent hover:bg-[#fca311]/10 font-sans">
                             Learn More
                         </button>
                     </div>
@@ -40,42 +40,42 @@
     </section>
 
     <!-- Client Logos Section -->
-    <section class="py-16 bg-white relative">
+    <section class="py-16 bg-[#14213d] relative">
         <!-- Dynamic background gradient overlay -->
-        <div class="absolute inset-0 bg-gradient-to-r from-blue-50/30 via-white to-purple-50/30"></div>
+        <div class="absolute inset-0 bg-gradient-to-r from-[#000000]/30 via-[#14213d] to-[#000000]/30"></div>
         <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-8">
-                <p class="text-gray-700 font-sans text-lg font-medium">Trusted by leading legal firms worldwide</p>
+                <p class="text-[#e5e5e5] font-sans text-lg font-medium">Trusted by leading legal firms worldwide</p>
             </div>
             <div class="relative overflow-hidden">
                 <div class="flex animate-scroll items-center">
                     <!-- First set of firm names - just text -->
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">Allen & Overy</span>
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">PwC Legal</span>
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">Clifford Chance</span>
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">Baker McKenzie</span>
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">Freshfields</span>
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">Linklaters</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">Allen & Overy</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">PwC Legal</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">Clifford Chance</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">Baker McKenzie</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">Freshfields</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">Linklaters</span>
                     <!-- Duplicate for seamless scroll -->
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">Allen & Overy</span>
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">PwC Legal</span>
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">Clifford Chance</span>
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">Baker McKenzie</span>
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">Freshfields</span>
-                    <span class="flex-shrink-0 text-gray-600 font-serif font-medium text-xl mx-8 whitespace-nowrap">Linklaters</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">Allen & Overy</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">PwC Legal</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">Clifford Chance</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">Baker McKenzie</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">Freshfields</span>
+                    <span class="flex-shrink-0 text-[#e5e5e5] font-serif font-medium text-xl mx-8 whitespace-nowrap">Linklaters</span>
                 </div>
             </div>
         </div>
     </section>
 
     <!-- Solutions by Domain Section -->
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-[#000000]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-black mb-4">
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-[#000000] mb-4">
                     Solutions by Domain
                 </h2>
-                <p class="text-lg text-gray-600 font-sans">
+                <p class="text-lg text-[#e5e5e5] font-sans">
                     Tailored AI solutions for every legal practice area
                 </p>
             </div>
@@ -84,60 +84,60 @@
             <div class="flex flex-col lg:flex-row gap-4 mb-12">
                 <!-- Innovation -->
                 <div class="flex-1 group cursor-pointer" onclick="showDomain('innovation')">
-                    <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl p-6 text-center transition-all duration-300 hover:shadow-lg hover:scale-105 border border-gray-200">
-                        <div class="w-12 h-12 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="bg-gradient-to-br from-[#14213d] to-[#000000] rounded-xl p-6 text-center transition-all duration-300 hover:shadow-lg hover:scale-105 border border-[#fca311]/30">
+                        <div class="w-12 h-12 bg-[#fca311] rounded-full flex items-center justify-center mx-auto mb-4">
                             <span class="text-2xl">🧠</span>
                         </div>
-                        <h3 class="text-xl font-serif font-bold text-black mb-2">Innovation</h3>
-                        <p class="text-gray-600 font-sans text-sm">Modern R&D and transformation departments</p>
+                        <h3 class="text-xl font-serif font-bold text-[#000000] mb-2">Innovation</h3>
+                        <p class="text-[#e5e5e5] font-sans text-sm">Modern R&D and transformation departments</p>
                     </div>
                 </div>
 
                 <!-- In-House -->
                 <div class="flex-1 group cursor-pointer" onclick="showDomain('in-house')">
-                    <div class="bg-gradient-to-br from-green-50 to-emerald-100 rounded-xl p-6 text-center transition-all duration-300 hover:shadow-lg hover:scale-105 border border-gray-200">
-                        <div class="w-12 h-12 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="bg-gradient-to-br from-[#14213d] to-[#000000] rounded-xl p-6 text-center transition-all duration-300 hover:shadow-lg hover:scale-105 border border-[#fca311]/30">
+                        <div class="w-12 h-12 bg-[#fca311] rounded-full flex items-center justify-center mx-auto mb-4">
                             <span class="text-2xl">🏢</span>
                         </div>
-                        <h3 class="text-xl font-serif font-bold text-black mb-2">In-House</h3>
-                        <p class="text-gray-600 font-sans text-sm">Corporate legal teams</p>
+                        <h3 class="text-xl font-serif font-bold text-[#000000] mb-2">In-House</h3>
+                        <p class="text-[#e5e5e5] font-sans text-sm">Corporate legal teams</p>
                     </div>
                 </div>
 
                 <!-- Transactional -->
                 <div class="flex-1 group cursor-pointer" onclick="showDomain('transactional')">
-                    <div class="bg-gradient-to-br from-purple-50 to-violet-100 rounded-xl p-6 text-center transition-all duration-300 hover:shadow-lg hover:scale-105 border border-gray-200">
-                        <div class="w-12 h-12 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="bg-gradient-to-br from-[#14213d] to-[#000000] rounded-xl p-6 text-center transition-all duration-300 hover:shadow-lg hover:scale-105 border border-[#fca311]/30">
+                        <div class="w-12 h-12 bg-[#fca311] rounded-full flex items-center justify-center mx-auto mb-4">
                             <span class="text-2xl">📄</span>
                         </div>
-                        <h3 class="text-xl font-serif font-bold text-black mb-2">Transactional</h3>
-                        <p class="text-gray-600 font-sans text-sm">Contract and M&A work</p>
+                        <h3 class="text-xl font-serif font-bold text-[#000000] mb-2">Transactional</h3>
+                        <p class="text-[#e5e5e5] font-sans text-sm">Contract and M&A work</p>
                     </div>
                 </div>
 
                 <!-- Litigation -->
                 <div class="flex-1 group cursor-pointer" onclick="showDomain('litigation')">
-                    <div class="bg-gradient-to-br from-red-50 to-rose-100 rounded-xl p-6 text-center transition-all duration-300 hover:shadow-lg hover:scale-105 border border-gray-200">
-                        <div class="w-12 h-12 bg-red-600 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <div class="bg-gradient-to-br from-[#14213d] to-[#000000] rounded-xl p-6 text-center transition-all duration-300 hover:shadow-lg hover:scale-105 border border-[#fca311]/30">
+                        <div class="w-12 h-12 bg-[#fca311] rounded-full flex items-center justify-center mx-auto mb-4">
                             <span class="text-2xl">⚖️</span>
                         </div>
-                        <h3 class="text-xl font-serif font-bold text-black mb-2">Litigation</h3>
-                        <p class="text-gray-600 font-sans text-sm">Court and dispute analysis</p>
+                        <h3 class="text-xl font-serif font-bold text-[#000000] mb-2">Litigation</h3>
+                        <p class="text-[#e5e5e5] font-sans text-sm">Court and dispute analysis</p>
                     </div>
                 </div>
             </div>
 
             <!-- Domain Content -->
-            <div id="domain-content" class="bg-gray-50 rounded-2xl p-8 transition-all duration-500 opacity-0 max-h-0 overflow-hidden">
+            <div id="domain-content" class="bg-[#14213d] rounded-2xl p-8 transition-all duration-500 opacity-0 max-h-0 overflow-hidden border border-[#fca311]/30">
                 <div class="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
                     <div id="domain-text">
-                        <p class="text-lg text-gray-700 font-sans leading-relaxed">
+                        <p class="text-lg text-[#e5e5e5] font-sans leading-relaxed">
                             Click on a domain above to see tailored solutions for that practice area.
                         </p>
                     </div>
-                    <div id="domain-image" class="bg-white rounded-xl p-6 shadow-sm">
-                        <div class="w-full h-48 bg-gradient-to-br from-gray-100 to-gray-200 rounded-lg flex items-center justify-center">
-                            <span class="text-gray-500 font-sans">Select a domain to view details</span>
+                    <div id="domain-image" class="bg-[#000000] rounded-xl p-6 shadow-sm border border-[#fca311]/20">
+                        <div class="w-full h-48 bg-gradient-to-br from-[#14213d] to-[#000000] rounded-lg flex items-center justify-center">
+                            <span class="text-[#e5e5e5] font-sans">Select a domain to view details</span>
                         </div>
                     </div>
                 </div>
@@ -146,49 +146,49 @@
     </section>
 
     <!-- Mid-page CTA -->
-    <section class="py-20 bg-black">
+    <section class="py-20 bg-[#fca311] border-y border-[#fdb541]">
         <div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="relative">
                 <!-- Background decoration -->
                 <div class="absolute inset-0 overflow-hidden">
-                    <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-white opacity-5 rounded-full blur-2xl animate-pulse"></div>
-                    <div class="absolute bottom-1/4 right-1/4 w-40 h-40 bg-white opacity-5 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
+                    <div class="absolute top-1/4 left-1/4 w-32 h-32 bg-[#fdb541] opacity-10 rounded-full blur-2xl animate-pulse"></div>
+                    <div class="absolute bottom-1/4 right-1/4 w-40 h-40 bg-[#fdb541] opacity-10 rounded-full blur-3xl animate-pulse" style="animation-delay: 1s;"></div>
                 </div>
                 
                 <div class="relative z-10">
-                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-white mb-6 leading-tight">
+                    <h2 class="text-4xl sm:text-5xl lg:text-6xl font-serif font-bold text-[#000000] mb-6 leading-tight">
                         See how Adlaan transforms your legal workflows.
                     </h2>
-                    <p class="text-xl sm:text-2xl text-gray-300 mb-10 font-sans max-w-3xl mx-auto leading-relaxed">
+                    <p class="text-xl sm:text-2xl text-[#14213d] mb-10 font-sans max-w-3xl mx-auto leading-relaxed">
                         Join 500+ leading law firms already using AI to boost productivity by 300% while maintaining enterprise-grade security.
                     </p>
                     <div class="flex flex-col sm:flex-row gap-4 justify-center items-center">
-                        <a href="#" class="group bg-white hover:bg-gray-100 text-black px-10 py-5 rounded-full text-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl font-sans flex items-center">
+                        <a href="#" class="group bg-[#14213d] hover:bg-[#000000] text-[#000000] px-10 py-5 rounded-full text-xl font-semibold transition-all duration-300 transform hover:scale-105 shadow-2xl hover:shadow-3xl font-sans flex items-center">
                             <span class="mr-2">🚀</span>
                             Request a Demo
                             <svg class="ml-2 w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
                             </svg>
                         </a>
-                        <a href="#" class="border-2 border-white hover:border-gray-300 text-white hover:text-gray-300 px-8 py-5 rounded-full text-xl font-semibold transition-all duration-300 bg-transparent hover:bg-white/10 font-sans">
+                        <a href="#" class="border-2 border-[#14213d] hover:border-[#000000] text-[#14213d] hover:text-[#000000] px-8 py-5 rounded-full text-xl font-semibold transition-all duration-300 bg-transparent hover:bg-[#14213d]/10 font-sans">
                             Watch Demo Video
                         </a>
                     </div>
                     
                     <!-- Social proof -->
-                    <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-8 text-gray-400 font-sans">
+                    <div class="mt-12 flex flex-col sm:flex-row items-center justify-center gap-8 text-[#14213d] font-sans">
                         <div class="flex items-center">
                             <div class="flex -space-x-2">
-                                <div class="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full border-2 border-white"></div>
-                                <div class="w-8 h-8 bg-gradient-to-br from-green-400 to-green-600 rounded-full border-2 border-white"></div>
-                                <div class="w-8 h-8 bg-gradient-to-br from-purple-400 to-purple-600 rounded-full border-2 border-white"></div>
-                                <div class="w-8 h-8 bg-gradient-to-br from-red-400 to-red-600 rounded-full border-2 border-white"></div>
-                                <div class="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-full border-2 border-white flex items-center justify-center text-xs font-bold text-white">+</div>
+                                <div class="w-8 h-8 bg-gradient-to-br from-[#14213d] to-[#000000] rounded-full border-2 border-[#fca311]"></div>
+                                <div class="w-8 h-8 bg-gradient-to-br from-[#fca311] to-[#fdb541] rounded-full border-2 border-[#fca311]"></div>
+                                <div class="w-8 h-8 bg-gradient-to-br from-[#14213d] to-[#000000] rounded-full border-2 border-[#fca311]"></div>
+                                <div class="w-8 h-8 bg-gradient-to-br from-[#fca311] to-[#fdb541] rounded-full border-2 border-[#fca311]"></div>
+                                <div class="w-8 h-8 bg-gradient-to-br from-[#14213d] to-[#000000] rounded-full border-2 border-[#fca311] flex items-center justify-center text-xs font-bold text-[#fca311]">+</div>
                             </div>
                             <span class="ml-3 text-sm">Trusted by 500+ firms</span>
                         </div>
                         <div class="flex items-center">
-                            <svg class="w-5 h-5 text-yellow-400 mr-1" fill="currentColor" viewBox="0 0 20 20">
+                            <svg class="w-5 h-5 text-[#fca311] mr-1" fill="currentColor" viewBox="0 0 20 20">
                                 <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
                             </svg>
                             <span class="text-sm">4.9/5 Customer Rating</span>
@@ -200,66 +200,66 @@
     </section>
 
     <!-- Use Cases Section -->
-    <section class="py-16 bg-white">
+    <section class="py-16 bg-[#14213d]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-black mb-4">
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-[#000000] mb-4">
                     AI-Powered Legal Solutions
                 </h2>
-                <p class="text-lg text-gray-600 font-sans">
+                <p class="text-lg text-[#e5e5e5] font-sans">
                     Comprehensive tools designed for every aspect of legal work
                 </p>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Drafting -->
-                <div class="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-                    <div class="w-16 h-16 bg-blue-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-blue-200 transition-colors duration-300">
-                        <svg class="w-8 h-8 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="group bg-[#000000] rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-[#fca311]/30">
+                    <div class="w-16 h-16 bg-[#fca311] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#fdb541] transition-colors duration-300">
+                        <svg class="w-8 h-8 text-[#000000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-serif font-bold text-black mb-3">Drafting</h3>
-                    <p class="text-gray-600 font-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 class="text-xl font-serif font-bold text-[#000000] mb-3">Drafting</h3>
+                    <p class="text-[#e5e5e5] font-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         Generate contracts, briefs, and legal documents with AI assistance, ensuring accuracy and compliance.
                     </p>
                 </div>
 
                 <!-- Analysis -->
-                <div class="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-                    <div class="w-16 h-16 bg-purple-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-purple-200 transition-colors duration-300">
-                        <svg class="w-8 h-8 text-purple-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="group bg-[#000000] rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-[#fca311]/30">
+                    <div class="w-16 h-16 bg-[#fca311] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#fdb541] transition-colors duration-300">
+                        <svg class="w-8 h-8 text-[#000000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-serif font-bold text-black mb-3">Analysis</h3>
-                    <p class="text-gray-600 font-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 class="text-xl font-serif font-bold text-[#000000] mb-3">Analysis</h3>
+                    <p class="text-[#e5e5e5] font-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         Deep-dive analysis of case law, contracts, and legal precedents with intelligent insights.
                     </p>
                 </div>
 
                 <!-- Research -->
-                <div class="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-                    <div class="w-16 h-16 bg-green-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-green-200 transition-colors duration-300">
-                        <svg class="w-8 h-8 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="group bg-[#000000] rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-[#fca311]/30">
+                    <div class="w-16 h-16 bg-[#fca311] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#fdb541] transition-colors duration-300">
+                        <svg class="w-8 h-8 text-[#000000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-serif font-bold text-black mb-3">Research</h3>
-                    <p class="text-gray-600 font-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 class="text-xl font-serif font-bold text-[#000000] mb-3">Research</h3>
+                    <p class="text-[#e5e5e5] font-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         Instant access to relevant case law, statutes, and legal databases with AI-powered search.
                     </p>
                 </div>
 
                 <!-- Knowledge -->
-                <div class="group bg-white rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-gray-100">
-                    <div class="w-16 h-16 bg-indigo-100 rounded-2xl flex items-center justify-center mb-6 group-hover:bg-indigo-200 transition-colors duration-300">
-                        <svg class="w-8 h-8 text-indigo-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <div class="group bg-[#000000] rounded-2xl p-8 shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-[#fca311]/30">
+                    <div class="w-16 h-16 bg-[#fca311] rounded-2xl flex items-center justify-center mb-6 group-hover:bg-[#fdb541] transition-colors duration-300">
+                        <svg class="w-8 h-8 text-[#000000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                         </svg>
                     </div>
-                    <h3 class="text-xl font-serif font-bold text-black mb-3">Knowledge</h3>
-                    <p class="text-gray-600 font-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <h3 class="text-xl font-serif font-bold text-[#000000] mb-3">Knowledge</h3>
+                    <p class="text-[#e5e5e5] font-sans opacity-0 group-hover:opacity-100 transition-opacity duration-300">
                         Centralized knowledge base with AI-driven insights and document management.
                     </p>
                 </div>
@@ -268,35 +268,35 @@
     </section>
 
     <!-- Features Section -->
-    <section class="py-24 bg-gray-50">
+    <section class="py-24 bg-[#e5e5e5]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <!-- Feature 1: Image left, text right -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
                 <div class="relative">
-                    <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200">
+                    <div class="bg-[#ffffff] rounded-2xl shadow-2xl p-8 border border-[#fca311]/20">
                         <!-- Mock dashboard screenshot -->
-                        <div class="bg-gradient-to-br from-blue-50 to-indigo-100 rounded-xl p-6 h-80 flex items-center justify-center">
+                        <div class="bg-gradient-to-br from-[#14213d] to-[#000000] rounded-xl p-6 h-80 flex items-center justify-center">
                             <div class="text-center">
-                                <div class="w-16 h-16 bg-blue-600 rounded-full mx-auto mb-4 flex items-center justify-center">
-                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-16 h-16 bg-[#fca311] rounded-full mx-auto mb-4 flex items-center justify-center">
+                                    <svg class="w-8 h-8 text-[#000000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
                                     </svg>
                                 </div>
-                                <p class="text-gray-600 font-sans">AI Dashboard Preview</p>
+                                <p class="text-[#e5e5e5] font-sans">AI Dashboard Preview</p>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div>
-                    <h3 class="text-3xl font-serif font-bold text-black mb-6">
+                    <h3 class="text-3xl font-serif font-bold text-[#000000] mb-6">
                         Intelligent Document Analysis
                     </h3>
-                    <p class="text-lg text-gray-600 font-sans mb-6 leading-relaxed">
+                    <p class="text-lg text-[#14213d] font-sans mb-6 leading-relaxed">
                         Our AI analyzes contracts, case law, and legal documents with unprecedented speed and accuracy. Identify risks, extract key terms, and generate insights that would take hours manually.
                     </p>
                     <ul class="space-y-3">
-                        <li class="flex items-center text-gray-700 font-sans">
-                            <svg class="w-5 h-5 text-green-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <li class="flex items-center text-[#14213d] font-sans">
+                            <svg class="w-5 h-5 text-[#fca311] mr-3" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             Risk assessment in seconds
@@ -320,27 +320,27 @@
             <!-- Feature 2: Text left, image right -->
             <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-24">
                 <div>
-                    <h3 class="text-3xl font-serif font-bold text-black mb-6">
+                    <h3 class="text-3xl font-serif font-bold text-[#000000] mb-6">
                         AI-Powered Research Assistant
                     </h3>
-                    <p class="text-lg text-gray-600 font-sans mb-6 leading-relaxed">
+                    <p class="text-lg text-[#14213d] font-sans mb-6 leading-relaxed">
                         Never miss a relevant case or statute again. Our AI research assistant scours legal databases, identifies patterns, and provides contextual insights tailored to your practice area.
                     </p>
                     <ul class="space-y-3">
-                        <li class="flex items-center text-gray-700 font-sans">
-                            <svg class="w-5 h-5 text-blue-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <li class="flex items-center text-[#14213d] font-sans">
+                            <svg class="w-5 h-5 text-[#fca311] mr-3" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             Multi-database search
                         </li>
-                        <li class="flex items-center text-gray-700 font-sans">
-                            <svg class="w-5 h-5 text-blue-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <li class="flex items-center text-[#14213d] font-sans">
+                            <svg class="w-5 h-5 text-[#fca311] mr-3" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             Relevance ranking
                         </li>
-                        <li class="flex items-center text-gray-700 font-sans">
-                            <svg class="w-5 h-5 text-blue-600 mr-3" fill="currentColor" viewBox="0 0 20 20">
+                        <li class="flex items-center text-[#14213d] font-sans">
+                            <svg class="w-5 h-5 text-[#fca311] mr-3" fill="currentColor" viewBox="0 0 20 20">
                                 <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd"/>
                             </svg>
                             Citation suggestions
@@ -348,22 +348,22 @@
                     </ul>
                 </div>
                 <div class="relative">
-                    <div class="bg-white rounded-2xl shadow-2xl p-8 border border-gray-200">
+                    <div class="bg-[#ffffff] rounded-2xl shadow-2xl p-8 border border-[#fca311]/20">
                         <!-- Mock chat interface -->
-                        <div class="bg-gradient-to-br from-purple-50 to-pink-100 rounded-xl p-6 h-80 flex flex-col justify-between">
+                        <div class="bg-gradient-to-br from-[#14213d] to-[#000000] rounded-xl p-6 h-80 flex flex-col justify-between">
                             <div class="space-y-4">
-                                <div class="bg-white rounded-lg p-3 shadow-sm">
-                                    <p class="text-sm text-gray-600 font-sans">Research: Recent cases on contract interpretation...</p>
+                                <div class="bg-[#ffffff] rounded-lg p-3 shadow-sm">
+                                    <p class="text-sm text-[#14213d] font-sans">Research: Recent cases on contract interpretation...</p>
                                 </div>
-                                <div class="bg-blue-600 text-white rounded-lg p-3 shadow-sm ml-8">
+                                <div class="bg-[#fca311] text-[#000000] rounded-lg p-3 shadow-sm ml-8">
                                     <p class="text-sm font-sans">Found 47 relevant cases. Top result: Smith v. Johnson (2023) - Supreme Court precedent on good faith interpretation.</p>
                                 </div>
-                                <div class="bg-white rounded-lg p-3 shadow-sm">
-                                    <p class="text-sm text-gray-600 font-sans">What about EU regulations?</p>
+                                <div class="bg-[#ffffff] rounded-lg p-3 shadow-sm">
+                                    <p class="text-sm text-[#14213d] font-sans">What about EU regulations?</p>
                                 </div>
                             </div>
-                            <div class="bg-white rounded-lg p-3 shadow-sm">
-                                <p class="text-sm text-blue-600 font-sans">AI Chat Interface</p>
+                            <div class="bg-[#ffffff] rounded-lg p-3 shadow-sm">
+                                <p class="text-sm text-[#fca311] font-sans">AI Chat Interface</p>
                             </div>
                         </div>
                     </div>
@@ -373,13 +373,13 @@
     </section>
 
     <!-- Resources Section -->
-    <section class="py-16 bg-gray-50">
+    <section class="py-16 bg-[#000000]">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div class="text-center mb-12">
-                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-black mb-4">
+                <h2 class="text-3xl sm:text-4xl font-serif font-bold text-[#000000] mb-4">
                     📚 Resources
                 </h2>
-                <p class="text-lg text-gray-600 font-sans">
+                <p class="text-lg text-[#e5e5e5] font-sans">
                     Stay informed with insights, updates, and resources from the legal AI space
                 </p>
             </div>
@@ -387,27 +387,27 @@
             <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
                 <!-- Blog -->
                 <div class="group cursor-pointer">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                        <div class="relative h-48 bg-gradient-to-br from-blue-500 to-purple-600 flex items-center justify-center overflow-hidden">
-                            <div class="absolute inset-0 bg-black opacity-20"></div>
-                            <svg class="w-16 h-16 text-white z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-[#14213d] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-[#fca311]/30">
+                        <div class="relative h-48 bg-gradient-to-br from-[#fca311] to-[#fdb541] flex items-center justify-center overflow-hidden">
+                            <div class="absolute inset-0 bg-[#000000] opacity-20"></div>
+                            <svg class="w-16 h-16 text-[#ffffff] z-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.746 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"/>
                             </svg>
                             <!-- Sample blog preview -->
                             <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <div class="bg-white rounded-lg p-3 shadow-lg">
-                                    <h4 class="font-serif font-bold text-sm text-black mb-1">AI in Legal Practice</h4>
-                                    <p class="text-xs text-gray-600">Oct 8, 2025</p>
+                                <div class="bg-[#ffffff] rounded-lg p-3 shadow-lg">
+                                    <h4 class="font-serif font-bold text-sm text-[#000000] mb-1">AI in Legal Practice</h4>
+                                    <p class="text-xs text-[#14213d]">Oct 8, 2025</p>
                                 </div>
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-serif font-bold text-black mb-3">Blog</h3>
-                            <p class="text-gray-600 font-sans mb-4">
+                            <h3 class="text-xl font-serif font-bold text-[#000000] mb-3">Blog</h3>
+                            <p class="text-[#e5e5e5] font-sans mb-4">
                                 Expert insights on AI, legal technology trends, and best practices from industry leaders.
                             </p>
                             <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <span class="text-blue-600 font-sans font-semibold">Read More →</span>
+                                <span class="text-[#fca311] font-sans font-semibold">Read More →</span>
                             </div>
                         </div>
                     </div>
@@ -415,26 +415,26 @@
 
                 <!-- Newsroom -->
                 <div class="group cursor-pointer">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                        <div class="relative h-48 bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
-                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-[#14213d] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-[#fca311]/30">
+                        <div class="relative h-48 bg-gradient-to-br from-[#fca311] to-[#fdb541] flex items-center justify-center">
+                            <svg class="w-16 h-16 text-[#000000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 20H5a2 2 0 01-2-2V6a2 2 0 012-2h10a2 2 0 012 2v1m2 13a2 2 0 01-2-2V7m2 13a2 2 0 002-2V9a2 2 0 00-2-2h-2m-4-3H9M7 16h6M7 8h6v4H7V8z"/>
                             </svg>
                             <!-- Sample news preview -->
                             <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <div class="bg-white rounded-lg p-3 shadow-lg">
-                                    <h4 class="font-serif font-bold text-sm text-black mb-1">Product Launch</h4>
-                                    <p class="text-xs text-gray-600">Latest Updates</p>
+                                <div class="bg-[#ffffff] rounded-lg p-3 shadow-lg">
+                                    <h4 class="font-serif font-bold text-sm text-[#000000] mb-1">Product Launch</h4>
+                                    <p class="text-xs text-[#14213d]">Latest Updates</p>
                                 </div>
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-serif font-bold text-black mb-3">Newsroom</h3>
-                            <p class="text-gray-600 font-sans mb-4">
+                            <h3 class="text-xl font-serif font-bold text-[#000000] mb-3">Newsroom</h3>
+                            <p class="text-[#e5e5e5] font-sans mb-4">
                                 Latest company announcements, product updates, and industry partnerships.
                             </p>
                             <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <span class="text-green-600 font-sans font-semibold">Read More →</span>
+                                <span class="text-[#fca311] font-sans font-semibold">Read More →</span>
                             </div>
                         </div>
                     </div>
@@ -442,26 +442,26 @@
 
                 <!-- Press Kit -->
                 <div class="group cursor-pointer">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                        <div class="relative h-48 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
-                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-[#14213d] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-[#fca311]/30">
+                        <div class="relative h-48 bg-gradient-to-br from-[#fca311] to-[#fdb541] flex items-center justify-center">
+                            <svg class="w-16 h-16 text-[#000000]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 4V2a1 1 0 011-1h8a1 1 0 011 1v2m0 0V1a1 1 0 011-1h2a1 1 0 011 1v18a1 1 0 01-1 1H4a1 1 0 01-1-1V4a1 1 0 011-1h2a1 1 0 011-1V4m0 0h10M9 7h6m-6 4h6m-6 4h6"/>
                             </svg>
                             <!-- Sample press kit preview -->
                             <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <div class="bg-white rounded-lg p-3 shadow-lg">
-                                    <h4 class="font-serif font-bold text-sm text-black mb-1">Media Assets</h4>
-                                    <p class="text-xs text-gray-600">Logos & Guidelines</p>
+                                <div class="bg-[#ffffff] rounded-lg p-3 shadow-lg">
+                                    <h4 class="font-serif font-bold text-sm text-[#000000] mb-1">Media Assets</h4>
+                                    <p class="text-xs text-[#14213d]">Logos & Guidelines</p>
                                 </div>
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-serif font-bold text-black mb-3">Press Kit</h3>
-                            <p class="text-gray-600 font-sans mb-4">
+                            <h3 class="text-xl font-serif font-bold text-[#000000] mb-3">Press Kit</h3>
+                            <p class="text-[#e5e5e5] font-sans mb-4">
                                 Media resources, brand assets, executive bios, and press materials for journalists.
                             </p>
                             <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <span class="text-purple-600 font-sans font-semibold">Read More →</span>
+                                <span class="text-[#fca311] font-sans font-semibold">Read More →</span>
                             </div>
                         </div>
                     </div>
@@ -469,26 +469,26 @@
 
                 <!-- Security & Privacy -->
                 <div class="group cursor-pointer">
-                    <div class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
-                        <div class="relative h-48 bg-gradient-to-br from-gray-700 to-gray-900 flex items-center justify-center">
-                            <svg class="w-16 h-16 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <div class="bg-[#14213d] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 border border-[#fca311]/30">
+                        <div class="relative h-48 bg-gradient-to-br from-[#14213d] to-[#000000] flex items-center justify-center">
+                            <svg class="w-16 h-16 text-[#ffffff]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                             </svg>
                             <!-- Sample security preview -->
                             <div class="absolute bottom-4 left-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <div class="bg-white rounded-lg p-3 shadow-lg">
-                                    <h4 class="font-serif font-bold text-sm text-black mb-1">SOC 2 Compliant</h4>
-                                    <p class="text-xs text-gray-600">Enterprise Security</p>
+                                <div class="bg-[#ffffff] rounded-lg p-3 shadow-lg">
+                                    <h4 class="font-serif font-bold text-sm text-[#000000] mb-1">SOC 2 Compliant</h4>
+                                    <p class="text-xs text-[#14213d]">Enterprise Security</p>
                                 </div>
                             </div>
                         </div>
                         <div class="p-6">
-                            <h3 class="text-xl font-serif font-bold text-black mb-3">Security & Privacy</h3>
-                            <p class="text-gray-600 font-sans mb-4">
+                            <h3 class="text-xl font-serif font-bold text-[#000000] mb-3">Security & Privacy</h3>
+                            <p class="text-[#e5e5e5] font-sans mb-4">
                                 Comprehensive security documentation, privacy policies, and compliance certifications.
                             </p>
                             <div class="opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                                <span class="text-gray-700 font-sans font-semibold">Read More →</span>
+                                <span class="text-[#fca311] font-sans font-semibold">Read More →</span>
                             </div>
                         </div>
                     </div>
@@ -498,87 +498,87 @@
             <!-- Featured Blog Articles Preview -->
             <div class="mt-16">
                 <div class="flex items-center justify-between mb-8">
-                    <h3 class="text-2xl font-serif font-bold text-black">Latest from Our Blog</h3>
-                    <a href="#" class="text-blue-600 font-sans font-semibold hover:text-blue-700 transition-colors">View All Articles →</a>
+                    <h3 class="text-2xl font-serif font-bold text-[#000000]">Latest from Our Blog</h3>
+                    <a href="#" class="text-[#fca311] font-sans font-semibold hover:text-[#fdb541] transition-colors">View All Articles →</a>
                 </div>
                 
                 <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                     <!-- Featured Article 1 -->
-                    <article class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                        <div class="h-48 bg-gradient-to-br from-blue-100 to-indigo-200 flex items-center justify-center">
+                    <article class="bg-[#14213d] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-[#fca311]/30">
+                        <div class="h-48 bg-gradient-to-br from-[#fca311] to-[#fdb541] flex items-center justify-center">
                             <div class="text-center p-6">
-                                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-16 h-16 bg-[#14213d] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-8 h-8 text-[#fca311]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                                     </svg>
                                 </div>
-                                <span class="text-blue-800 font-sans text-sm">AI & Legal Tech</span>
+                                <span class="text-[#000000] font-sans text-sm font-bold">AI & Legal Tech</span>
                             </div>
                         </div>
                         <div class="p-6">
-                            <div class="flex items-center text-xs text-gray-500 font-sans mb-3">
+                            <div class="flex items-center text-xs text-[#e5e5e5] font-sans mb-3">
                                 <time>October 8, 2025</time>
                                 <span class="mx-2">•</span>
                                 <span>5 min read</span>
                             </div>
-                            <h4 class="text-xl font-serif font-bold text-black mb-3 leading-tight">
+                            <h4 class="text-xl font-serif font-bold text-[#000000] mb-3 leading-tight">
                                 The Future of AI in Legal Practice: Trends for 2025
                             </h4>
-                            <p class="text-gray-600 font-sans leading-relaxed">
+                            <p class="text-[#e5e5e5] font-sans leading-relaxed">
                                 Explore how artificial intelligence is transforming legal workflows and what law firms need to know about implementing AI solutions effectively.
                             </p>
                         </div>
                     </article>
 
                     <!-- Featured Article 2 -->
-                    <article class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                        <div class="h-48 bg-gradient-to-br from-green-100 to-emerald-200 flex items-center justify-center">
+                    <article class="bg-[#14213d] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-[#fca311]/30">
+                        <div class="h-48 bg-gradient-to-br from-[#fca311] to-[#fdb541] flex items-center justify-center">
                             <div class="text-center p-6">
-                                <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-16 h-16 bg-[#14213d] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-8 h-8 text-[#fca311]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
                                 </div>
-                                <span class="text-green-800 font-sans text-sm">Best Practices</span>
+                                <span class="text-[#000000] font-sans text-sm font-bold">Best Practices</span>
                             </div>
                         </div>
                         <div class="p-6">
-                            <div class="flex items-center text-xs text-gray-500 font-sans mb-3">
+                            <div class="flex items-center text-xs text-[#e5e5e5] font-sans mb-3">
                                 <time>October 6, 2025</time>
                                 <span class="mx-2">•</span>
                                 <span>7 min read</span>
                             </div>
-                            <h4 class="text-xl font-serif font-bold text-black mb-3 leading-tight">
+                            <h4 class="text-xl font-serif font-bold text-[#000000] mb-3 leading-tight">
                                 Building AI-Ready Legal Teams: A Strategic Guide
                             </h4>
-                            <p class="text-gray-600 font-sans leading-relaxed">
+                            <p class="text-[#e5e5e5] font-sans leading-relaxed">
                                 Learn how progressive law firms are preparing their teams for AI integration and the key skills needed for the future of legal work.
                             </p>
                         </div>
                     </article>
 
                     <!-- Featured Article 3 -->
-                    <article class="bg-white rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1">
-                        <div class="h-48 bg-gradient-to-br from-purple-100 to-violet-200 flex items-center justify-center">
+                    <article class="bg-[#14213d] rounded-2xl overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 border border-[#fca311]/30">
+                        <div class="h-48 bg-gradient-to-br from-[#fca311] to-[#fdb541] flex items-center justify-center">
                             <div class="text-center p-6">
-                                <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-4">
-                                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <div class="w-16 h-16 bg-[#14213d] rounded-full flex items-center justify-center mx-auto mb-4">
+                                    <svg class="w-8 h-8 text-[#fca311]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                                     </svg>
                                 </div>
-                                <span class="text-purple-800 font-sans text-sm">Security</span>
+                                <span class="text-[#000000] font-sans text-sm font-bold">Security</span>
                             </div>
                         </div>
                         <div class="p-6">
-                            <div class="flex items-center text-xs text-gray-500 font-sans mb-3">
+                            <div class="flex items-center text-xs text-[#e5e5e5] font-sans mb-3">
                                 <time>October 4, 2025</time>
                                 <span class="mx-2">•</span>
                                 <span>4 min read</span>
                             </div>
-                            <h4 class="text-xl font-serif font-bold text-black mb-3 leading-tight">
+                            <h4 class="text-xl font-serif font-bold text-[#000000] mb-3 leading-tight">
                                 Data Security in Legal AI: What You Need to Know
                             </h4>
-                            <p class="text-gray-600 font-sans leading-relaxed">
+                            <p class="text-[#e5e5e5] font-sans leading-relaxed">
                                 Understanding the critical security considerations when implementing AI tools in legal practice and maintaining client confidentiality.
                             </p>
                         </div>
@@ -589,17 +589,17 @@
     </section>
 
     <!-- Security & Compliance Banner -->
-    <section class="py-16 bg-white border-t border-gray-200">
+    <section class="py-16 bg-[#14213d] border-t border-[#fca311]/20">
         <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="flex items-center justify-center mb-6">
-                <svg class="w-12 h-12 text-gray-800 mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <svg class="w-12 h-12 text-[#fca311] mr-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"/>
                 </svg>
-                <h3 class="text-2xl font-serif font-bold text-black">
+                <h3 class="text-2xl font-serif font-bold text-[#ffffff]">
                     Enterprise-Grade Security & Compliance
                 </h3>
             </div>
-            <p class="text-lg text-gray-600 font-sans max-w-2xl mx-auto">
+            <p class="text-lg text-[#e5e5e5] font-sans max-w-2xl mx-auto">
                 Your data is protected with bank-level encryption, SOC 2 compliance, and GDPR adherence. We never train our AI on your confidential information.
             </p>
         </div>
@@ -613,14 +613,14 @@ const domainData = {
         title: "Innovation & R&D",
         content: "Empower your innovation teams with AI-driven research tools, patent analysis, and regulatory compliance automation. Transform how your R&D departments discover insights and accelerate product development cycles.",
         image: `
-            <div class="bg-gradient-to-br from-blue-100 to-indigo-200 rounded-lg p-6 h-48 flex flex-col justify-center items-center">
-                <div class="w-16 h-16 bg-blue-600 rounded-full flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-gradient-to-br from-[#fca311] to-[#fdb541] rounded-lg p-6 h-48 flex flex-col justify-center items-center">
+                <div class="w-16 h-16 bg-[#000000] rounded-full flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-[#fca311]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
                     </svg>
                 </div>
-                <h4 class="text-lg font-semibold text-blue-800">AI Research Hub</h4>
-                <p class="text-sm text-blue-700 text-center">Patent analysis & regulatory insights</p>
+                <h4 class="text-lg font-semibold text-[#000000]">AI Research Hub</h4>
+                <p class="text-sm text-[#14213d] text-center">Patent analysis & regulatory insights</p>
             </div>
         `
     },
@@ -628,14 +628,14 @@ const domainData = {
         title: "In-House Legal Teams",
         content: "Streamline corporate legal operations with contract lifecycle management, compliance monitoring, and risk assessment tools. Built specifically for in-house counsel managing diverse legal portfolios.",
         image: `
-            <div class="bg-gradient-to-br from-green-100 to-emerald-200 rounded-lg p-6 h-48 flex flex-col justify-center items-center">
-                <div class="w-16 h-16 bg-green-600 rounded-full flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-gradient-to-br from-[#fca311] to-[#fdb541] rounded-lg p-6 h-48 flex flex-col justify-center items-center">
+                <div class="w-16 h-16 bg-[#000000] rounded-full flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-[#fca311]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"/>
                     </svg>
                 </div>
-                <h4 class="text-lg font-semibold text-green-800">Corporate Dashboard</h4>
-                <p class="text-sm text-green-700 text-center">Contract management & compliance tracking</p>
+                <h4 class="text-lg font-semibold text-[#000000]">Corporate Dashboard</h4>
+                <p class="text-sm text-[#14213d] text-center">Contract management & compliance tracking</p>
             </div>
         `
     },
@@ -643,9 +643,9 @@ const domainData = {
         title: "Transactional Work",
         content: "Accelerate deal execution with AI-powered contract review, due diligence automation, and M&A document analysis. Reduce transaction timelines while maintaining accuracy and thoroughness.",
         image: `
-            <div class="bg-gradient-to-br from-purple-100 to-violet-200 rounded-lg p-6 h-48 flex flex-col justify-center items-center">
-                <div class="w-16 h-16 bg-purple-600 rounded-full flex items-center justify-center mb-4">
-                    <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <div class="bg-gradient-to-br from-[#fca311] to-[#fdb541] rounded-lg p-6 h-48 flex flex-col justify-center items-center">
+                <div class="w-16 h-16 bg-[#000000] rounded-full flex items-center justify-center mb-4">
+                    <svg class="w-8 h-8 text-[#fca311]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                     </svg>
                 </div>

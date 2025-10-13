@@ -122,6 +122,8 @@
             font-weight: bold;
             font-size: 10px;
             text-align: center;
+            background-color: white;
+            color: black;
         }
     </style>
 </head>
@@ -132,7 +134,7 @@
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
                     <div class="w-12 h-12 rounded-xl flex items-center justify-center">
-                        <img src="{% static 'images/heroes/adlaan-02.png' %}" alt="Adlaan Logo" class="w-12 h-12 object-contain">
+                        <img src="{% static 'images/heroes/adlaan-icon.png' %}" alt="Adlaan Logo" class="w-12 h-12 object-contain">
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-gray-900">Adlaan AI Document Creator</h1>
@@ -154,10 +156,10 @@
         <!-- LEFT SIDE: Chat Interface -->
         <div class="w-1/2 flex flex-col bg-white border-r border-gray-200">
             <!-- Chat Header -->
-            <div class="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4 shadow-md">
+            <div class="bg-[#14213d] px-6 py-4 shadow-md">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1">
-                        <img src="{% static 'images/heroes/adlaan-02.png' %}" alt="Adlaan" class="w-full h-full object-contain">
+                    <div class="w-10 h-10 bg-black rounded-full flex items-center justify-center p-1">
+                        <img src="{% static 'images/heroes/adlaan-icon.png' %}" alt="Adlaan" class="w-full h-full object-contain">
                     </div>
                     <div>
                         <h2 class="text-lg font-bold text-white">AI Assistant Chat</h2>
@@ -170,20 +172,20 @@
             <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50">
                 <!-- Welcome Message -->
                 <div class="flex items-start space-x-3">
-                    <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0 p-1 shadow-sm">
-                        <img src="{% static 'images/heroes/adlaan-02.png' %}" alt="Adlaan" class="w-full h-full object-contain">
+                    <div class="w-8 h-8 bg-black rounded-full flex items-center justify-center flex-shrink-0 p-1 shadow-sm">
+                        <img src="{% static 'images/heroes/adlaan-icon.png' %}" alt="Adlaan" class="w-full h-full object-contain">
                     </div>
                     <div class="flex-1">
-                        <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4">
-                            <p class="text-gray-800 text-sm mb-3">Hello! I'm Adlaan, your AI legal assistant. I can help you create professional legal documents with precision and compliance in mind.</p>
+                        <div class="bg-[#fca311] rounded-2xl shadow-sm border border-gray-200 p-4">
+                            <p class="text-black text-sm mb-3">Hello! I'm Adlaan, your AI legal assistant. I can help you create professional legal documents with precision and compliance in mind.</p>
                             <div class="flex flex-wrap gap-2 mt-3">
-                                <button class="quick-action px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs rounded-full transition-colors border border-gray-300" data-msg="Create a service agreement for consulting">
+                                <button class="quick-action px-3 py-1.5 bg-[#14213d] hover:bg-[#1a2a4a] text-white text-xs rounded-full transition-colors border border-[#14213d]" data-msg="Create a service agreement for consulting">
                                     Service Agreement
                                 </button>
-                                <button class="quick-action px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs rounded-full transition-colors border border-gray-300" data-msg="Create a software development contract">
+                                <button class="quick-action px-3 py-1.5 bg-[#14213d] hover:bg-[#1a2a4a] text-white text-xs rounded-full transition-colors border border-[#14213d]" data-msg="Create a software development contract">
                                     Dev Contract
                                 </button>
-                                <button class="quick-action px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs rounded-full transition-colors border border-gray-300" data-msg="Create a non-disclosure agreement">
+                                <button class="quick-action px-3 py-1.5 bg-[#14213d] hover:bg-[#1a2a4a] text-white text-xs rounded-full transition-colors border border-[#14213d]" data-msg="Create a non-disclosure agreement">
                                     NDA
                                 </button>
                             </div>
@@ -199,12 +201,12 @@
                         id="user-input" 
                         rows="1"
                         placeholder="Describe the document you want to create..."
-                        class="flex-1 resize-none px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent"
+                        class="flex-1 resize-none px-4 py-3 border border-black rounded-xl focus:outline-none focus:ring-2 focus:ring-black focus:border-transparent text-black"
                         maxlength="1000"
                     ></textarea>
                     <button 
                         id="send-btn"
-                        class="px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-xl hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="px-6 py-3 bg-black text-white rounded-xl hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         disabled
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -222,7 +224,7 @@
         <!-- RIGHT SIDE: Document Preview -->
         <div class="w-1/2 flex flex-col bg-gray-50">
             <!-- Document Header -->
-            <div class="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4 shadow-md">
+            <div class="bg-[#14213d] px-6 py-4 shadow-md">
                 <div class="flex items-center justify-between">
                     <div class="flex items-center space-x-3">
                         <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
