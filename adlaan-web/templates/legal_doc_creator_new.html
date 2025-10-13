@@ -424,24 +424,53 @@
                                         docStatus.textContent = 'Preparing your document...';
                                     }
                                     
-                                    // Add to typing queue for smooth animation
-                                    const wasEmpty = typingQueue.length === 0;
-                                    typingQueue += data.content;
+                                    // Check if we're receiving JSON format (starts with [ or {)
+                                    const isJsonFormat = accumulated.trim().startsWith('[') || accumulated.trim().startsWith('{');
                                     
-                                    // Start typing if queue was empty
-                                    if (wasEmpty) {
-                                        typeNextChunk();
+                                    if (!isJsonFormat) {
+                                        // Only add to typing queue if not JSON format
+                                        // This provides natural typing for regular messages
+                                        const wasEmpty = typingQueue.length === 0;
+                                        typingQueue += data.content;
+                                        
+                                        // Start typing if queue was empty
+                                        if (wasEmpty) {
+                                            typeNextChunk();
+                                        }
+                                    } else {
+                                        // For JSON format, show a loading indicator instead of typing
+                                        if (aiMsgDiv && accumulated.length < 100) {
+                                            // Only update loading message once, early on
+                                            updateAIMessage(aiMsgDiv, '✍️ Crafting your professional legal document...', false);
+                                        }
                                     }
                                 } else if (data.type === 'end') {
-                                    // Wait for typing to complete, then show final document
-                                    const checkTypingComplete = setInterval(() => {
-                                        if (typingQueue.length === 0) {
-                                            clearInterval(checkTypingComplete);
-                                            updateAIMessage(aiMsgDiv, accumulated, true);
-                                            showDocument(accumulated, message);
-                                            docStatus.textContent = 'Document ready!';
+                                    // Stop typing queue and parse final JSON
+                                    typingQueue = ''; // Clear any remaining typing
+                                    
+                                    // Parse JSON response to extract clean content
+                                    let cleanContent = accumulated;
+                                    try {
+                                        if (accumulated.trim().startsWith('[') && accumulated.trim().endsWith(']')) {
+                                            const parsed = JSON.parse(accumulated);
+                                            if (Array.isArray(parsed)) {
+                                                // Extract all content fields and join them
+                                                cleanContent = parsed.map(item => {
+                                                    if (item && item.content) {
+                                                        return item.content;
+                                                    }
+                                                    return '';
+                                                }).filter(Boolean).join('\n\n');
+                                            }
                                         }
-                                    }, 100);
+                                    } catch (e) {
+                                        console.log('Could not parse JSON, using original content');
+                                    }
+                                    
+                                    // Update message with clean content and show document
+                                    updateAIMessage(aiMsgDiv, cleanContent, true);
+                                    showDocument(cleanContent, message);
+                                    docStatus.textContent = 'Document ready!';
                                 } else if (data.type === 'error') {
                                     updateAIMessage(aiMsgDiv, `I apologize, but I encountered an error: ${data.content}. Please try again.`, true);
                                     showState('initial');
@@ -827,7 +856,27 @@
             
             let html = text;
             
-            // Remove any JSON artifacts or escape characters
+            // Parse JSON array format from AI agent if present
+            try {
+                // Check if text is a JSON array like [{"type": "message", "content": "..."}]
+                if (text.trim().startsWith('[') && text.trim().endsWith(']')) {
+                    const parsed = JSON.parse(text);
+                    if (Array.isArray(parsed)) {
+                        // Extract and concatenate all content fields
+                        html = parsed.map(item => {
+                            if (item && item.content) {
+                                return item.content;
+                            }
+                            return '';
+                        }).filter(Boolean).join('\n\n');
+                    }
+                }
+            } catch (e) {
+                // Not valid JSON, continue with original text
+                console.log('Content is not JSON format, using as-is');
+            }
+            
+            // Remove any remaining JSON artifacts or escape characters
             html = html.replace(/[\{\}\[\]]/g, '');
             html = html.replace(/\\n/g, '\n');
             html = html.replace(/\\"/g, '"');
