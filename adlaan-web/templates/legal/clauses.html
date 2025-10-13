@@ -1,0 +1,9 @@
+{% block content %}
+<!-- Document Clauses -->
+{% for clause in clauses %}
+<div class="clause" id="clause-{{ forloop.counter }}">
+    <h2>{{ clause.title }}</h2>
+    <div class="legal-text">{{ clause.content|safe }}</div>
+</div>
+{% endfor %}
+{% endblock %}

@@ -64,16 +64,16 @@
                     </div>
                     <div class="flex-1">
                         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4">
-                            <p class="text-gray-800 text-sm mb-3">👋 Hello! I'm Adlaan, your AI legal assistant. I can help you create professional legal documents.</p>
+                            <p class="text-gray-800 text-sm mb-3">Hello! I'm Adlaan, your AI legal assistant. I can help you create professional legal documents with precision and compliance in mind.</p>
                             <div class="flex flex-wrap gap-2 mt-3">
                                 <button class="quick-action px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs rounded-full transition-colors" data-msg="Create a service agreement for consulting">
-                                    📄 Service Agreement
+                                    Service Agreement
                                 </button>
                                 <button class="quick-action px-3 py-1.5 bg-green-50 hover:bg-green-100 text-green-700 text-xs rounded-full transition-colors" data-msg="Create a software development contract">
-                                    💻 Dev Contract
+                                    Dev Contract
                                 </button>
                                 <button class="quick-action px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs rounded-full transition-colors" data-msg="Create a non-disclosure agreement">
-                                    🔒 NDA
+                                    NDA
                                 </button>
                             </div>
                         </div>
@@ -151,8 +151,8 @@
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                 </svg>
                             </div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Ready to Create</h3>
-                            <p class="text-gray-600 max-w-md mx-auto">Start chatting with the AI assistant to generate your legal document</p>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Ready to get started</h3>
+                            <p class="text-gray-600 max-w-md mx-auto">Tell me what kind of legal document you'd like me to create for you.</p>
                         </div>
 
                         <!-- Thinking State -->
@@ -160,8 +160,8 @@
                             <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
                                 <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
                             </div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">🤔 Thinking & Planning</h3>
-                            <p class="text-gray-600">Analyzing your requirements...</p>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Analyzing your request</h3>
+                            <p class="text-gray-600">I'm reviewing your requirements to create the perfect legal document...</p>
                         </div>
 
                         <!-- Generating State -->
@@ -169,8 +169,8 @@
                             <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
                                 <div class="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
                             </div>
-                            <h3 class="text-xl font-semibold text-gray-900 mb-2">✍️ Generating Document</h3>
-                            <p class="text-gray-600">Creating your professional legal document...</p>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-2">Crafting your document</h3>
+                            <p class="text-gray-600">I'm writing a professional legal document tailored to your needs...</p>
                         </div>
 
                         <!-- Document Content -->
@@ -263,7 +263,7 @@
 
             // Show thinking state
             showState('thinking');
-            docStatus.textContent = 'Thinking & planning...';
+            docStatus.textContent = 'Analyzing your request...';
 
             // Add AI response placeholder
             const aiMsgDiv = addChatMessage('', 'ai', true);
@@ -303,10 +303,10 @@
                                     accumulated += data.content;
                                     
                                     // Switch to generating state after initial tokens
-                                    if (!hasStartedGenerating && accumulated.length > 50) {
+                                    if (!hasStartedGenerating && accumulated.length > 20) {
                                         hasStartedGenerating = true;
                                         showState('generating');
-                                        docStatus.textContent = 'Generating document...';
+                                        docStatus.textContent = 'Preparing your document...';
                                     }
                                     
                                     updateAIMessage(aiMsgDiv, accumulated);
@@ -314,11 +314,11 @@
                                     // Show final document
                                     updateAIMessage(aiMsgDiv, accumulated, true);
                                     showDocument(accumulated, message);
-                                    docStatus.textContent = 'Document generated!';
+                                    docStatus.textContent = 'Document ready!';
                                 } else if (data.type === 'error') {
-                                    updateAIMessage(aiMsgDiv, `❌ Error: ${data.content}`, true);
+                                    updateAIMessage(aiMsgDiv, `I apologize, but I encountered an error: ${data.content}. Please try again.`, true);
                                     showState('initial');
-                                    docStatus.textContent = 'Error occurred';
+                                    docStatus.textContent = 'Ready to create';
                                 }
                             } catch (e) {
                                 console.error('Parse error:', e);
@@ -328,9 +328,9 @@
                 }
             } catch (error) {
                 console.error('Connection error:', error);
-                updateAIMessage(aiMsgDiv, `❌ Connection error: ${error.message}`, true);
+                updateAIMessage(aiMsgDiv, `I'm sorry, but I'm having trouble connecting right now. Please check your connection and try again.`, true);
                 showState('initial');
-                docStatus.textContent = 'Error occurred';
+                docStatus.textContent = 'Ready to create';
             } finally {
                 isProcessing = false;
                 sendBtn.disabled = userInput.value.trim().length === 0;
@@ -367,11 +367,15 @@
 
         function updateAIMessage(element, content, isDone = false) {
             if (!element) return;
-            const preview = content.substring(0, 200);
+            
+            // Clean and format the content for natural display
+            const formattedContent = formatChatContent(content);
+            
             element.innerHTML = `
-                <p class="text-sm text-gray-800 mb-2">${isDone ? '✅ Document generated successfully!' : '📝 Generating...'}</p>
-                ${content ? `<div class="mt-2 p-3 bg-gray-50 rounded-lg text-xs font-mono max-h-32 overflow-y-auto border">${preview}${content.length > 200 ? '...' : ''}</div>` : ''}
-                ${!isDone ? '<div class="mt-2 flex space-x-1"><div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div></div>' : ''}
+                <div class="text-sm text-gray-800 leading-relaxed">
+                    ${formattedContent}
+                    ${!isDone ? '<span class="inline-block w-1 h-4 bg-blue-500 animate-pulse ml-1"></span>' : ''}
+                </div>
             `;
         }
 
@@ -388,9 +392,253 @@
         }
 
         function showDocument(content, userMessage) {
+            // Format and display the document content
+            const formattedContent = formatChatContent(content);
+            docContent.innerHTML = `
+                <div class="p-6">
+                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                            </svg>
+                            <span class="text-sm text-blue-700">📄 Document generated successfully</span>
+                        </div>
+                    </div>
+                    <div class="prose prose-sm max-w-none">
+                        ${formattedContent}
+                    </div>
+                </div>
+            `;
+
             showState('document');
-            updateDocTitle(userMessage);
-            docContent.innerHTML = formatContent(content);
+
+            // Automatically start PDF generation
+            setTimeout(() => {
+                generatePDF(content, userMessage);
+            }, 1000);
+        }
+
+        function generatePDF(content, userMessage) {
+            // Extract document data from content
+            const docData = extractDocumentData(content, userMessage);
+
+            // Update status to show PDF generation started
+            docStatus.textContent = '📄 Starting PDF generation...';
+
+            fetch('/documents/generate/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': getCSRFToken()
+                },
+                body: JSON.stringify(docData)
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('PDF generation failed');
+                }
+
+                // Check if response is JSON (synchronous) or streaming
+                const contentType = response.headers.get('content-type');
+                if (contentType && contentType.includes('application/json')) {
+                    // Handle synchronous JSON response
+                    return response.json().then(data => {
+                        if (data.success) {
+                            showPDFDownloadReady(docData, data.download_url, data.filename);
+                        } else {
+                            throw new Error(data.error || 'PDF generation failed');
+                        }
+                    });
+                } else {
+                    // Handle Server-Sent Events for progress updates
+                    const reader = response.body.getReader();
+                    const decoder = new TextDecoder();
+                    let buffer = '';
+
+                    function readStream() {
+                        reader.read().then(({ done, value }) => {
+                            if (done) {
+                                // Stream ended, check if we have a final download URL
+                                if (!buffer.includes('✅ PDF ready for download!')) {
+                                    showPDFError('PDF generation completed but download link not available');
+                                }
+                                return;
+                            }
+
+                            buffer += decoder.decode(value, { stream: true });
+                            const lines = buffer.split('\n');
+
+                            // Keep the last incomplete line in buffer
+                            buffer = lines.pop();
+
+                            for (const line of lines) {
+                                if (line.startsWith('data: ')) {
+                                    const message = line.slice(6).trim();
+                                    docStatus.textContent = message;
+
+                                    // When PDF is ready, show download button
+                                    if (message.includes('✅ PDF ready for download!')) {
+                                        showPDFDownloadReady(docData);
+                                    }
+                                }
+                            }
+
+                            readStream();
+                        }).catch(error => {
+                            console.error('Stream reading error:', error);
+                            showPDFError('Error during PDF generation');
+                        });
+                    }
+
+                    readStream();
+                }
+            })
+            .catch(error => {
+                console.error('PDF generation error:', error);
+                showPDFError('Failed to start PDF generation');
+            });
+        }
+
+        function showPDFDownloadReady(docData, downloadUrl, filename) {
+            const pdfNotice = docContent.querySelector('.bg-blue-50');
+            if (pdfNotice) {
+                const downloadButton = downloadUrl ? 
+                    `<a href="${downloadUrl}" download="${filename || 'document.pdf'}" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors inline-block">Download PDF</a>` :
+                    `<button onclick="downloadLatestPDF('${docData.document.title.replace(/'/g, '\\\'')}')" class="px-4 py-2 bg-green-600 hover:bg-green-700 text-white text-sm rounded-lg transition-colors">Download PDF</button>`;
+
+                pdfNotice.innerHTML = `
+                    <div class="flex items-center justify-between">
+                        <div class="flex items-center space-x-2">
+                            <svg class="w-5 h-5 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                            </svg>
+                            <span class="text-sm text-green-700">✅ PDF ready for download</span>
+                        </div>
+                        ${downloadButton}
+                    </div>
+                `;
+            }
+        }
+
+        function downloadLatestPDF(title) {
+            // For now, create a placeholder download
+            // In production, this would poll for the actual file or use websockets
+            const filename = title.replace(/\s+/g, '_') + '.pdf';
+            const blob = new Blob(['PDF generation in progress...'], { type: 'application/pdf' });
+            const url = window.URL.createObjectURL(blob);
+            const downloadLink = document.createElement('a');
+            downloadLink.href = url;
+            downloadLink.download = filename;
+            downloadLink.click();
+
+            setTimeout(() => {
+                window.URL.revokeObjectURL(url);
+            }, 1000);
+        }
+
+        function showPDFError(message) {
+            const pdfNotice = docContent.querySelector('.bg-blue-50');
+            if (pdfNotice) {
+                pdfNotice.innerHTML = `
+                    <div class="flex items-center space-x-2">
+                        <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+                        </svg>
+                        <span class="text-sm text-red-700">${message}</span>
+                    </div>
+                `;
+            }
+        }
+
+        function extractDocumentData(content, userMessage) {
+            // Handle array format from AI agent
+            let documentContent = '';
+            let messageContent = '';
+            
+            if (Array.isArray(content)) {
+                // Extract content from array format
+                for (const item of content) {
+                    if (item.type === 'doc') {
+                        documentContent = item.content;
+                    } else if (item.type === 'message') {
+                        messageContent = item.content;
+                    }
+                }
+            } else {
+                // Handle string format
+                documentContent = content;
+            }
+            
+            // Extract document type from user message or content
+            const lowerMessage = userMessage.toLowerCase();
+            const lowerContent = documentContent.toLowerCase();
+            let title = 'LEGAL DOCUMENT';
+            let jurisdiction = 'Jordan';
+            
+            if ((lowerMessage.includes('software') && lowerMessage.includes('license')) || 
+                (lowerContent.includes('software') && lowerContent.includes('license'))) {
+                title = 'SOFTWARE LICENSING AGREEMENT';
+            } else if ((lowerMessage.includes('service') && lowerMessage.includes('agreement')) || 
+                      (lowerContent.includes('service') && lowerContent.includes('agreement'))) {
+                title = 'SERVICE AGREEMENT';
+            } else if ((lowerMessage.includes('nda') || lowerMessage.includes('non-disclosure')) ||
+                      (lowerContent.includes('nda') || lowerContent.includes('non-disclosure'))) {
+                title = 'NON-DISCLOSURE AGREEMENT';
+            } else if (lowerMessage.includes('employment') || lowerContent.includes('employment')) {
+                title = 'EMPLOYMENT AGREEMENT';
+            }
+            
+            // Extract jurisdiction if mentioned
+            if (lowerMessage.includes('jordan') || lowerContent.includes('jordan')) jurisdiction = 'Jordan';
+            else if (lowerMessage.includes('uae') || lowerMessage.includes('dubai') || 
+                    lowerContent.includes('uae') || lowerContent.includes('dubai')) jurisdiction = 'UAE';
+            else if (lowerMessage.includes('saudi') || lowerContent.includes('saudi')) jurisdiction = 'Saudi Arabia';
+            
+            return {
+                document: {
+                    title: title,
+                    subtitle: `${title} - ${jurisdiction} Jurisdiction`,
+                    parties: ['Party A', 'Party B'], // This would be extracted from content
+                    date: new Date().toISOString().split('T')[0],
+                    jurisdiction: jurisdiction,
+                    language: 'en',
+                    version: '1.0',
+                    signed_by: 'Authorized Representative',
+                    signature_date: new Date().toISOString().split('T')[0]
+                },
+                clauses: parseContentIntoClauses(documentContent)
+            };
+        }
+
+        function parseContentIntoClauses(content) {
+            const clauses = [];
+            const lines = content.split('\n');
+            let currentClause = null;
+            
+            for (const line of lines) {
+                if (line.match(/^\d+\./) || line.match(/^#+\s/)) {
+                    if (currentClause) {
+                        clauses.push(currentClause);
+                    }
+                    currentClause = {
+                        title: line.replace(/^#+\s*/, '').replace(/^\d+\.\s*/, ''),
+                        content: ''
+                    };
+                } else if (currentClause && line.trim()) {
+                    currentClause.content += `<p>${line.trim()}</p>`;
+                }
+            }
+            
+            if (currentClause) {
+                clauses.push(currentClause);
+            }
+            
+            return clauses;
+        }
+
+        function getCSRFToken() {
+            const csrfToken = document.querySelector('[name=csrfmiddlewaretoken]');
+            return csrfToken ? csrfToken.value : '';
         }
 
         function updateDocTitle(message) {
@@ -406,25 +654,31 @@
             }
         }
 
-        function formatContent(text) {
+        function formatChatContent(text) {
+            if (!text) return '';
+            
             let html = text;
             
-            // Headers
-            html = html.replace(/^# (.+)$/gm, '<h1 class="text-2xl font-bold text-gray-900 mt-8 mb-4">$1</h1>');
-            html = html.replace(/^## (.+)$/gm, '<h2 class="text-xl font-bold text-gray-900 mt-6 mb-3">$1</h2>');
-            html = html.replace(/^### (.+)$/gm, '<h3 class="text-lg font-semibold text-gray-900 mt-4 mb-2">$1</h3>');
-            
-            // Numbered sections
-            html = html.replace(/^(\d+)\.\s+([A-Z][A-Z\s]+)/gm, '<h3 class="text-lg font-semibold text-gray-900 mt-6 mb-2">$1. $2</h3>');
-            
-            // Bold
-            html = html.replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold">$1</strong>');
-            
-            // Paragraphs
-            html = html.replace(/\n\n/g, '</p><p class="text-sm text-gray-800 leading-relaxed mb-4">');
+            // Convert line breaks to proper paragraphs
+            html = html.replace(/\n\n/g, '</p><p class="mb-3">');
             html = html.replace(/\n/g, '<br>');
             
-            return `<div class="space-y-4"><p class="text-sm text-gray-800 leading-relaxed mb-4">${html}</p></div>`;
+            // Basic Markdown formatting
+            // Headers
+            html = html.replace(/^### (.+)$/gm, '<h3 class="text-base font-semibold text-gray-900 mt-4 mb-2">$1</h3>');
+            html = html.replace(/^## (.+)$/gm, '<h2 class="text-lg font-semibold text-gray-900 mt-4 mb-2">$1</h2>');
+            html = html.replace(/^# (.+)$/gm, '<h1 class="text-xl font-bold text-gray-900 mt-4 mb-3">$1</h1>');
+            
+            // Bold text
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong class="font-semibold">$1</strong>');
+            
+            // Numbered lists
+            html = html.replace(/^(\d+)\.\s+(.+)$/gm, '<div class="flex items-start space-x-2 mb-2"><span class="flex-shrink-0 w-5 h-5 bg-blue-100 text-blue-800 rounded-full text-xs flex items-center justify-center font-medium">$1</span><span>$2</span></div>');
+            
+            // Bullet points
+            html = html.replace(/^[-*]\s+(.+)$/gm, '<div class="flex items-start space-x-2 mb-2"><span class="flex-shrink-0 w-1.5 h-1.5 bg-gray-400 rounded-full mt-2"></span><span>$1</span></div>');
+            
+            return `<p class="mb-3">${html}</p>`;
         }
 
         // Enter to send

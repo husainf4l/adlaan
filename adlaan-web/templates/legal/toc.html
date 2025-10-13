@@ -1,0 +1,12 @@
+{% if clauses|length > 3 %}
+<!-- Table of Contents -->
+<div class="clause" style="page-break-after: always;">
+    <h2>Table of Contents</h2>
+    <ol class="legal-list">
+        {% for clause in clauses %}
+        <li><a href="#clause-{{ forloop.counter }}">{{ clause.title }}</a></li>
+        {% endfor %}
+        <li><a href="#signature">Execution of Agreement</a></li>
+    </ol>
+</div>
+{% endif %}
