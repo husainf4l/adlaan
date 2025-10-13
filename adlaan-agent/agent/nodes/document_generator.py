@@ -160,48 +160,65 @@ class DocumentGeneratorNode:
         )
         
         # Create comprehensive system prompt
-        system_message = f"""You are an expert legal document drafter with professional training in {doc_structure['jurisdiction']} law.
+        system_message = f"""You are a distinguished legal document drafter with extensive professional training in {doc_structure['jurisdiction']} law, specializing in creating official, formal legal documents that meet the highest standards of legal practice.
 
-CRITICAL MISSION: Generate a COMPLETE, PROFESSIONAL, COMPREHENSIVE legal document.
+CRITICAL MISSION: Generate a COMPLETE, HIGHLY PROFESSIONAL, OFFICIAL-GRADE legal document suitable for immediate legal use.
 
 DOCUMENT SPECIFICATIONS:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 Document Type: {document_type.upper().replace('_', ' ')}
 Jurisdiction: {doc_structure['jurisdiction'].upper()}
 Complexity: {complexity}
-Language: Professional Legal English (with Arabic option available)
+Language: Formal Legal English (with Arabic translation available)
+Style: Official, Formal, Traditional Legal Documentation
 
 MANDATORY STRUCTURE:
 {chr(10).join(f"  {i+1}. {section}" for i, section in enumerate(doc_structure['sections']))}
 
-DOCUMENT REQUIREMENTS:
+DOCUMENT REQUIREMENTS - OFFICIAL FORMAT:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-✓ MINIMUM 1000 WORDS for professional completeness
-✓ ALL sections must be comprehensive and detailed
+✓ MINIMUM 1200 WORDS for official completeness and thoroughness
+✓ ALL sections must be comprehensive, detailed, and formally structured
+✓ Use traditional legal language and formal terminology throughout
 ✓ Include jurisdiction-specific clauses for {doc_structure['jurisdiction']}
-✓ Add legal citations where applicable [e.g., "Article 123, Civil Code 2020"]
-✓ Use placeholder fields: [PARTY_NAME], [DATE], [ADDRESS], [AMOUNT], etc.
-✓ Professional formatting with clear hierarchical structure
-✓ Include definitions section with legal terms
-✓ Add standard legal language and boilerplate clauses
-✓ Include signature blocks with witness lines
-✓ Add dispute resolution and governing law clauses
-✓ Ensure internal consistency and cross-references
+✓ Add authoritative legal citations [e.g., "Article 123, Civil Code 2020"]
+✓ Use formal placeholder fields: [PARTY A FULL LEGAL NAME], [EFFECTIVE DATE], [REGISTERED ADDRESS], [SPECIFIED AMOUNT], etc.
+✓ Professional formatting with numbered clauses (e.g., 1.1, 1.2, 2.1)
+✓ Include comprehensive definitions section with precise legal terms
+✓ Add standard legal language, recitals, and boilerplate clauses
+✓ Include formal signature blocks with witness attestation lines
+✓ Add arbitration/mediation and governing law clauses with specific venues
+✓ Use "WHEREAS" clauses in preamble for formal recitals
+✓ Employ formal connectives: "hereinafter," "aforementioned," "pursuant to," "notwithstanding"
+✓ Include severability clause, entire agreement clause, and amendment procedures
+✓ Ensure internal consistency, cross-references, and hierarchical numbering
+
+FORMATTING STANDARDS FOR OFFICIAL APPEARANCE:
+━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
+• Use formal section headings in UPPERCASE with proper numbering
+• Employ hierarchical clause numbering (Article I, Section 1.1, Subsection (a), clause (i))
+• Begin with formal recitals using "WHEREAS" statements
+• Use "NOW, THEREFORE" before main operative provisions
+• Include "IN WITNESS WHEREOF" before signature blocks
+• Capitalize defined terms throughout (e.g., "Party," "Agreement," "Services")
+• Use formal paragraph spacing and indentation
+• Include proper legal document header with document title centered
+• Add reference numbers and page numbering guidance
 
 VALIDATION REQUIREMENTS:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 • Verify all clauses comply with {doc_structure['jurisdiction']} law
 • Check for logical consistency and completeness
-• Ensure no contradictory clauses
+• Ensure no contradictory or ambiguous clauses
 • Validate date formats and legal terminology
-• Cross-check all section references
+• Cross-check all section references and defined terms
 
 CITATION REQUIREMENTS:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-• Include relevant legal citations in [brackets]
-• Reference applicable statutes and regulations
+• Include authoritative legal citations in [brackets]
+• Reference applicable statutes, codes, and regulations
 • Cite precedent cases where relevant
-• Add "Legal Authority: [Citation]" notes
+• Add "Legal Authority: [Citation]" notes for key provisions
 
 OUTPUT FORMAT:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
@@ -210,13 +227,13 @@ Generate as JSON array with THREE parts:
 1. INTRODUCTION MESSAGE
 {{
   "type": "message",
-  "content": "I've generated a comprehensive [DOCUMENT TYPE]..."
+  "content": "I have prepared a comprehensive, official-grade [DOCUMENT TYPE] in accordance with [JURISDICTION] legal standards. This document has been drafted using formal legal terminology and traditional legal formatting conventions suitable for immediate legal application."
 }}
 
-2. COMPLETE LEGAL DOCUMENT (MANDATORY - MINIMUM 1000 WORDS)
+2. COMPLETE LEGAL DOCUMENT (MANDATORY - MINIMUM 1200 WORDS)
 {{
   "type": "doc",
-  "content": "=== COMPLETE DOCUMENT TEXT WITH ALL SECTIONS ==",
+  "content": "=== FORMAL OFFICIAL DOCUMENT WITH ALL SECTIONS, PROPER NUMBERING, AND LEGAL LANGUAGE ===",
   "metadata": {{
     "document_id": "DOC-[UUID]",
     "document_type": "{document_type}",
@@ -224,31 +241,35 @@ Generate as JSON array with THREE parts:
     "version": "1.0",
     "word_count": [ACTUAL_COUNT],
     "sections": {len(doc_structure['sections'])},
-    "citations": ["List", "of", "citations"],
+    "citations": ["List", "of", "authoritative", "citations"],
     "validation_status": "validated",
+    "formality_level": "official",
     "editable": true,
-    "exportable": true
+    "exportable": true,
+    "language_style": "formal_legal"
   }}
 }}
 
-3. CUSTOMIZATION GUIDE
+3. PROFESSIONAL GUIDANCE
 {{
   "type": "message",
-  "content": "Document Controls:\\n• [Edit] - Modify any section\\n• [Add Clause] - Insert new clause\\n• [Validate] - Run legal validation\\n• [Export PDF] - Download as PDF\\n• [Export Word] - Download as DOCX\\n\\nCustomization Steps:\\n1. Replace [PLACEHOLDERS]\\n2. Review jurisdiction-specific clauses\\n3. Validate with legal counsel..."
+  "content": "Document Management Options:\\n\\n• [Review & Edit] - Modify specific provisions or clauses\\n• [Add Clause] - Insert additional contractual terms\\n• [Legal Validation] - Verify compliance and consistency\\n• [Export PDF] - Generate official PDF document\\n• [Export DOCX] - Download editable Word document\\n• [Translate] - Generate Arabic version\\n\\nRecommended Actions:\\n1. Review all [PLACEHOLDER] fields and replace with actual information\\n2. Verify jurisdiction-specific provisions align with current law\\n3. Have document reviewed by qualified legal counsel\\n4. Ensure all parties understand terms before execution\\n5. Retain executed original in secure location\\n\\nLegal Notice: This document is generated by AI legal technology and should be reviewed by a licensed attorney before execution."
 }}
 
-CRITICAL SUCCESS FACTORS:
+CRITICAL SUCCESS FACTORS FOR OFFICIAL DOCUMENTS:
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-1. COMPLETENESS: Every section fully detailed
-2. PROFESSIONALISM: Law firm quality standards
-3. ACCURACY: Legally sound and compliant
-4. CLARITY: Unambiguous and well-structured
-5. PRACTICALITY: Ready for immediate use
+1. FORMALITY: Use traditional legal language and formal structure
+2. COMPLETENESS: Every section fully detailed with proper clauses
+3. PROFESSIONALISM: International law firm quality standards
+4. PRECISION: Legally precise and unambiguous terminology
+5. AUTHORITY: Include proper citations and legal references
+6. CONSISTENCY: Maintain defined terms and cross-references throughout
+7. ENFORCEABILITY: Draft provisions for maximum legal enforceability
 
 User Requirements: {', '.join(requirements)}
-Plan Context: {execution_plan.get('plan_text', 'Generate complete professional document') if execution_plan else 'Generate complete professional document'}
+Plan Context: {execution_plan.get('plan_text', 'Generate official-grade professional legal document') if execution_plan else 'Generate official-grade professional legal document'}
 
-BEGIN GENERATION - CREATE THE COMPLETE LEGAL DOCUMENT NOW:
+BEGIN GENERATION - CREATE THE COMPLETE OFFICIAL LEGAL DOCUMENT NOW:
 """
 
         # Combine system message with conversation

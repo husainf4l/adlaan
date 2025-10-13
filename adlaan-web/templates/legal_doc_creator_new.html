@@ -20,7 +20,7 @@
         
         .typing-cursor {
             animation: blink 0.8s infinite;
-            background-color: #3B82F6;
+            background-color: #1f2937;
         }
         
         .typing-content {
@@ -41,16 +41,98 @@
         .ai-message, .user-message {
             animation: fadeIn 0.3s ease-out;
         }
+
+        /* Official Document Styling */
+        .official-document {
+            font-family: 'Times New Roman', 'Georgia', serif;
+        }
+
+        .official-document-title {
+            font-family: 'Times New Roman', 'Georgia', serif;
+            letter-spacing: 0.05em;
+            text-transform: uppercase;
+        }
+
+        .official-document-content {
+            font-family: 'Times New Roman', 'Georgia', serif;
+            font-size: 11pt;
+            line-height: 1.8;
+            text-align: justify;
+            color: #1a1a1a;
+        }
+
+        .official-document-content h2 {
+            font-family: 'Times New Roman', 'Georgia', serif;
+            font-size: 13pt;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+            margin-top: 2em;
+            margin-bottom: 1em;
+            text-align: center;
+        }
+
+        .official-document-content h3 {
+            font-family: 'Times New Roman', 'Georgia', serif;
+            font-size: 11pt;
+            font-weight: 700;
+            margin-top: 1.5em;
+            margin-bottom: 0.8em;
+        }
+
+        .official-document-content p {
+            margin-bottom: 1.2em;
+            text-indent: 0;
+            line-height: 1.8;
+        }
+
+        .official-document-content ul, 
+        .official-document-content ol {
+            margin-left: 2em;
+            margin-bottom: 1em;
+        }
+
+        .official-document-header {
+            border-bottom: 3px double #1a1a1a;
+            padding-bottom: 1.5em;
+            margin-bottom: 2em;
+        }
+
+        .official-document-footer {
+            border-top: 3px double #1a1a1a;
+            padding-top: 2em;
+            margin-top: 3em;
+        }
+
+        .signature-line {
+            border-top: 2px solid #1a1a1a;
+            margin-top: 3em;
+            padding-top: 0.5em;
+        }
+
+        .official-seal {
+            width: 80px;
+            height: 80px;
+            border: 3px solid #1a1a1a;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-family: 'Times New Roman', 'Georgia', serif;
+            font-weight: bold;
+            font-size: 10px;
+            text-align: center;
+        }
     </style>
 </head>
-<body class="bg-gradient-to-br from-gray-50 to-blue-50 min-h-screen">
+<body class="bg-gradient-to-br from-gray-50 to-gray-100 min-h-screen">
     <!-- Header -->
-    <div class="bg-white shadow-md border-b">
+    <div class="bg-white shadow-md border-b border-gray-300">
         <div class="max-w-full px-8 py-4">
             <div class="flex items-center justify-between">
                 <div class="flex items-center space-x-4">
-                    <div class="w-12 h-12 bg-gradient-to-r from-blue-600 to-purple-600 rounded-xl flex items-center justify-center shadow-lg">
-                        <span class="text-white font-bold text-xl">A</span>
+                    <div class="w-12 h-12 rounded-xl flex items-center justify-center">
+                        <img src="{% static 'images/heroes/adlaan-02.png' %}" alt="Adlaan Logo" class="w-12 h-12 object-contain">
                     </div>
                     <div>
                         <h1 class="text-2xl font-bold text-gray-900">Adlaan AI Document Creator</h1>
@@ -58,9 +140,9 @@
                     </div>
                 </div>
                 <div class="flex items-center space-x-4">
-                    <div class="flex items-center space-x-2 px-4 py-2 bg-green-50 rounded-lg">
-                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                        <span class="text-sm font-medium text-green-700">AI Online</span>
+                    <div class="flex items-center space-x-2 px-4 py-2 bg-gray-100 rounded-lg border border-gray-300">
+                        <div class="w-2 h-2 bg-gray-800 rounded-full animate-pulse"></div>
+                        <span class="text-sm font-medium text-gray-800">AI Online</span>
                     </div>
                 </div>
             </div>
@@ -72,16 +154,14 @@
         <!-- LEFT SIDE: Chat Interface -->
         <div class="w-1/2 flex flex-col bg-white border-r border-gray-200">
             <!-- Chat Header -->
-            <div class="bg-gradient-to-r from-blue-600 to-purple-600 px-6 py-4 shadow-md">
+            <div class="bg-gradient-to-r from-gray-800 to-gray-900 px-6 py-4 shadow-md">
                 <div class="flex items-center space-x-3">
-                    <div class="w-10 h-10 bg-white/20 rounded-full flex items-center justify-center">
-                        <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"/>
-                        </svg>
+                    <div class="w-10 h-10 bg-white rounded-full flex items-center justify-center p-1">
+                        <img src="{% static 'images/heroes/adlaan-02.png' %}" alt="Adlaan" class="w-full h-full object-contain">
                     </div>
                     <div>
                         <h2 class="text-lg font-bold text-white">AI Assistant Chat</h2>
-                        <p class="text-xs text-blue-100">Describe your document needs</p>
+                        <p class="text-xs text-gray-300">Describe your document needs</p>
                     </div>
                 </div>
             </div>
@@ -90,20 +170,20 @@
             <div id="chat-messages" class="flex-1 overflow-y-auto p-6 space-y-4 bg-gray-50">
                 <!-- Welcome Message -->
                 <div class="flex items-start space-x-3">
-                    <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-white text-sm font-bold">A</span>
+                    <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0 p-1 shadow-sm">
+                        <img src="{% static 'images/heroes/adlaan-02.png' %}" alt="Adlaan" class="w-full h-full object-contain">
                     </div>
                     <div class="flex-1">
                         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4">
                             <p class="text-gray-800 text-sm mb-3">Hello! I'm Adlaan, your AI legal assistant. I can help you create professional legal documents with precision and compliance in mind.</p>
                             <div class="flex flex-wrap gap-2 mt-3">
-                                <button class="quick-action px-3 py-1.5 bg-blue-50 hover:bg-blue-100 text-blue-700 text-xs rounded-full transition-colors" data-msg="Create a service agreement for consulting">
+                                <button class="quick-action px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs rounded-full transition-colors border border-gray-300" data-msg="Create a service agreement for consulting">
                                     Service Agreement
                                 </button>
-                                <button class="quick-action px-3 py-1.5 bg-green-50 hover:bg-green-100 text-green-700 text-xs rounded-full transition-colors" data-msg="Create a software development contract">
+                                <button class="quick-action px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs rounded-full transition-colors border border-gray-300" data-msg="Create a software development contract">
                                     Dev Contract
                                 </button>
-                                <button class="quick-action px-3 py-1.5 bg-purple-50 hover:bg-purple-100 text-purple-700 text-xs rounded-full transition-colors" data-msg="Create a non-disclosure agreement">
+                                <button class="quick-action px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-gray-800 text-xs rounded-full transition-colors border border-gray-300" data-msg="Create a non-disclosure agreement">
                                     NDA
                                 </button>
                             </div>
@@ -119,12 +199,12 @@
                         id="user-input" 
                         rows="1"
                         placeholder="Describe the document you want to create..."
-                        class="flex-1 resize-none px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                        class="flex-1 resize-none px-4 py-3 border border-gray-300 rounded-xl focus:outline-none focus:ring-2 focus:ring-gray-800 focus:border-transparent"
                         maxlength="1000"
                     ></textarea>
                     <button 
                         id="send-btn"
-                        class="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+                        class="px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-xl hover:shadow-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                         disabled
                     >
                         <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -163,22 +243,30 @@
 
             <!-- Document Area -->
             <div class="flex-1 overflow-y-auto p-8">
-                <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-lg min-h-full">
+                <div class="max-w-4xl mx-auto bg-white shadow-2xl rounded-lg min-h-full official-document">
                     <!-- Document Header -->
-                    <div class="p-8 bg-gradient-to-r from-gray-50 to-white border-b-2 border-gray-300">
+                    <div class="p-8 official-document-header">
                         <div class="text-center">
-                            <h1 id="doc-title" class="text-3xl font-bold text-gray-900 mb-2">LEGAL DOCUMENT</h1>
-                            <p class="text-sm text-gray-600">Generated by Adlaan AI Assistant</p>
-                            <p class="text-xs text-gray-500 mt-1">Date: <span id="doc-date"></span></p>
+                            <div class="flex justify-center mb-4">
+                                <div class="official-seal">
+                                    <span>ADLAAN<br/>LEGAL<br/>SERVICES</span>
+                                </div>
+                            </div>
+                            <h1 id="doc-title" class="text-4xl font-extrabold text-gray-900 mb-3 official-document-title" style="font-weight: 900;">LEGAL DOCUMENT</h1>
+                            <div class="text-xs text-gray-700 mt-4 space-y-1" style="font-family: 'Times New Roman', 'Georgia', serif;">
+                                <p class="font-semibold">GENERATED BY ADLAAN AI LEGAL ASSISTANT</p>
+                                <p>Date of Generation: <span id="doc-date" class="font-semibold"></span></p>
+                                <p class="text-gray-600 italic mt-2">This document has been prepared using artificial intelligence technology</p>
+                            </div>
                         </div>
                     </div>
 
                     <!-- Document Content -->
-                    <div class="p-8 min-h-[600px]">
+                    <div class="px-12 py-8 min-h-[600px]">
                         <!-- Initial State -->
                         <div id="initial-state" class="text-center py-20">
-                            <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
-                                <svg class="w-12 h-12 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center border-2 border-gray-300">
+                                <svg class="w-12 h-12 text-gray-700" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                                 </svg>
                             </div>
@@ -188,8 +276,8 @@
 
                         <!-- Thinking State -->
                         <div id="thinking-state" class="hidden text-center py-20">
-                            <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
-                                <div class="w-12 h-12 border-4 border-blue-600 border-t-transparent rounded-full animate-spin"></div>
+                            <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center">
+                                <div class="w-12 h-12 border-4 border-gray-700 border-t-transparent rounded-full animate-spin"></div>
                             </div>
                             <h3 class="text-xl font-semibold text-gray-900 mb-2">Analyzing your request</h3>
                             <p class="text-gray-600">I'm reviewing your requirements to create the perfect legal document...</p>
@@ -197,34 +285,44 @@
 
                         <!-- Generating State -->
                         <div id="generating-state" class="hidden text-center py-20">
-                            <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-blue-100 to-purple-100 rounded-full flex items-center justify-center">
-                                <div class="w-12 h-12 border-4 border-purple-600 border-t-transparent rounded-full animate-spin"></div>
+                            <div class="w-24 h-24 mx-auto mb-6 bg-gradient-to-r from-gray-100 to-gray-200 rounded-full flex items-center justify-center">
+                                <div class="w-12 h-12 border-4 border-gray-900 border-t-transparent rounded-full animate-spin"></div>
                             </div>
                             <h3 class="text-xl font-semibold text-gray-900 mb-2">Crafting your document</h3>
                             <p class="text-gray-600">I'm writing a professional legal document tailored to your needs...</p>
                         </div>
 
                         <!-- Document Content -->
-                        <div id="doc-content" class="hidden prose prose-sm max-w-none">
+                        <div id="doc-content" class="hidden official-document-content">
                             <!-- Content will be inserted here -->
                         </div>
                     </div>
 
                     <!-- Document Footer -->
-                    <div class="p-8 bg-gray-50 border-t-2 border-gray-300">
-                        <div class="grid grid-cols-2 gap-8">
+                    <div class="px-12 py-8 official-document-footer">
+                        <div class="grid grid-cols-2 gap-12" style="font-family: 'Times New Roman', 'Georgia', serif;">
                             <div>
-                                <p class="text-sm font-medium text-gray-700 mb-2">Client Signature</p>
-                                <div class="border-t-2 border-gray-400 pt-2">
-                                    <p class="text-xs text-gray-500">Date: _______________</p>
+                                <p class="text-sm font-bold text-gray-900 mb-4 uppercase">Party of the First Part</p>
+                                <div class="signature-line">
+                                    <p class="text-xs text-gray-700 mt-2">Signature: _______________________________</p>
+                                    <p class="text-xs text-gray-700 mt-2">Name: _______________________________</p>
+                                    <p class="text-xs text-gray-700 mt-2">Date: _______________________________</p>
                                 </div>
                             </div>
                             <div>
-                                <p class="text-sm font-medium text-gray-700 mb-2">Service Provider Signature</p>
-                                <div class="border-t-2 border-gray-400 pt-2">
-                                    <p class="text-xs text-gray-500">Date: _______________</p>
+                                <p class="text-sm font-bold text-gray-900 mb-4 uppercase">Party of the Second Part</p>
+                                <div class="signature-line">
+                                    <p class="text-xs text-gray-700 mt-2">Signature: _______________________________</p>
+                                    <p class="text-xs text-gray-700 mt-2">Name: _______________________________</p>
+                                    <p class="text-xs text-gray-700 mt-2">Date: _______________________________</p>
                                 </div>
                             </div>
+                        </div>
+                        <div class="mt-8 pt-6 border-t border-gray-300">
+                            <p class="text-xs text-gray-600 text-center" style="font-family: 'Times New Roman', 'Georgia', serif;">
+                                <span class="font-semibold">LEGAL NOTICE:</span> This document is generated by AI and should be reviewed by a qualified legal professional before use. 
+                                Adlaan AI Legal Services provides this document as-is without warranties of any kind.
+                            </p>
                         </div>
                     </div>
                 </div>
@@ -387,7 +485,7 @@
                 function updateProgress() {
                     if (progressStage < progressMessages.length) {
                         docStatus.innerHTML = `<span class="inline-flex items-center">
-                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-blue-600" fill="none" viewBox="0 0 24 24">
+                            <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-gray-700" fill="none" viewBox="0 0 24 24">
                                 <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
                                 <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
                             </svg>
@@ -499,18 +597,18 @@
 
             if (type === 'user') {
                 msgDiv.innerHTML = `
-                    <div class="bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-2xl px-4 py-3 max-w-md shadow-md">
+                    <div class="bg-gradient-to-r from-gray-800 to-gray-900 text-white rounded-2xl px-4 py-3 max-w-md shadow-md">
                         <p class="text-sm">${escapeHtml(text)}</p>
                     </div>
                 `;
             } else {
                 msgDiv.innerHTML = `
-                    <div class="w-8 h-8 bg-gradient-to-r from-blue-600 to-purple-600 rounded-full flex items-center justify-center flex-shrink-0">
-                        <span class="text-white text-sm font-bold">A</span>
+                    <div class="w-8 h-8 bg-white rounded-full flex items-center justify-center flex-shrink-0 p-1 shadow-sm">
+                        <img src="{% static 'images/heroes/adlaan-02.png' %}" alt="Adlaan" class="w-full h-full object-contain">
                     </div>
                     <div class="flex-1">
                         <div class="bg-white rounded-2xl shadow-sm border border-gray-200 p-4 ai-message-content">
-                            ${isLoading ? '<div class="flex space-x-1"><div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style="animation-delay: 0.2s"></div></div>' : `<p class="text-sm text-gray-800">${text}</p>`}
+                            ${isLoading ? '<div class="flex space-x-1"><div class="w-2 h-2 bg-gray-700 rounded-full animate-bounce"></div><div class="w-2 h-2 bg-gray-700 rounded-full animate-bounce" style="animation-delay: 0.1s"></div><div class="w-2 h-2 bg-gray-700 rounded-full animate-bounce" style="animation-delay: 0.2s"></div></div>' : `<p class="text-sm text-gray-800">${text}</p>`}
                         </div>
                     </div>
                 `;
@@ -536,7 +634,7 @@
             element.innerHTML = `
                 <div class="text-sm text-gray-800 leading-relaxed typing-content">
                     ${formattedContent}
-                    ${!isDone ? '<span class="inline-block w-0.5 h-4 bg-blue-500 ml-0.5 typing-cursor"></span>' : ''}
+                    ${!isDone ? '<span class="inline-block w-0.5 h-4 bg-gray-800 ml-0.5 typing-cursor"></span>' : ''}
                 </div>
             `;
             
@@ -563,12 +661,12 @@
             const formattedContent = formatChatContent(content);
             docContent.innerHTML = `
                 <div class="p-6">
-                    <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mb-6">
+                    <div class="bg-gray-100 border border-gray-300 rounded-lg p-4 mb-6">
                         <div class="flex items-center space-x-2">
-                            <svg class="w-5 h-5 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <svg class="w-5 h-5 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                             </svg>
-                            <span class="text-sm text-blue-700">📄 Document generated successfully</span>
+                            <span class="text-sm text-gray-900 font-semibold">📄 Document generated successfully</span>
                         </div>
                     </div>
                     <div class="prose prose-sm max-w-none">
@@ -667,16 +765,16 @@
         }
 
         function showPDFDownloadReady(docData, downloadUrl, filename) {
-            const pdfNotice = docContent.querySelector('.bg-blue-50');
+            const pdfNotice = docContent.querySelector('.bg-gray-100');
             if (pdfNotice) {
                 const downloadButton = downloadUrl ? 
-                    `<a href="${downloadUrl}" download="${filename || 'document.pdf'}" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105">
+                    `<a href="${downloadUrl}" download="${filename || 'document.pdf'}" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
                         Download Agreement PDF
                     </a>` :
-                    `<button onclick="downloadLatestPDF('${docData.document.title.replace(/'/g, '\\\'')}')" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-green-600 to-green-700 hover:from-green-700 hover:to-green-800 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105">
+                    `<button onclick="downloadLatestPDF('${docData.document.title.replace(/'/g, '\\\'')}')" class="inline-flex items-center px-6 py-3 bg-gradient-to-r from-gray-800 to-gray-900 hover:from-gray-700 hover:to-gray-800 text-white font-semibold rounded-lg shadow-lg transition-all transform hover:scale-105">
                         <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                         </svg>
@@ -684,16 +782,16 @@
                     </button>`;
 
                 pdfNotice.innerHTML = `
-                    <div class="bg-gradient-to-r from-green-50 to-blue-50 border-2 border-green-300 rounded-lg p-6">
+                    <div class="bg-gradient-to-r from-gray-50 to-gray-100 border-2 border-gray-600 rounded-lg p-6">
                         <div class="flex items-start justify-between">
                             <div class="flex items-start space-x-4">
                                 <div class="flex-shrink-0">
-                                    <svg class="w-12 h-12 text-green-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <svg class="w-12 h-12 text-gray-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                                     </svg>
                                 </div>
                                 <div>
-                                    <h3 class="text-lg font-bold text-green-900 mb-2">✅ Your Document is Ready!</h3>
+                                    <h3 class="text-lg font-bold text-gray-900 mb-2">✅ Your Document is Ready!</h3>
                                     <p class="text-sm text-gray-700 mb-4">
                                         Professional legal document formatted with Adlaan branding, metadata, and compliance standards.
                                     </p>
@@ -708,7 +806,7 @@
                 `;
                 
                 // Update status with success message
-                docStatus.innerHTML = `<span class="inline-flex items-center text-green-700 font-semibold">
+                docStatus.innerHTML = `<span class="inline-flex items-center text-gray-800 font-semibold">
                     <svg class="w-5 h-5 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
                     </svg>
@@ -734,14 +832,14 @@
         }
 
         function showPDFError(message) {
-            const pdfNotice = docContent.querySelector('.bg-blue-50');
+            const pdfNotice = docContent.querySelector('.bg-gray-100');
             if (pdfNotice) {
                 pdfNotice.innerHTML = `
                     <div class="flex items-center space-x-2">
-                        <svg class="w-5 h-5 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <svg class="w-5 h-5 text-gray-900" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                             <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4m0 4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
                         </svg>
-                        <span class="text-sm text-red-700">${message}</span>
+                        <span class="text-sm text-gray-900">${message}</span>
                     </div>
                 `;
             }
@@ -881,44 +979,70 @@
             html = html.replace(/\\n/g, '\n');
             html = html.replace(/\\"/g, '"');
             
-            // Convert Markdown to rich HTML
+            // Convert Markdown to rich HTML with official document styling
             
-            // Headers (with professional styling)
-            html = html.replace(/^### (.+)$/gm, '<h3 class="text-lg font-bold text-gray-900 mt-6 mb-3 border-b-2 border-blue-200 pb-2">$1</h3>');
-            html = html.replace(/^## (.+)$/gm, '<h2 class="text-xl font-bold text-gray-900 mt-8 mb-4 border-b-2 border-blue-300 pb-2 uppercase">$1</h2>');
-            html = html.replace(/^# (.+)$/gm, '<h1 class="text-2xl font-bold text-gray-900 mt-8 mb-6 border-b-4 border-blue-500 pb-3 uppercase text-center">$1</h1>');
+            // Headers (formal legal document styling) - Numbers inline with titles
+            html = html.replace(/^### (\d+\.?\s*)?(.+)$/gm, '<h3 class="text-base font-bold text-gray-900 mt-6 mb-3 uppercase" style="font-family: \'Times New Roman\', \'Georgia\', serif; letter-spacing: 0.03em; font-weight: 700;">$1$2</h3>');
+            html = html.replace(/^## (\d+\.?\s*)?(.+)$/gm, '<h2 class="text-lg font-bold text-gray-900 mt-8 mb-4 border-b border-gray-900 pb-2 uppercase text-center" style="font-family: \'Times New Roman\', \'Georgia\', serif; letter-spacing: 0.05em; font-weight: 700;">$1$2</h2>');
+            html = html.replace(/^# (\d+\.?\s*)?(.+)$/gm, '<h1 class="text-2xl font-extrabold text-gray-900 mt-8 mb-6 border-b-2 border-gray-900 pb-3 uppercase text-center" style="font-family: \'Times New Roman\', \'Georgia\', serif; letter-spacing: 0.08em; font-weight: 900;">$1$2</h1>');
             
-            // Bold and italic (legal terms emphasis)
-            html = html.replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-gray-900">$1</strong>');
-            html = html.replace(/\*(.+?)\*/g, '<em class="italic text-gray-700">$1</em>');
+            // Bold and italic (legal terms emphasis with serif font)
+            html = html.replace(/\*\*(.+?)\*\*/g, '<strong class="font-bold text-gray-900" style="font-family: \'Times New Roman\', \'Georgia\', serif; font-weight: 700;">$1</strong>');
+            html = html.replace(/\*(.+?)\*/g, '<em class="italic text-gray-700" style="font-family: \'Times New Roman\', \'Georgia\', serif;">$1</em>');
             
-            // Numbered lists (professional legal formatting)
+            // Numbered lists (formal legal clause formatting) - Number inline with text
             html = html.replace(/^(\d+)\.\s+(.+)$/gm, function(match, num, text) {
-                return `<div class="flex items-start space-x-3 mb-3 ml-4">
-                    <span class="flex-shrink-0 w-8 h-8 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center justify-center font-bold">${num}</span>
-                    <span class="flex-1 pt-1">${text}</span>
-                </div>`;
+                return `<p class="mb-4 ml-6" style="font-family: 'Times New Roman', 'Georgia', serif; text-align: justify; line-height: 1.8;">
+                    <span class="font-bold" style="font-weight: 700;">${num}.</span> ${text}
+                </p>`;
             });
             
-            // Bullet points (indented, elegant)
+            // Sub-numbered lists (e.g., 1.1, 1.2) - Number inline with text
+            html = html.replace(/^(\d+\.\d+)\s+(.+)$/gm, function(match, num, text) {
+                return `<p class="mb-3 ml-12" style="font-family: 'Times New Roman', 'Georgia', serif; text-align: justify; line-height: 1.8;">
+                    <span class="font-semibold" style="font-weight: 600;">${num}</span> ${text}
+                </p>`;
+            });
+            
+            // Bullet points (formal indentation) - Inline formatting
             html = html.replace(/^[-*•]\s+(.+)$/gm, function(match, text) {
-                return `<div class="flex items-start space-x-3 mb-2 ml-8">
-                    <span class="flex-shrink-0 w-2 h-2 bg-blue-400 rounded-full mt-2"></span>
-                    <span class="flex-1">${text}</span>
-                </div>`;
+                return `<p class="mb-3 ml-10" style="font-family: 'Times New Roman', 'Georgia', serif; text-align: justify; line-height: 1.8;">
+                    <span class="mr-2">•</span>${text}
+                </p>`;
             });
             
-            // Paragraphs (proper spacing)
-            html = html.replace(/\n\n/g, '</p><p class="mb-4 text-gray-800 leading-relaxed">');
+            // WHEREAS clauses (formal recitals)
+            html = html.replace(/^WHEREAS[,:]?\s+(.+)$/gm, function(match, text) {
+                return `<p class="mb-4 ml-6" style="font-family: 'Times New Roman', 'Georgia', serif; text-align: justify; text-indent: -3em; padding-left: 3em; line-height: 1.8;">
+                    <strong style="font-weight: 700;">WHEREAS,</strong> ${text}
+                </p>`;
+            });
+            
+            // NOW THEREFORE clause
+            html = html.replace(/^NOW[,]?\s+THEREFORE[,:]?\s+(.+)$/gm, function(match, text) {
+                return `<p class="mb-4 mt-6 font-bold text-center uppercase" style="font-family: 'Times New Roman', 'Georgia', serif; letter-spacing: 0.05em; font-weight: 700; line-height: 1.8;">
+                    NOW, THEREFORE, ${text}
+                </p>`;
+            });
+            
+            // IN WITNESS WHEREOF clause
+            html = html.replace(/^IN\s+WITNESS\s+WHEREOF[,:]?\s+(.+)$/gmi, function(match, text) {
+                return `<p class="mb-4 mt-8 font-semibold" style="font-family: 'Times New Roman', 'Georgia', serif; text-align: justify; font-weight: 600; line-height: 1.8;">
+                    <strong style="font-weight: 700;">IN WITNESS WHEREOF,</strong> ${text}
+                </p>`;
+            });
+            
+            // Paragraphs (justified text with better spacing)
+            html = html.replace(/\n\n/g, '</p><p class="mb-5 leading-relaxed" style="font-family: \'Times New Roman\', \'Georgia\', serif; text-align: justify; color: #1a1a1a; line-height: 1.8;">');
             html = html.replace(/\n/g, '<br>');
             
             // Wrap in paragraph if not already formatted
-            if (!html.includes('<h1') && !html.includes('<div class="flex')) {
-                html = `<p class="mb-4 text-gray-800 leading-relaxed">${html}</p>`;
+            if (!html.includes('<h1') && !html.includes('<h2') && !html.includes('<div class=') && !html.includes('<p class=')) {
+                html = `<p class="mb-5 leading-relaxed" style="font-family: 'Times New Roman', 'Georgia', serif; text-align: justify; color: #1a1a1a; line-height: 1.8;">${html}</p>`;
             }
             
-            // Add horizontal rules between major sections
-            html = html.replace(/(<\/h2>)/g, '$1<hr class="my-4 border-gray-200">');
+            // Add subtle section dividers
+            html = html.replace(/(<\/h2>)/g, '$1<hr class="my-6 border-t-2 border-gray-900" style="width: 60%; margin-left: auto; margin-right: auto;">');
             
             return html;
         }
