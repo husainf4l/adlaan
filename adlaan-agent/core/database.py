@@ -23,10 +23,16 @@ DB_PASSWORD = os.getenv("DB_PASSWORD", "tt55oo77")
 # Construct database URL
 DATABASE_URL = os.getenv("DATABASE_URL")
 if not DATABASE_URL:
-    DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
+    if "sqlite" in os.getenv("DATABASE_URL", "").lower():
+        DATABASE_URL = os.getenv("DATABASE_URL")
+    else:
+        DATABASE_URL = f"postgresql+asyncpg://{DB_USER}:{DB_PASSWORD}@{DB_HOST}:{DB_PORT}/{DB_NAME}"
 
 # Synchronous URL for Alembic migrations
-SYNC_DATABASE_URL = DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://").replace("postgresql+psycopg://", "postgresql://")
+if "sqlite" in DATABASE_URL:
+    SYNC_DATABASE_URL = DATABASE_URL.replace("sqlite:///", "sqlite:///")
+else:
+    SYNC_DATABASE_URL = DATABASE_URL.replace("postgresql+asyncpg://", "postgresql://").replace("postgresql+psycopg://", "postgresql://")
 
 # Synchronous engine for migrations (created first to avoid issues)
 sync_engine = None
@@ -45,14 +51,22 @@ def get_async_engine():
     """Get or create async engine"""
     global engine
     if engine is None:
-        engine = create_async_engine(
-            DATABASE_URL,
-            echo=True,  # Set to False in production
-            pool_size=20,  # Number of connections to keep open
-            max_overflow=10,  # Additional connections if pool is exhausted
-            pool_pre_ping=True,  # Test connections before using
-            pool_recycle=3600,  # Recycle connections after 1 hour
-        )
+        if "sqlite" in DATABASE_URL:
+            # Use aiosqlite for SQLite
+            engine = create_async_engine(
+                DATABASE_URL.replace("sqlite:///", "sqlite+aiosqlite:///"),
+                echo=True,  # Set to False in production
+            )
+        else:
+            # Use asyncpg for PostgreSQL
+            engine = create_async_engine(
+                DATABASE_URL,
+                echo=True,  # Set to False in production
+                pool_size=20,  # Number of connections to keep open
+                max_overflow=10,  # Additional connections if pool is exhausted
+                pool_pre_ping=True,  # Test connections before using
+                pool_recycle=3600,  # Recycle connections after 1 hour
+            )
     return engine
 
 

@@ -15,10 +15,10 @@ async def reset_database():
     async with engine.begin() as conn:
         print("🗑️  Dropping all tables...")
         
-        # Drop tables one by one (asyncpg doesn't support multiple commands)
+        # Drop tables one by one (SQLite doesn't support CASCADE)
         tables = [
             "audit_logs",
-            "documents",
+            "documents", 
             "messages",
             "checkpoints",
             "conversations",
@@ -27,7 +27,7 @@ async def reset_database():
         ]
         
         for table in tables:
-            await conn.execute(text(f"DROP TABLE IF EXISTS {table} CASCADE"))
+            await conn.execute(text(f"DROP TABLE IF EXISTS {table}"))
             print(f"   ✓ Dropped {table}")
         
         print("\n✅ All tables dropped!")

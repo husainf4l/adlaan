@@ -15,4 +15,5 @@ python-dotenv==1.0.1
 # Database dependencies - Latest async versions as of October 2025
 sqlalchemy==2.0.43
 asyncpg==0.30.0
+aiosqlite==0.20.0
 alembic==1.16.5
