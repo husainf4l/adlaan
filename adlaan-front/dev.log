@@ -1,0 +1,3153 @@
+nohup: ignoring input
+
+> adlaan-front@0.1.0 dev
+> next dev
+
+   ▲ Next.js 15.5.6
+   - Local:        http://localhost:3000
+   - Network:      http://192.168.1.177:3000
+
+ ✓ Starting...
+ ✓ Ready in 2.5s
+ ○ Compiling / ...
+ ✓ Compiled / in 13.8s (1900 modules)
+ GET / 200 in 15786ms
+ ○ Compiling /api/graphql ...
+ ✓ Compiled /api/graphql in 1398ms (1890 modules)
+ GET /api/graphql 200 in 1601ms
+ ○ Compiling /signin ...
+ ✓ Compiled /signin in 1358ms (1893 modules)
+ GET /signin 200 in 2154ms
+ ○ Compiling /company-setup ...
+ ✓ Compiled /company-setup in 1057ms (1908 modules)
+ GET /company-setup 200 in 1491ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 130ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 48ms
+ ○ Compiling /signup ...
+ ✓ Compiled /signup in 1119ms (1919 modules)
+ GET /signup 200 in 1393ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Register",
+  "variables": {
+    "input": {
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "password": "tt55oo77",
+      "role": "ADMIN"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Register($input: RegisterInput!) {\n  register(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "duplicate key value violates unique constraint \"UQ_e12875dfb3b1d92d7d7c5377e22\"",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "register"
+      ],
+      "extensions": {
+        "code": "INTERNAL_SERVER_ERROR",
+        "stacktrace": [
+          "QueryFailedError: duplicate key value violates unique constraint \"UQ_e12875dfb3b1d92d7d7c5377e22\"",
+          "    at PostgresQueryRunner.query (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/typeorm/driver/src/driver/postgres/PostgresQueryRunner.ts:325:19)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async InsertQueryBuilder.execute (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/typeorm/query-builder/src/query-builder/InsertQueryBuilder.ts:164:33)",
+          "    at async SubjectExecutor.executeInsertOperations (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/typeorm/persistence/src/persistence/SubjectExecutor.ts:435:42)",
+          "    at async SubjectExecutor.execute (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/typeorm/persistence/src/persistence/SubjectExecutor.ts:137:9)",
+          "    at async EntityPersistExecutor.execute (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/typeorm/persistence/src/persistence/EntityPersistExecutor.ts:182:21)",
+          "    at async AuthService.register (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:77:18)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.register (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ]
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 195ms
+ GET /signin 200 in 401ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami.arabiyat711@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "login": {
+      "user": {
+        "id": "8",
+        "name": "sami arabiyat",
+        "email": "sami.arabiyat711@gmail.com",
+        "role": "USER",
+        "company": null,
+        "__typename": "User"
+      },
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjgsImVtYWlsIjoic2FtaS5hcmFiaXlhdDcxMUBnbWFpbC5jb20iLCJuYW1lIjoic2FtaSBhcmFiaXlhdCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYwODczODc2LCJleHAiOjE3NjE0Nzg2NzZ9.YMDotG4ihZ_7ZW_x_doaAkk5sAwCq2z40bnb6qLJiC0",
+      "__typename": "AuthResponse"
+    }
+  }
+}
+ POST /api/graphql 200 in 132ms
+ GET / 200 in 129ms
+ GET /company-setup 200 in 118ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "sami",
+      "description": "sssss",
+      "address": "amman",
+      "phone": "07711220033",
+      "email": "sami.arabiyat711@gmail.com",
+      "website": "https://www.margo.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 223ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "sami",
+      "description": "sssss",
+      "address": "amman",
+      "phone": "07711220033",
+      "email": "sami.arabiyat711@gmail.com",
+      "website": "https://www.margo.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 45ms
+ ✓ Compiled in 8.4s (1841 modules)
+ GET /company-setup 200 in 3178ms
+ GET /company-setup 200 in 191ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ GET /company-setup 200 in 1875ms
+ GET /company-setup 200 in 85ms
+ ○ Compiling /favicon.ico ...
+ ✓ Compiled /favicon.ico in 1766ms (986 modules)
+ ✓ Compiled /api/graphql in 477ms (990 modules)
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 812ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 80ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "sami",
+      "description": "ssss",
+      "address": "amman",
+      "phone": "0771122003",
+      "email": "sami.arabiyat711@gmail.com",
+      "website": "https://www.margo.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 134ms
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ⚠ Fast Refresh had to perform a full reload. Read more: https://nextjs.org/docs/messages/fast-refresh-reload
+ ✓ Compiled in 5.6s (1848 modules)
+ GET /company-setup 200 in 1991ms
+ GET /company-setup 200 in 1903ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 224ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 51ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "samiss",
+      "description": "sss",
+      "address": "ammann",
+      "phone": "07711220033",
+      "email": "sami.arabiyat711@gamil.com",
+      "website": "https://www.margo.com/"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 72ms
+ GET /company-setup 200 in 439ms
+ GET /company-setup 200 in 180ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 194ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "kjgfjfg",
+      "description": "lkljhvvb",
+      "address": ";lkjhvgb",
+      "phone": ";lkjhgfh",
+      "email": "sami.arabiyat711@gmail.com",
+      "website": "https://www.margo.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 62ms
+ GET /company-setup 200 in 128ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 97ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "dsfcsadf",
+      "description": "dsfgfaddf",
+      "address": "asfgsdfbg",
+      "phone": "sdfgd",
+      "email": "sami@gmail.com",
+      "website": "https://www.margo.com/"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 68ms
+ GET /signup 200 in 219ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 148ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Register",
+  "variables": {
+    "input": {
+      "name": "mohammad",
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77",
+      "role": "ADMIN"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Register($input: RegisterInput!) {\n  register(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "register": {
+      "user": {
+        "id": "15",
+        "name": "mohammad",
+        "email": "mohammad@gmail.com",
+        "role": "ADMIN",
+        "company": null,
+        "__typename": "User"
+      },
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE1LCJlbWFpbCI6Im1vaGFtbWFkQGdtYWlsLmNvbSIsIm5hbWUiOiJtb2hhbW1hZCIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MDg3NDc5MSwiZXhwIjoxNzYxNDc5NTkxfQ.rJ3d13GyH83ZS7KRez6lY5iDzOLugwy_qNGBM6J23CQ",
+      "__typename": "AuthResponse"
+    }
+  }
+}
+ POST /api/graphql 200 in 144ms
+ GET /company-setup 200 in 70ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "aaaaa",
+      "description": "aaaaaa",
+      "address": "amman",
+      "phone": "222222222",
+      "email": "mohammad2@gmail.com",
+      "website": "https://www.margo2.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "createCompany": {
+      "id": "3",
+      "name": "aaaaa",
+      "description": "aaaaaa",
+      "address": "amman",
+      "phone": "222222222",
+      "email": "mohammad2@gmail.com",
+      "website": "https://www.margo2.com",
+      "__typename": "Company"
+    }
+  }
+}
+ POST /api/graphql 200 in 96ms
+ ○ Compiling /dashboard ...
+ ✓ Compiled /dashboard in 4.6s (1848 modules)
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "aaaaa",
+      "description": "aaaaaa",
+      "address": "amman",
+      "phone": "222222222",
+      "email": "mohammad2@gmail.com",
+      "website": "https://www.margo2.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "createCompany": {
+      "id": "4",
+      "name": "aaaaa",
+      "description": "aaaaaa",
+      "address": "amman",
+      "phone": "222222222",
+      "email": "mohammad2@gmail.com",
+      "website": "https://www.margo2.com",
+      "__typename": "Company"
+    }
+  }
+}
+ POST /api/graphql 200 in 1920ms
+ GET /dashboard 200 in 4949ms
+ GET /dashboard 200 in 54ms
+ GET /signin 200 in 151ms
+ GET /company-setup 200 in 153ms
+ GET /signin 200 in 62ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 130ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad2@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 44ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad2@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 39ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 116ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 96ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 100ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 80ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 104ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 106ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 102ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 90ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "mohammad@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 97ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Register",
+  "variables": {
+    "input": {
+      "name": "samis",
+      "email": "sami2@gmail.com",
+      "password": "tt55oo77",
+      "role": "ADMIN"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Register($input: RegisterInput!) {\n  register(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "register": {
+      "user": {
+        "id": "16",
+        "name": "samis",
+        "email": "sami2@gmail.com",
+        "role": "ADMIN",
+        "company": null,
+        "__typename": "User"
+      },
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE2LCJlbWFpbCI6InNhbWkyQGdtYWlsLmNvbSIsIm5hbWUiOiJzYW1pcyIsInJvbGUiOiJhZG1pbiIsImlhdCI6MTc2MDg3NDkxNCwiZXhwIjoxNzYxNDc5NzE0fQ.6ppySjdyc8H5FXL2xVSLVsCCON-jnACfvTMnPibtO5o",
+      "__typename": "AuthResponse"
+    }
+  }
+}
+ POST /api/graphql 200 in 177ms
+ GET /company-setup 200 in 68ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "dddd",
+      "description": "ddddd",
+      "address": "afds",
+      "phone": "541231545",
+      "email": "dddd@gmail.com",
+      "website": "https://www.margo.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "createCompany": {
+      "id": "5",
+      "name": "dddd",
+      "description": "ddddd",
+      "address": "afds",
+      "phone": "541231545",
+      "email": "dddd@gmail.com",
+      "website": "https://www.margo.com",
+      "__typename": "Company"
+    }
+  }
+}
+ POST /api/graphql 200 in 87ms
+ GET /dashboard 200 in 47ms
+ GET /signin 200 in 131ms
+ GET /signin 200 in 124ms
+ GET /company-setup 200 in 136ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 86ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 47ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 33ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 32ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 31ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 40ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 44ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 46ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 44ms
+ GET /signup 200 in 87ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Register",
+  "variables": {
+    "input": {
+      "name": "sami ali",
+      "email": "sami.arabiyat911@gmail.com",
+      "password": "tt55oo77",
+      "role": "ADMIN"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Register($input: RegisterInput!) {\n  register(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "register": {
+      "user": {
+        "id": "17",
+        "name": "sami ali",
+        "email": "sami.arabiyat911@gmail.com",
+        "role": "ADMIN",
+        "company": null,
+        "__typename": "User"
+      },
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjE3LCJlbWFpbCI6InNhbWkuYXJhYml5YXQ5MTFAZ21haWwuY29tIiwibmFtZSI6InNhbWkgYWxpIiwicm9sZSI6ImFkbWluIiwiaWF0IjoxNzYwODc1MDE1LCJleHAiOjE3NjE0Nzk4MTV9.Gulj5f3qH_vwL084DaiCwTrVrBvo7U16IDRJ96-mOug",
+      "__typename": "AuthResponse"
+    }
+  }
+}
+ POST /api/graphql 200 in 192ms
+ GET /company-setup 200 in 67ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "sami ali",
+      "description": "sssss",
+      "address": "aaaaa",
+      "phone": "0771122003",
+      "email": "samiali@gmail.com",
+      "website": "https://www.margo.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "createCompany": {
+      "id": "6",
+      "name": "sami ali",
+      "description": "sssss",
+      "address": "aaaaa",
+      "phone": "0771122003",
+      "email": "samiali@gmail.com",
+      "website": "https://www.margo.com",
+      "__typename": "Company"
+    }
+  }
+}
+ POST /api/graphql 200 in 87ms
+ GET /dashboard 200 in 54ms
+ GET /signin 200 in 139ms
+ GET /signin 200 in 147ms
+ GET /company-setup 200 in 148ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami.arabiyat911@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 120ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami.arabiyat911@gmail.com",
+      "password": "Sami2992001sa"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 104ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami.arabiyat911@gmail.com",
+      "password": "TT55OO77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 98ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami.arabiyat911@gmail.com",
+      "password": "TT55OO77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 92ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami.arabiyat911@gmail.com",
+      "password": "TT55OO77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 107ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami.arabiyat911@gmail.com",
+      "password": "TT55OO77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Invalid email or password",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "login"
+      ],
+      "extensions": {
+        "code": "UNAUTHENTICATED",
+        "stacktrace": [
+          "UnauthorizedException: Invalid email or password",
+          "    at AuthService.login (/home/husain/Desktop/adlaan/adlaan-backend/src/auth/auth.service.ts:41:13)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:74:28)",
+          "    at async Object.login (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Invalid email or password",
+          "error": "Unauthorized",
+          "statusCode": 401
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 92ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Login",
+  "variables": {
+    "input": {
+      "email": "sami.arabiyat711@gmail.com",
+      "password": "tt55oo77"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation Login($input: LoginInput!) {\n  login(input: $input) {\n    user {\n      id\n      name\n      email\n      role\n      company {\n        id\n        name\n        __typename\n      }\n      __typename\n    }\n    access_token\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "login": {
+      "user": {
+        "id": "8",
+        "name": "sami arabiyat",
+        "email": "sami.arabiyat711@gmail.com",
+        "role": "USER",
+        "company": null,
+        "__typename": "User"
+      },
+      "access_token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjgsImVtYWlsIjoic2FtaS5hcmFiaXlhdDcxMUBnbWFpbC5jb20iLCJuYW1lIjoic2FtaSBhcmFiaXlhdCIsInJvbGUiOiJ1c2VyIiwiaWF0IjoxNzYwODc1MTE3LCJleHAiOjE3NjE0Nzk5MTd9.r_SHzElalJuIhEkNGkGdqrQ15D1swOB-L3bBGICaoa8",
+      "__typename": "AuthResponse"
+    }
+  }
+}
+ POST /api/graphql 200 in 194ms
+ ○ Compiling / ...
+ ✓ Compiled / in 1976ms (1069 modules)
+ GET / 200 in 2320ms
+ GET /company-setup 200 in 77ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "SDAD",
+      "description": "DSAF",
+      "address": "DAF",
+      "phone": "15551",
+      "email": "AFAFDF@gmail.com",
+      "website": "https://www.margo.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 75ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "SDAD",
+      "description": "DSAF",
+      "address": "DAF",
+      "phone": "15551",
+      "email": "AFAFDF@gmail.com",
+      "website": "https://www.margo2.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 44ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "SDAD",
+      "description": "DSAF",
+      "address": "DAF",
+      "phone": "15551",
+      "email": "AFAFDF@gmail.com",
+      "website": "https://www.margo2.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 45ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "SDAD",
+      "description": "DSAF",
+      "address": "DAF",
+      "phone": "15551",
+      "email": "AFAFDF@gmail.com",
+      "website": "https://www.margo2.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 45ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "SDAD",
+      "description": "DSAF",
+      "address": "DAF",
+      "phone": "15551",
+      "email": "AFAFDF@gmail.com",
+      "website": "https://www.margo2.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 45ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "SDAD",
+      "description": "DSAF",
+      "address": "DAF",
+      "phone": "15551",
+      "email": "AFAFDF@gmail.com",
+      "website": "https://www.margo2.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 50ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "SDAD",
+      "description": "DSAF",
+      "address": "DAF",
+      "phone": "15551",
+      "email": "AFAFDF@gmail.com",
+      "website": "https://www.margo2.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 39ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "SDAD",
+      "description": "DSAF",
+      "address": "DAF",
+      "phone": "15551",
+      "email": "AFAFDF@gmail.com",
+      "website": "https://www.margo2.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 48ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "CreateCompany",
+  "variables": {
+    "input": {
+      "name": "SDAD",
+      "description": "DSAF",
+      "address": "DAF",
+      "phone": "15551",
+      "email": "AFAFDF@gmail.com",
+      "website": "https://www.margo2.com"
+    }
+  },
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "mutation CreateCompany($input: CreateCompanyInput!) {\n  createCompany(input: $input) {\n    id\n    name\n    description\n    address\n    phone\n    email\n    website\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "errors": [
+    {
+      "message": "Forbidden resource",
+      "locations": [
+        {
+          "line": 2,
+          "column": 3
+        }
+      ],
+      "path": [
+        "createCompany"
+      ],
+      "extensions": {
+        "code": "FORBIDDEN",
+        "stacktrace": [
+          "ForbiddenException: Forbidden resource",
+          "    at canActivateFn (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:157:23)",
+          "    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)",
+          "    at async target (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-context-creator.js:73:31)",
+          "    at async Object.createCompany (/home/husain/Desktop/adlaan/adlaan-backend/node_modules/@nestjs/core/helpers/external-proxy.js:9:24)"
+        ],
+        "originalError": {
+          "message": "Forbidden resource",
+          "error": "Forbidden",
+          "statusCode": 403
+        }
+      }
+    }
+  ],
+  "data": null
+}
+ POST /api/graphql 200 in 44ms
+ GET /company-setup 200 in 519ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 73ms
+ GET / 200 in 135ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 360ms
+ GET /company-setup 200 in 54ms
+ GET / 200 in 115ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 59ms
+ GET /company-setup 200 in 49ms
+ GET /company-setup 200 in 96ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 89ms
+ ○ Compiling /_not-found ...
+ ✓ Compiled /_not-found in 2.3s (1929 modules)
+ GET /login 404 in 2653ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 79ms
+ GET /company-setup 200 in 57ms
+ GET / 200 in 236ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 167ms
+ GET /company-setup 200 in 102ms
+ GET / 200 in 190ms
+ GET / 200 in 157ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 196ms
+ GET /company-setup 200 in 57ms
+ GET /company-setup 200 in 399ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 77ms
+ GET / 200 in 129ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 54ms
+ GET /company-setup 200 in 60ms
+ GET / 200 in 188ms
+ GET /company-setup 200 in 115ms
+Proxying request to: https://adlaan.com/api/graphql
+Request body: {
+  "operationName": "Me",
+  "variables": {},
+  "extensions": {
+    "clientLibrary": {
+      "name": "@apollo/client",
+      "version": "4.0.7"
+    }
+  },
+  "query": "query Me {\n  me {\n    id\n    name\n    email\n    role\n    company {\n      id\n      name\n      description\n      __typename\n    }\n    __typename\n  }\n}"
+}
+Response status: 200
+Response data: {
+  "data": {
+    "me": {
+      "id": "8",
+      "name": "sami arabiyat",
+      "email": "sami.arabiyat711@gmail.com",
+      "role": "USER",
+      "company": null,
+      "__typename": "User"
+    }
+  }
+}
+ POST /api/graphql 200 in 88ms

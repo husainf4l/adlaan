@@ -1,0 +1,172 @@
+{
+  "navigation": {
+    "features": "Features",
+    "solutions": "Solutions",
+    "testimonials": "Testimonials",
+    "signIn": "Sign In",
+    "getStarted": "Get Started",
+    "editProfile": "Edit Profile",
+    "signOut": "Sign out"
+  },
+  "hero": {
+    "badge": "AI-Powered Legal Excellence",
+    "title": "Professional Legal AI",
+    "subtitle": "for Modern Teams",
+    "description": "Transform your legal workflow with cutting-edge artificial intelligence. Built for legal professionals who demand excellence in 2025.",
+    "cta": {
+      "primary": "Get Started Free",
+      "secondary": "Watch Demo"
+    },
+    "features": {
+      "trial": "Free 14-day trial",
+      "cancel": "Cancel anytime"
+    }
+  },
+  "solutions": {
+    "badge": "How It Works",
+    "title": "The Smarter Way to Create",
+    "titleHighlight": "Legal Documents",
+    "description": "Adlaan uses advanced AI to understand your needs, draft accurate legal contracts, and generate ready-to-sign PDFs — all in",
+    "descriptionHighlight": "minutes, not hours",
+    "process": {
+      "userInput": "User Input",
+      "aiUnderstanding": "AI Understanding",
+      "templateEngine": "Template Engine",
+      "complianceCheck": "Compliance Check",
+      "pdfOutput": "PDF Output"
+    },
+    "pillars": {
+      "aiAssistant": {
+        "title": "AI Legal Assistant",
+        "description": "Understands your case or business need through natural conversation.",
+        "features": [
+          "Identifies the right legal template automatically",
+          "Adapts to your jurisdiction and local regulations",
+          "Learns from your business context and requirements"
+        ]
+      },
+      "documentGenerator": {
+        "title": "Dynamic Document Generator",
+        "description": "Combines Jinja2 + WeasyPrint to produce professional, compliant documents.",
+        "features": [
+          "Generates PDF or Word format instantly",
+          "Dynamically fills templates with your inputs",
+          "Professional formatting with legal standards"
+        ]
+      },
+      "compliance": {
+        "title": "Accuracy & Compliance Layer",
+        "description": "Validates clauses and ensures correct legal terminology.",
+        "features": [
+          "Aligns with local regulations automatically",
+          "Ensures international standards compliance",
+          "Validates legal terminology and structure"
+        ]
+      },
+      "review": {
+        "title": "Instant Review & Signing",
+        "description": "Preview, edit, and download your document instantly.",
+        "features": [
+          "Real-time document preview and editing",
+          "One-click download in multiple formats",
+          "E-signature integration ready"
+        ]
+      }
+    },
+    "bottom": {
+      "title": "Legal Documentation, Reimagined",
+      "description": "Adlaan eliminates the complexity of legal documentation by merging AI understanding with smart automation. Through its conversational interface, users simply describe their situation, and Adlaan identifies the relevant legal framework, generates a compliant draft, and formats it into a ready-to-sign PDF. Every document passes through an",
+      "highlight1": "accuracy and compliance layer",
+      "description2": ", ensuring consistency with jurisdictional standards. What once took hours of manual editing now happens in seconds —",
+      "highlight2": "safely, accurately, and effortlessly"
+    },
+    "cta": {
+      "button": "Start Creating Documents",
+      "subtitle": "No credit card required • Free templates included"
+    }
+  },
+  "cta": {
+    "badge": "AI-Powered Legal Documents",
+    "title": "Create ready-to-sign contracts",
+    "titleHighlight": "in minutes",
+    "description": "Fully compliant, fully yours. Generate professional legal documents with AI assistance — no legal degree required.",
+    "buttons": {
+      "generate": "Generate a Legal Document",
+      "startDrafting": "Start Drafting Now",
+      "exploreTemplates": "Explore Templates",
+      "chatWithAI": "Chat with Legal AI"
+    }
+  },
+  "testimonials": {
+    "badge": "What Our Clients Say",
+    "title": "Trusted by Legal Professionals",
+    "titleHighlight": "Worldwide",
+    "rating": "4.9/5 average rating from 500+ legal professionals"
+  },
+  "footer": {
+    "description": "Professional AI-powered legal platform empowering teams to achieve more with cutting-edge technology.",
+    "product": {
+      "title": "Product",
+      "features": "Features",
+      "solutions": "Solutions",
+      "pricing": "Pricing"
+    },
+    "company": {
+      "title": "Company",
+      "about": "About",
+      "contact": "Contact",
+      "careers": "Careers"
+    },
+    "legal": {
+      "title": "Legal",
+      "privacy": "Privacy",
+      "terms": "Terms",
+      "security": "Security"
+    },
+    "copyright": "© 2025 Adlaan Inc. All rights reserved."
+  },
+  "auth": {
+    "signIn": {
+      "title": "Welcome Back",
+      "description": "Sign in to your Adlaan account",
+      "email": "Email",
+      "password": "Password",
+      "rememberMe": "Remember me",
+      "forgotPassword": "Forgot password?",
+      "button": "Sign In",
+      "orContinueWith": "Or continue with",
+      "noAccount": "Don't have an account?",
+      "signUp": "Sign up"
+    },
+    "signUp": {
+      "title": "Create Account",
+      "description": "Get started with Adlaan",
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "agreeToTerms": "I agree to the Terms of Service and Privacy Policy",
+      "button": "Create Account",
+      "orContinueWith": "Or continue with",
+      "haveAccount": "Already have an account?",
+      "signIn": "Sign in"
+    },
+    "errors": {
+      "fillAllFields": "Please fill in all fields",
+      "invalidEmail": "Please enter a valid email address",
+      "nameTooShort": "Name must be at least 2 characters",
+      "passwordTooShort": "Password must be at least 8 characters",
+      "agreeToTerms": "You must agree to the terms and conditions"
+    },
+    "success": {
+      "signedIn": "Signed in successfully!",
+      "accountCreated": "Account created successfully!"
+    }
+  },
+  "profile": {
+    "editProfile": "Edit Profile",
+    "name": "Name",
+    "email": "Email",
+    "save": "Save",
+    "cancel": "Cancel"
+  }
+}

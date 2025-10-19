@@ -1,0 +1,1 @@
+{"query": "mutation { login(input: { email: \"test@example.com\", password: \"password123\" }) { user { id name email role } access_token }"}}

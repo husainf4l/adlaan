@@ -1,0 +1,1 @@
+{"query": "query { me { id name email role company { id name } } }"}

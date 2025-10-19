@@ -1,0 +1,172 @@
+{
+  "navigation": {
+    "features": "Fonctionnalités",
+    "solutions": "Solutions",
+    "testimonials": "Témoignages",
+    "signIn": "Se connecter",
+    "getStarted": "Commencer",
+    "editProfile": "Modifier le profil",
+    "signOut": "Se déconnecter"
+  },
+  "hero": {
+    "badge": "Excellence Juridique Propulsée par l'IA",
+    "title": "IA Juridique Professionnelle",
+    "subtitle": "pour les Équipes Modernes",
+    "description": "Transformez votre flux de travail juridique avec l'intelligence artificielle de pointe. Conçu pour les professionnels du droit qui exigent l'excellence en 2025.",
+    "cta": {
+      "primary": "Commencer Gratuitement",
+      "secondary": "Voir la Démo"
+    },
+    "features": {
+      "trial": "Essai gratuit de 14 jours",
+      "cancel": "Annuler à tout moment"
+    }
+  },
+  "solutions": {
+    "badge": "Comment ça marche",
+    "title": "La Manière Intelligente de Créer",
+    "titleHighlight": "des Documents Juridiques",
+    "description": "Adlaan utilise l'IA avancée pour comprendre vos besoins, rédiger des contrats juridiques précis et générer des PDF prêts à signer — le tout en",
+    "descriptionHighlight": "minutes, pas des heures",
+    "process": {
+      "userInput": "Saisie Utilisateur",
+      "aiUnderstanding": "Compréhension IA",
+      "templateEngine": "Moteur de Modèles",
+      "complianceCheck": "Vérification Conformité",
+      "pdfOutput": "Sortie PDF"
+    },
+    "pillars": {
+      "aiAssistant": {
+        "title": "Assistant Juridique IA",
+        "description": "Comprend votre cas ou besoin commercial via une conversation naturelle.",
+        "features": [
+          "Identifie automatiquement le bon modèle juridique",
+          "S'adapte à votre juridiction et réglementations locales",
+          "Apprend du contexte et des exigences de votre entreprise"
+        ]
+      },
+      "documentGenerator": {
+        "title": "Générateur de Documents Dynamique",
+        "description": "Combine Jinja2 + WeasyPrint pour produire des documents professionnels et conformes.",
+        "features": [
+          "Génère instantanément des formats PDF ou Word",
+          "Remplit dynamiquement les modèles avec vos données",
+          "Formatage professionnel aux normes juridiques"
+        ]
+      },
+      "compliance": {
+        "title": "Couche de Précision et Conformité",
+        "description": "Valide les clauses et garantit une terminologie juridique correcte.",
+        "features": [
+          "S'aligne automatiquement sur les réglementations locales",
+          "Garantit la conformité aux normes internationales",
+          "Valide la terminologie et la structure juridiques"
+        ]
+      },
+      "review": {
+        "title": "Révision et Signature Instantanées",
+        "description": "Prévisualisez, modifiez et téléchargez votre document instantanément.",
+        "features": [
+          "Aperçu et modification de document en temps réel",
+          "Téléchargement en un clic en plusieurs formats",
+          "Prêt pour l'intégration de signature électronique"
+        ]
+      }
+    },
+    "bottom": {
+      "title": "Documentation Juridique, Réinventée",
+      "description": "Adlaan élimine la complexité de la documentation juridique en fusionnant la compréhension de l'IA avec l'automatisation intelligente. Via son interface conversationnelle, les utilisateurs décrivent simplement leur situation, et Adlaan identifie le cadre juridique pertinent, génère un projet conforme et le formate en PDF prêt à signer. Chaque document passe par une",
+      "highlight1": "couche de précision et de conformité",
+      "description2": ", garantissant la cohérence avec les normes juridictionnelles. Ce qui prenait des heures d'édition manuelle se fait maintenant en secondes —",
+      "highlight2": "en toute sécurité, avec précision et sans effort"
+    },
+    "cta": {
+      "button": "Commencer à Créer des Documents",
+      "subtitle": "Aucune carte de crédit requise • Modèles gratuits inclus"
+    }
+  },
+  "cta": {
+    "badge": "Documents Juridiques Propulsés par l'IA",
+    "title": "Créez des contrats prêts à signer",
+    "titleHighlight": "en minutes",
+    "description": "Entièrement conforme, entièrement vôtre. Générez des documents juridiques professionnels avec l'assistance de l'IA — aucun diplôme en droit requis.",
+    "buttons": {
+      "generate": "Générer un Document Juridique",
+      "startDrafting": "Commencer la Rédaction",
+      "exploreTemplates": "Explorer les Modèles",
+      "chatWithAI": "Discuter avec l'IA Juridique"
+    }
+  },
+  "testimonials": {
+    "badge": "Ce Que Disent Nos Clients",
+    "title": "Approuvé par les Professionnels du Droit",
+    "titleHighlight": "Dans le Monde Entier",
+    "rating": "Note moyenne de 4,9/5 de plus de 500 professionnels du droit"
+  },
+  "footer": {
+    "description": "Plateforme juridique professionnelle propulsée par l'IA permettant aux équipes d'accomplir davantage avec une technologie de pointe.",
+    "product": {
+      "title": "Produit",
+      "features": "Fonctionnalités",
+      "solutions": "Solutions",
+      "pricing": "Tarifs"
+    },
+    "company": {
+      "title": "Entreprise",
+      "about": "À propos",
+      "contact": "Contact",
+      "careers": "Carrières"
+    },
+    "legal": {
+      "title": "Juridique",
+      "privacy": "Confidentialité",
+      "terms": "Conditions",
+      "security": "Sécurité"
+    },
+    "copyright": "© 2025 Adlaan Inc. Tous droits réservés."
+  },
+  "auth": {
+    "signIn": {
+      "title": "Bon Retour",
+      "description": "Connectez-vous à votre compte Adlaan",
+      "email": "Email",
+      "password": "Mot de passe",
+      "rememberMe": "Se souvenir de moi",
+      "forgotPassword": "Mot de passe oublié ?",
+      "button": "Se Connecter",
+      "orContinueWith": "Ou continuer avec",
+      "noAccount": "Vous n'avez pas de compte ?",
+      "signUp": "S'inscrire"
+    },
+    "signUp": {
+      "title": "Créer un Compte",
+      "description": "Commencez avec Adlaan",
+      "name": "Nom Complet",
+      "email": "Email",
+      "password": "Mot de passe",
+      "agreeToTerms": "J'accepte les Conditions d'Utilisation et la Politique de Confidentialité",
+      "button": "Créer un Compte",
+      "orContinueWith": "Ou continuer avec",
+      "haveAccount": "Vous avez déjà un compte ?",
+      "signIn": "Se connecter"
+    },
+    "errors": {
+      "fillAllFields": "Veuillez remplir tous les champs",
+      "invalidEmail": "Veuillez saisir une adresse email valide",
+      "nameTooShort": "Le nom doit contenir au moins 2 caractères",
+      "passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
+      "agreeToTerms": "Vous devez accepter les termes et conditions"
+    },
+    "success": {
+      "signedIn": "Connexion réussie !",
+      "accountCreated": "Compte créé avec succès !"
+    }
+  },
+  "profile": {
+    "editProfile": "Modifier le Profil",
+    "name": "Nom",
+    "email": "Email",
+    "save": "Enregistrer",
+    "cancel": "Annuler"
+  }
+}
