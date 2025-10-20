@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -19,7 +19,7 @@ import {
   Filter
 } from 'lucide-react';
 import { GET_TASKS_QUERY } from '../../lib/graphql';
-import { TaskStatus, AgentType, Task } from '../../lib/ai-types';
+import { Task, TaskStatus, AgentType, TasksQueryResponse } from '../../lib/ai-types';
 
 interface TaskManagementProps {
   onBack: () => void;
@@ -30,7 +30,7 @@ export const TaskManagement = ({ onBack }: TaskManagementProps) => {
   const [agentFilter, setAgentFilter] = useState<AgentType | 'ALL'>('ALL');
   const [selectedTask, setSelectedTask] = useState<Task | null>(null);
 
-  const { data: tasksData, loading: tasksLoading, refetch } = useQuery(GET_TASKS_QUERY, {
+  const { data: tasksData, loading: tasksLoading, refetch } = useQuery<TasksQueryResponse>(GET_TASKS_QUERY, {
     variables: {
       status: statusFilter !== 'ALL' ? statusFilter : undefined,
       agentType: agentFilter !== 'ALL' ? agentFilter : undefined

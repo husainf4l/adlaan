@@ -354,3 +354,186 @@ export const TASK_STATUS_SUBSCRIPTION = gql`
     }
   }
 `;
+
+// Enhanced AI Agent Operations
+
+export const GET_AGENT_STATUS_QUERY = gql`
+  query GetAgentStatus($agentType: AgentType) {
+    agentStatus(agentType: $agentType) {
+      agentType
+      status
+      lastUpdate
+      activeTasks
+      completedTasks
+      errorCount
+      uptime
+    }
+  }
+`;
+
+export const GET_AGENT_CAPABILITIES_QUERY = gql`
+  query GetAgentCapabilities {
+    agentCapabilities {
+      agentType
+      name
+      description
+      capabilities
+      supportedFormats
+      maxFileSize
+      processingTime
+      available
+    }
+  }
+`;
+
+export const START_AGENT_MUTATION = gql`
+  mutation StartAgent($agentType: AgentType!) {
+    startAgent(agentType: $agentType) {
+      success
+      message
+      agentId
+    }
+  }
+`;
+
+export const STOP_AGENT_MUTATION = gql`
+  mutation StopAgent($agentType: AgentType!) {
+    stopAgent(agentType: $agentType) {
+      success
+      message
+    }
+  }
+`;
+
+export const RESTART_AGENT_MUTATION = gql`
+  mutation RestartAgent($agentType: AgentType!) {
+    restartAgent(agentType: $agentType) {
+      success
+      message
+      agentId
+    }
+  }
+`;
+
+export const CANCEL_TASK_MUTATION = gql`
+  mutation CancelTask($taskId: String!) {
+    cancelTask(taskId: $taskId) {
+      success
+      message
+    }
+  }
+`;
+
+export const RETRY_TASK_MUTATION = gql`
+  mutation RetryTask($taskId: String!) {
+    retryTask(taskId: $taskId) {
+      taskId
+      status
+      message
+    }
+  }
+`;
+
+export const GET_TASK_LOGS_QUERY = gql`
+  query GetTaskLogs($taskId: String!) {
+    taskLogs(taskId: $taskId) {
+      id
+      taskId
+      level
+      message
+      timestamp
+      metadata
+    }
+  }
+`;
+
+export const GET_AGENT_METRICS_QUERY = gql`
+  query GetAgentMetrics($agentType: AgentType, $timeRange: String) {
+    agentMetrics(agentType: $agentType, timeRange: $timeRange) {
+      agentType
+      totalTasks
+      successfulTasks
+      failedTasks
+      averageProcessingTime
+      throughput
+      errorRate
+      uptime
+      timestamp
+    }
+  }
+`;
+
+export const CONFIGURE_AGENT_MUTATION = gql`
+  mutation ConfigureAgent($agentType: AgentType!, $configuration: JSON!) {
+    configureAgent(agentType: $agentType, configuration: $configuration) {
+      success
+      message
+      configuration
+    }
+  }
+`;
+
+export const GET_AGENT_CONFIGURATION_QUERY = gql`
+  query GetAgentConfiguration($agentType: AgentType!) {
+    agentConfiguration(agentType: $agentType) {
+      agentType
+      configuration
+      lastUpdated
+      version
+    }
+  }
+`;
+
+export const BULK_PROCESS_DOCUMENTS_MUTATION = gql`
+  mutation BulkProcessDocuments($input: BulkProcessInput!) {
+    bulkProcessDocuments(input: $input) {
+      batchId
+      taskIds
+      status
+      message
+    }
+  }
+`;
+
+export const GET_BATCH_STATUS_QUERY = gql`
+  query GetBatchStatus($batchId: String!) {
+    batchStatus(batchId: $batchId) {
+      batchId
+      status
+      progress
+      totalTasks
+      completedTasks
+      failedTasks
+      results
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const AGENT_HEALTH_CHECK_QUERY = gql`
+  query AgentHealthCheck {
+    agentHealthCheck {
+      systemHealth
+      agents {
+        agentType
+        status
+        lastHeartbeat
+        responseTime
+        memoryUsage
+        cpuUsage
+        errors
+      }
+      timestamp
+    }
+  }
+`;
+
+export const RESET_AGENT_STATISTICS_MUTATION = gql`
+  mutation ResetAgentStatistics($agentType: AgentType!) {
+    resetAgentStatistics(agentType: $agentType) {
+      success
+      message
+    }
+  }
+`;

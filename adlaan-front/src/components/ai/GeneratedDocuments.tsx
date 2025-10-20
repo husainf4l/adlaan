@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { useQuery } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -21,7 +21,7 @@ import {
   StarOff
 } from 'lucide-react';
 import { GET_GENERATED_DOCUMENTS_QUERY } from '../../lib/graphql';
-import { GeneratedDocument } from '../../lib/ai-types';
+import { GeneratedDocument, GeneratedDocumentsQueryResponse } from '../../lib/ai-types';
 
 interface GeneratedDocumentsProps {
   onBack: () => void;
@@ -33,7 +33,7 @@ export const GeneratedDocuments = ({ onBack }: GeneratedDocumentsProps) => {
   const [showPreview, setShowPreview] = useState(false);
   const [sortBy, setSortBy] = useState<'date' | 'name' | 'template'>('date');
 
-  const { data: documentsData, loading: documentsLoading } = useQuery(GET_GENERATED_DOCUMENTS_QUERY);
+  const { data: documentsData, loading: documentsLoading } = useQuery<GeneratedDocumentsQueryResponse>(GET_GENERATED_DOCUMENTS_QUERY);
 
   const documents: GeneratedDocument[] = documentsData?.generatedDocuments || [];
 
@@ -59,20 +59,20 @@ export const GeneratedDocuments = ({ onBack }: GeneratedDocumentsProps) => {
     return date.toLocaleDateString();
   };
 
-  const handleDownload = (document: GeneratedDocument) => {
-    const blob = new Blob([document.content], { type: 'text/plain' });
+  const handleDownload = (doc: GeneratedDocument) => {
+    const blob = new Blob([doc.content], { type: 'text/plain' });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
-    a.download = `${document.name}.txt`;
+    a.download = `${doc.name}.txt`;
     document.body.appendChild(a);
     a.click();
     document.body.removeChild(a);
     URL.revokeObjectURL(url);
   };
 
-  const handlePreview = (document: GeneratedDocument) => {
-    setSelectedDocument(document);
+  const handlePreview = (doc: GeneratedDocument) => {
+    setSelectedDocument(doc);
     setShowPreview(true);
   };
 

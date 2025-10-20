@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useEffect } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
@@ -14,14 +14,17 @@ import {
   ArrowLeft,
   Loader2,
   CheckCircle,
-  AlertCircle 
+  AlertCircle,
+  RefreshCw 
 } from 'lucide-react';
 import { 
   GET_DOCUMENT_TEMPLATES_QUERY, 
   GENERATE_DOCUMENT_MUTATION,
   GET_TASK_QUERY 
 } from '../../lib/graphql';
-import { DocumentTemplate, TemplateField, TaskStatus } from '../../lib/ai-types';
+import { DocumentTemplate, TemplateField, TaskStatus, DocumentTemplatesQueryResponse, TaskQueryResponse, GenerateDocumentMutationResponse, AgentType } from '../../lib/ai-types';
+import { aiAgentService, agentRealtimeService } from '../../lib/ai-agent-service';
+import { useAgentErrorHandling } from '../../lib/use-agent-error-handling';
 
 interface DocumentGeneratorProps {
   onBack: () => void;
@@ -33,10 +36,23 @@ export const DocumentGenerator = ({ onBack }: DocumentGeneratorProps) => {
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
   const [showPreview, setShowPreview] = useState(false);
 
-  const { data: templatesData, loading: templatesLoading } = useQuery(GET_DOCUMENT_TEMPLATES_QUERY);
-  const [generateDocument, { loading: generating }] = useMutation(GENERATE_DOCUMENT_MUTATION);
+  // Enhanced error handling and logging
+  const { 
+    errorState, 
+    loadingState, 
+    setError, 
+    clearError, 
+    setLoading,
+    executeWithErrorHandling,
+    logger,
+    isRetryable,
+    getRecommendedAction 
+  } = useAgentErrorHandling();
+
+  const { data: templatesData, loading: templatesLoading } = useQuery<DocumentTemplatesQueryResponse>(GET_DOCUMENT_TEMPLATES_QUERY);
+  const [generateDocument, { loading: generating }] = useMutation<GenerateDocumentMutationResponse>(GENERATE_DOCUMENT_MUTATION);
   
-  const { data: taskData } = useQuery(GET_TASK_QUERY, {
+  const { data: taskData } = useQuery<TaskQueryResponse>(GET_TASK_QUERY, {
     variables: { id: currentTaskId },
     skip: !currentTaskId,
     pollInterval: 2000,
@@ -44,6 +60,19 @@ export const DocumentGenerator = ({ onBack }: DocumentGeneratorProps) => {
 
   const templates = templatesData?.documentTemplates || [];
   const task = taskData?.task;
+
+  // Real-time task updates
+  useEffect(() => {
+    if (!currentTaskId) return;
+
+    const unsubscribe = agentRealtimeService.subscribe('task_update', (data) => {
+      if (data.taskId === currentTaskId) {
+        logger.log('info', `Task update received: ${data.status}`, 'DocumentGenerator', { taskId: currentTaskId });
+      }
+    });
+
+    return unsubscribe;
+  }, [currentTaskId, logger]);
 
   const handleTemplateSelect = (template: DocumentTemplate) => {
     setSelectedTemplate(template);
@@ -65,22 +94,35 @@ export const DocumentGenerator = ({ onBack }: DocumentGeneratorProps) => {
   const handleGenerate = async () => {
     if (!selectedTemplate) return;
 
-    try {
-      const result = await generateDocument({
-        variables: {
-          input: {
+    const result = await executeWithErrorHandling(
+      async () => {
+        // Use the new AI agent service instead of direct GraphQL
+        return await aiAgentService.executeAgentTask(
+          AgentType.DOCUMENT_GENERATOR,
+          'generate',
+          {
             templateId: selectedTemplate.id,
             fields: formData
           }
+        );
+      },
+      {
+        operationName: 'Generate Document',
+        context: 'DocumentGenerator',
+        onSuccess: (result) => {
+          setCurrentTaskId(result.taskId);
+          logger.log('info', `Document generation started with task ID: ${result.taskId}`, 'DocumentGenerator');
+        },
+        onError: (error) => {
+          logger.log('error', `Document generation failed: ${error.message}`, 'DocumentGenerator');
         }
-      });
-
-      if (result.data?.generateDocument?.taskId) {
-        setCurrentTaskId(result.data.generateDocument.taskId);
       }
-    } catch (error) {
-      console.error('Error generating document:', error);
-    }
+    );
+  };
+
+  const handleRetry = async () => {
+    clearError();
+    await handleGenerate();
   };
 
   const renderField = (field: TemplateField) => {
@@ -202,6 +244,75 @@ export const DocumentGenerator = ({ onBack }: DocumentGeneratorProps) => {
           </p>
         </div>
       </div>
+
+      {/* Error Handling */}
+      {errorState.hasError && (
+        <Card className="border-red-200 bg-red-50">
+          <CardHeader>
+            <CardTitle className="flex items-center space-x-2 text-red-700">
+              <AlertCircle className="h-5 w-5" />
+              <span>Error Occurred</span>
+            </CardTitle>
+            <CardDescription className="text-red-600">
+              {errorState.error?.message}
+            </CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-3">
+              <p className="text-sm text-red-600">
+                {getRecommendedAction(errorState.error!)}
+              </p>
+              
+              {errorState.retryCount > 0 && (
+                <p className="text-xs text-muted-foreground">
+                  Retry attempts: {errorState.retryCount}
+                  {errorState.lastRetryAt && (
+                    <span> (last attempt: {new Date(errorState.lastRetryAt).toLocaleTimeString()})</span>
+                  )}
+                </p>
+              )}
+              
+              <div className="flex space-x-2">
+                {isRetryable && (
+                  <Button 
+                    size="sm" 
+                    variant="outline"
+                    onClick={handleRetry}
+                    disabled={loadingState.isLoading}
+                  >
+                    <RefreshCw className="h-4 w-4 mr-2" />
+                    Retry
+                  </Button>
+                )}
+                <Button size="sm" variant="ghost" onClick={clearError}>
+                  Dismiss
+                </Button>
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
+
+      {/* Loading State */}
+      {loadingState.isLoading && (
+        <Card className="border-blue-200 bg-blue-50">
+          <CardContent className="pt-6">
+            <div className="flex items-center space-x-3">
+              <Loader2 className="h-5 w-5 animate-spin text-blue-600" />
+              <div>
+                <p className="font-medium text-blue-700">
+                  {loadingState.operation || 'Processing...'}
+                </p>
+                {loadingState.startedAt && (
+                  <p className="text-xs text-blue-600">
+                    Started: {new Date(loadingState.startedAt).toLocaleTimeString()}
+                  </p>
+                )}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+      )}
 
       {/* Task Status */}
       {currentTaskId && task && (

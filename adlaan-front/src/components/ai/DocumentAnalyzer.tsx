@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef } from 'react';
-import { useMutation, useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -23,7 +23,7 @@ import {
   ANALYZE_DOCUMENT_MUTATION,
   GET_TASK_QUERY 
 } from '../../lib/graphql';
-import { TaskStatus, AnalysisResult } from '../../lib/ai-types';
+import { AnalyzeDocumentInput, TaskStatus, TaskQueryResponse, AnalyzeDocumentMutationResponse } from '../../lib/ai-types';
 
 interface DocumentAnalyzerProps {
   onBack: () => void;
@@ -36,16 +36,16 @@ export const DocumentAnalyzer = ({ onBack }: DocumentAnalyzerProps) => {
   const [dragOver, setDragOver] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  const [analyzeDocument, { loading: analyzing }] = useMutation(ANALYZE_DOCUMENT_MUTATION);
+  const [analyzeDocument, { loading: analyzing }] = useMutation<AnalyzeDocumentMutationResponse>(ANALYZE_DOCUMENT_MUTATION);
   
-  const { data: taskData } = useQuery(GET_TASK_QUERY, {
+  const { data: taskData } = useQuery<TaskQueryResponse>(GET_TASK_QUERY, {
     variables: { id: currentTaskId },
     skip: !currentTaskId,
     pollInterval: 2000,
   });
 
   const task = taskData?.task;
-  const analysisResult: AnalysisResult | null = task?.result || null;
+  const analysisResult: any = task?.result || null;
 
   const handleFileSelect = (file: File) => {
     setSelectedFile(file);
@@ -297,7 +297,7 @@ export const DocumentAnalyzer = ({ onBack }: DocumentAnalyzerProps) => {
                       <div>
                         <h3 className="font-semibold mb-2">Key Points</h3>
                         <ul className="space-y-1">
-                          {analysisResult.keyPoints.map((point, index) => (
+                          {analysisResult.keyPoints.map((point: string, index: number) => (
                             <li key={index} className="flex items-start space-x-2">
                               <CheckCircle className="h-4 w-4 text-green-500 mt-0.5 flex-shrink-0" />
                               <span className="text-sm">{point}</span>
@@ -310,12 +310,12 @@ export const DocumentAnalyzer = ({ onBack }: DocumentAnalyzerProps) => {
                     {/* Risks */}
                     {analysisResult.risks && analysisResult.risks.length > 0 && (
                       <div>
-                        <h3 className="font-semibold mb-2 flex items-center">
-                          <AlertCircle className="h-4 w-4 text-red-500 mr-2" />
+                        <h3 className="font-semibold mb-2 flex items-center space-x-2">
+                          <TrendingDown className="h-4 w-4 text-red-500" />
                           Risks Identified
                         </h3>
                         <ul className="space-y-1">
-                          {analysisResult.risks.map((risk, index) => (
+                          {analysisResult.risks.map((risk: string, index: number) => (
                             <li key={index} className="flex items-start space-x-2">
                               <TrendingDown className="h-4 w-4 text-red-500 mt-0.5 flex-shrink-0" />
                               <span className="text-sm">{risk}</span>
@@ -333,7 +333,7 @@ export const DocumentAnalyzer = ({ onBack }: DocumentAnalyzerProps) => {
                           Recommendations
                         </h3>
                         <ul className="space-y-1">
-                          {analysisResult.recommendations.map((rec, index) => (
+                          {analysisResult.recommendations.map((rec: string, index: number) => (
                             <li key={index} className="flex items-start space-x-2">
                               <TrendingUp className="h-4 w-4 text-blue-500 mt-0.5 flex-shrink-0" />
                               <span className="text-sm">{rec}</span>
@@ -348,12 +348,12 @@ export const DocumentAnalyzer = ({ onBack }: DocumentAnalyzerProps) => {
                       <div className="grid grid-cols-2 gap-4">
                         {analysisResult.entities.people && analysisResult.entities.people.length > 0 && (
                           <div>
-                            <h4 className="font-medium text-sm mb-2 flex items-center">
+                            <h4 className="text-sm font-medium mb-2 flex items-center">
                               <Users className="h-4 w-4 mr-1" />
                               People
                             </h4>
                             <div className="space-y-1">
-                              {analysisResult.entities.people.map((person, index) => (
+                              {analysisResult.entities.people.map((person: string, index: number) => (
                                 <Badge key={index} variant="outline" className="text-xs">
                                   {person}
                                 </Badge>
@@ -364,12 +364,12 @@ export const DocumentAnalyzer = ({ onBack }: DocumentAnalyzerProps) => {
 
                         {analysisResult.entities.dates && analysisResult.entities.dates.length > 0 && (
                           <div>
-                            <h4 className="font-medium text-sm mb-2 flex items-center">
+                            <h4 className="text-sm font-medium mb-2 flex items-center">
                               <Calendar className="h-4 w-4 mr-1" />
                               Dates
                             </h4>
                             <div className="space-y-1">
-                              {analysisResult.entities.dates.map((date, index) => (
+                              {analysisResult.entities.dates.map((date: string, index: number) => (
                                 <Badge key={index} variant="outline" className="text-xs">
                                   {date}
                                 </Badge>
@@ -380,12 +380,12 @@ export const DocumentAnalyzer = ({ onBack }: DocumentAnalyzerProps) => {
 
                         {analysisResult.entities.amounts && analysisResult.entities.amounts.length > 0 && (
                           <div>
-                            <h4 className="font-medium text-sm mb-2 flex items-center">
+                            <h4 className="text-sm font-medium mb-2 flex items-center">
                               <DollarSign className="h-4 w-4 mr-1" />
                               Amounts
                             </h4>
                             <div className="space-y-1">
-                              {analysisResult.entities.amounts.map((amount, index) => (
+                              {analysisResult.entities.amounts.map((amount: string, index: number) => (
                                 <Badge key={index} variant="outline" className="text-xs">
                                   {amount}
                                 </Badge>
@@ -398,7 +398,7 @@ export const DocumentAnalyzer = ({ onBack }: DocumentAnalyzerProps) => {
                           <div>
                             <h4 className="font-medium text-sm mb-2">Organizations</h4>
                             <div className="space-y-1">
-                              {analysisResult.entities.organizations.map((org, index) => (
+                              {analysisResult.entities.organizations.map((org: string, index: number) => (
                                 <Badge key={index} variant="outline" className="text-xs">
                                   {org}
                                 </Badge>

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from 'react';
-import { useQuery, useMutation } from '@apollo/client';
+import { useQuery, useMutation } from '@apollo/client/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Badge } from '../ui/badge';
@@ -21,7 +21,13 @@ import {
   GET_TASK_QUERY,
   GET_DOCUMENTS_QUERY
 } from '../../lib/graphql';
-import { TaskStatus, ClassificationResult } from '../../lib/ai-types';
+import { 
+  ClassifyDocumentsInput, 
+  TaskStatus, 
+  DocumentsQueryResponse,
+  TaskQueryResponse,
+  ClassifyDocumentsMutationResponse 
+} from '../../lib/ai-types';
 
 interface DocumentClassifierProps {
   onBack: () => void;
@@ -32,10 +38,10 @@ export const DocumentClassifier = ({ onBack }: DocumentClassifierProps) => {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
 
-  const { data: documentsData, loading: documentsLoading } = useQuery(GET_DOCUMENTS_QUERY);
-  const [classifyDocuments, { loading: classifying }] = useMutation(CLASSIFY_DOCUMENTS_MUTATION);
+  const { data: documentsData, loading: documentsLoading } = useQuery<DocumentsQueryResponse>(GET_DOCUMENTS_QUERY);
+  const [classifyDocuments, { loading: classifying }] = useMutation<ClassifyDocumentsMutationResponse>(CLASSIFY_DOCUMENTS_MUTATION);
   
-  const { data: taskData } = useQuery(GET_TASK_QUERY, {
+  const { data: taskData } = useQuery<TaskQueryResponse>(GET_TASK_QUERY, {
     variables: { id: currentTaskId },
     skip: !currentTaskId,
     pollInterval: 2000,
@@ -43,7 +49,7 @@ export const DocumentClassifier = ({ onBack }: DocumentClassifierProps) => {
 
   const documents = documentsData?.documents || [];
   const task = taskData?.task;
-  const classificationResults: ClassificationResult[] = task?.result?.classifications || [];
+  const classificationResults: any[] = task?.result?.classifications || [];
 
   const availableCategories = [
     'Contract',
@@ -362,8 +368,8 @@ export const DocumentClassifier = ({ onBack }: DocumentClassifierProps) => {
 
                   {/* Detailed Results */}
                   <div className="space-y-3">
-                    {classificationResults.map((result, index) => {
-                      const document = documents.find((doc: any) => doc.id === result.documentId);
+                    {classificationResults.map((result: any, index: number) => {
+                      const doc: any = documents.find((docItem: any) => docItem.id === result.documentId);
                       return (
                         <Card key={index}>
                           <CardContent className="p-4">
@@ -372,13 +378,13 @@ export const DocumentClassifier = ({ onBack }: DocumentClassifierProps) => {
                                 <FileText className="h-5 w-5 text-primary" />
                                 <div>
                                   <p className="font-medium">
-                                    {document?.name || 'Unknown Document'}
+                                    {doc?.name || 'Unknown Document'}
                                   </p>
                                   <div className="flex items-center space-x-2 mt-1">
                                     <Badge variant="default">
                                       {result.category}
                                     </Badge>
-                                    {result.subcategories.map((sub, subIndex) => (
+                                    {result.subcategories.map((sub: string, subIndex: number) => (
                                       <Badge key={subIndex} variant="secondary">
                                         {sub}
                                       </Badge>

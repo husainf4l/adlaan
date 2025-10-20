@@ -2,12 +2,13 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { AIAgentsOverview } from '../../components/ai/AIAgentsOverview';
-import { DocumentGenerator } from '../../components/ai/DocumentGenerator';
-import { DocumentAnalyzer } from '../../components/ai/DocumentAnalyzer';
-import { DocumentClassifier } from '../../components/ai/DocumentClassifier';
-import { TaskManagement } from '../../components/ai/TaskManagement';
-import { GeneratedDocuments } from '../../components/ai/GeneratedDocuments';
+import { AIAgentsOverview } from '../../../components/ai/AIAgentsOverview';
+import { DocumentGenerator } from '../../../components/ai/DocumentGenerator';
+import { DocumentAnalyzer } from '../../../components/ai/DocumentAnalyzer';
+import { DocumentClassifier } from '../../../components/ai/DocumentClassifier';
+import { TaskManagement } from '../../../components/ai/TaskManagement';
+import { GeneratedDocuments } from '../../../components/ai/GeneratedDocuments';
+import { AgentConfiguration } from '../../../components/ai/AgentConfiguration';
 
 type AIView = 
   | 'overview'
@@ -15,7 +16,8 @@ type AIView =
   | 'document-analyzer'
   | 'document-classifier'
   | 'tasks'
-  | 'generated-documents';
+  | 'generated-documents'
+  | 'configuration';
 
 export default function AIAgentsPage() {
   const [currentView, setCurrentView] = useState<AIView>('overview');
@@ -43,6 +45,8 @@ export default function AIAgentsPage() {
         return <TaskManagement onBack={handleBack} />;
       case 'generated-documents':
         return <GeneratedDocuments onBack={handleBack} />;
+      case 'configuration':
+        return <AgentConfiguration onBack={handleBack} />;
       case 'overview':
       default:
         return <AIAgentsOverview onNavigate={handleNavigate} />;

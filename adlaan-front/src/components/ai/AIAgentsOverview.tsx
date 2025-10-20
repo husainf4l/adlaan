@@ -12,11 +12,12 @@ import {
   Clock, 
   CheckCircle, 
   AlertCircle,
-  TrendingUp 
+  TrendingUp,
+  Settings
 } from 'lucide-react';
-import { useQuery } from '@apollo/client';
+import { useQuery } from '@apollo/client/react';
 import { GET_TASKS_QUERY } from '../../lib/graphql';
-import { TaskStatus, AgentType } from '../../lib/ai-types';
+import { TasksQueryResponse, TaskStatus, AgentType } from '../../lib/ai-types';
 
 interface AgentCardProps {
   id: string;
@@ -36,7 +37,7 @@ const AgentCard = ({
   agentType, 
   onNavigate 
 }: AgentCardProps) => {
-  const { data: tasksData } = useQuery(GET_TASKS_QUERY, {
+  const { data: tasksData } = useQuery<TasksQueryResponse>(GET_TASKS_QUERY, {
     variables: { agentType },
     pollInterval: 5000, // Poll every 5 seconds for real-time updates
   });
@@ -114,7 +115,7 @@ export const AIAgentsOverview = ({ onNavigate }: AIAgentsOverviewProps) => {
     successRate: 0
   });
 
-  const { data: allTasksData } = useQuery(GET_TASKS_QUERY, {
+  const { data: allTasksData } = useQuery<TasksQueryResponse>(GET_TASKS_QUERY, {
     pollInterval: 10000, // Poll every 10 seconds
   });
 
@@ -174,6 +175,14 @@ export const AIAgentsOverview = ({ onNavigate }: AIAgentsOverviewProps) => {
       icon: Tag,
       route: '/dashboard/ai/document-classifier',
       agentType: AgentType.DOCUMENT_CLASSIFIER
+    },
+    {
+      id: 'configuration',
+      title: 'Agent Configuration',
+      description: 'Configure agent settings and monitor system health',
+      icon: Settings,
+      route: '/dashboard/ai/configuration',
+      agentType: AgentType.DOCUMENT_GENERATOR // Default, not used for config
     }
   ];
 

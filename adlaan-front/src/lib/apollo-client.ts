@@ -15,6 +15,8 @@ const authLink = setContext((_, { headers }) => {
     headers: {
       ...headers,
       authorization: token ? `Bearer ${token}` : '',
+      'x-apollo-operation-name': 'ClientRequest',
+      'apollo-require-preflight': 'true',
     },
   };
 });
