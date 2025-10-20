@@ -221,6 +221,24 @@ export default function Dashboard() {
                 </Button>
               </CardContent>
             </Card>
+
+            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 hover:border-primary/50" onClick={() => router.push("/documents")}>
+              <CardHeader className="pb-3">
+                <CardTitle className="flex items-center text-lg">
+                  <FileText className="h-5 w-5 mr-2 text-primary" />
+                  Documents
+                </CardTitle>
+                <CardDescription>
+                  Store and manage your files and documents
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
+                  Open Drive
+                  <ArrowRight className="h-4 w-4 ml-2" />
+                </Button>
+              </CardContent>
+            </Card>
           </div>
         </div>
 

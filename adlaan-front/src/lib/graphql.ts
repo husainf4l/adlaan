@@ -87,7 +87,6 @@ export const CASES_QUERY = gql`
       title
       description
       status
-      priority
       createdAt
       updatedAt
       client {
@@ -95,7 +94,7 @@ export const CASES_QUERY = gql`
         name
         email
       }
-      assignedTo {
+      assignedUsers {
         id
         name
         email
@@ -111,14 +110,13 @@ export const CREATE_CASE_MUTATION = gql`
       title
       description
       status
-      priority
       createdAt
       client {
         id
         name
         email
       }
-      assignedTo {
+      assignedUsers {
         id
         name
         email
@@ -134,7 +132,112 @@ export const UPDATE_CASE_MUTATION = gql`
       title
       description
       status
-      priority
+      updatedAt
+    }
+  }
+`;
+
+export const GET_USERS_QUERY = gql`
+  query GetUsers {
+    users {
+      id
+      name
+      email
+      role
+      company {
+        id
+        name
+      }
+      createdAt
+    }
+  }
+`;
+
+export const CREATE_USER_MUTATION = gql`
+  mutation CreateUser($input: CreateUserInput!) {
+    createUser(input: $input) {
+      id
+      name
+      email
+      role
+      company {
+        id
+        name
+      }
+      createdAt
+    }
+  }
+`;
+
+export const UPDATE_USER_MUTATION = gql`
+  mutation UpdateUser($id: Int!, $input: UpdateUserInput!) {
+    updateUser(id: $id, input: $input) {
+      id
+      name
+      email
+      role
+      company {
+        id
+        name
+      }
+    }
+  }
+`;
+
+export const DELETE_USER_MUTATION = gql`
+  mutation DeleteUser($id: Int!) {
+    deleteUser(id: $id)
+  }
+`;
+
+// Document Management Queries
+export const GET_DOCUMENTS_QUERY = gql`
+  query GetDocuments {
+    documents {
+      id
+      case
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const UPLOAD_DOCUMENT_MUTATION = gql`
+  mutation UploadDocument($input: UploadDocumentInput!) {
+    uploadDocument(input: $input) {
+      id
+      case
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const CREATE_FOLDER_MUTATION = gql`
+  mutation CreateFolder($name: String!, $parentId: String) {
+    createFolder(name: $name, parentId: $parentId) {
+      id
+      name
+      type
+      parentId
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const DELETE_DOCUMENT_MUTATION = gql`
+  mutation DeleteDocument($id: String!) {
+    deleteDocument(id: $id)
+  }
+`;
+
+export const UPDATE_DOCUMENT_MUTATION = gql`
+  mutation UpdateDocument($id: String!, $name: String, $starred: Boolean) {
+    updateDocument(id: $id, name: $name, starred: $starred) {
+      id
+      name
+      starred
       updatedAt
     }
   }

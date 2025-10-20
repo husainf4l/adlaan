@@ -31,7 +31,6 @@ interface Case {
   title: string;
   description: string;
   status: string;
-  priority: string;
   createdAt: string;
   updatedAt: string;
   client?: {
@@ -39,7 +38,7 @@ interface Case {
     name: string;
     email: string;
   };
-  assignedTo?: {
+  assignedUsers?: {
     id: string;
     name: string;
     email: string;
@@ -121,7 +120,7 @@ export default function CasesPage() {
       : case_.description,
     icon: getStatusIcon(case_.status),
     status: case_.status,
-    tags: [case_.priority, case_.status],
+    tags: [case_.status],
     cta: "View Details →",
   }));
 
@@ -130,7 +129,6 @@ export default function CasesPage() {
     total: cases.length,
     open: cases.filter(c => c.status === 'open' || c.status === 'in_progress').length,
     closed: cases.filter(c => c.status === 'closed' || c.status === 'resolved').length,
-    highPriority: cases.filter(c => c.priority === 'high').length,
   };
 
   function getStatusIcon(status: string) {
@@ -145,19 +143,6 @@ export default function CasesPage() {
         return <AlertCircle className="w-4 h-4 text-yellow-500" />;
       default:
         return <FileText className="w-4 h-4 text-gray-500" />;
-    }
-  }
-
-  function getPriorityColor(priority: string) {
-    switch (priority.toLowerCase()) {
-      case 'high':
-        return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-200';
-      case 'medium':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-200';
-      case 'low':
-        return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-200';
-      default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-200';
     }
   }
 
@@ -236,16 +221,6 @@ export default function CasesPage() {
               <CardContent>
                 <div className="text-2xl font-bold text-green-600">{stats.closed}</div>
                 <p className="text-xs text-muted-foreground">Completed</p>
-              </CardContent>
-            </Card>
-            <Card>
-              <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
-                <CardTitle className="text-sm font-medium">High Priority</CardTitle>
-                <AlertCircle className="h-4 w-4 text-red-500" />
-              </CardHeader>
-              <CardContent>
-                <div className="text-2xl font-bold text-red-600">{stats.highPriority}</div>
-                <p className="text-xs text-muted-foreground">Urgent cases</p>
               </CardContent>
             </Card>
           </div>
@@ -336,9 +311,6 @@ export default function CasesPage() {
                         <CardTitle className="text-lg mb-2">{case_.title}</CardTitle>
                         <CardDescription className="mb-3">{case_.description}</CardDescription>
                         <div className="flex items-center gap-2 mb-3">
-                          <Badge className={getPriorityColor(case_.priority)}>
-                            {case_.priority.toUpperCase()}
-                          </Badge>
                           <Badge className={getStatusColor(case_.status)}>
                             {case_.status.replace('_', ' ').toUpperCase()}
                           </Badge>
@@ -365,11 +337,11 @@ export default function CasesPage() {
                             </span>
                           </div>
                         )}
-                        {case_.assignedTo && (
+                        {case_.assignedUsers && (
                           <div className="flex items-center gap-2">
                             <User className="h-4 w-4 text-muted-foreground" />
                             <span className="text-sm text-muted-foreground">
-                              Assigned to {case_.assignedTo.name}
+                              Assigned to {case_.assignedUsers.name}
                             </span>
                           </div>
                         )}
