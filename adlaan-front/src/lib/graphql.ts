@@ -195,6 +195,10 @@ export const GET_DOCUMENTS_QUERY = gql`
   query GetDocuments {
     documents {
       id
+      name
+      type
+      size
+      starred
       case
       createdAt
       updatedAt
@@ -239,6 +243,114 @@ export const UPDATE_DOCUMENT_MUTATION = gql`
       name
       starred
       updatedAt
+    }
+  }
+`;
+
+// AI Agents GraphQL Operations
+
+export const GET_DOCUMENT_TEMPLATES_QUERY = gql`
+  query GetDocumentTemplates {
+    documentTemplates {
+      id
+      name
+      description
+      category
+      fields {
+        name
+        type
+        required
+        options
+      }
+    }
+  }
+`;
+
+export const GENERATE_DOCUMENT_MUTATION = gql`
+  mutation GenerateDocument($input: GenerateDocumentInput!) {
+    generateDocument(input: $input) {
+      taskId
+      status
+      message
+    }
+  }
+`;
+
+export const ANALYZE_DOCUMENT_MUTATION = gql`
+  mutation AnalyzeDocument($input: AnalyzeDocumentInput!) {
+    analyzeDocument(input: $input) {
+      taskId
+      status
+      message
+    }
+  }
+`;
+
+export const CLASSIFY_DOCUMENTS_MUTATION = gql`
+  mutation ClassifyDocuments($input: ClassifyDocumentsInput!) {
+    classifyDocuments(input: $input) {
+      taskId
+      status
+      message
+    }
+  }
+`;
+
+export const GET_TASKS_QUERY = gql`
+  query GetTasks($status: TaskStatus, $agentType: AgentType) {
+    tasks(status: $status, agentType: $agentType) {
+      id
+      agentType
+      status
+      progress
+      result
+      error
+      metadata
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const GET_TASK_QUERY = gql`
+  query GetTask($id: String!) {
+    task(id: $id) {
+      id
+      agentType
+      status
+      progress
+      result
+      error
+      metadata
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const GET_GENERATED_DOCUMENTS_QUERY = gql`
+  query GetGeneratedDocuments {
+    generatedDocuments {
+      id
+      name
+      templateId
+      templateName
+      content
+      metadata
+      createdAt
+      updatedAt
+    }
+  }
+`;
+
+export const TASK_STATUS_SUBSCRIPTION = gql`
+  subscription TaskStatusUpdate($taskId: String!) {
+    taskStatusUpdate(taskId: $taskId) {
+      id
+      status
+      progress
+      result
+      error
     }
   }
 `;

@@ -1,7 +1,6 @@
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { S3Client, PutObjectCommand, GetObjectCommand, DeleteObjectCommand } from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
-import { v4 as uuidv4 } from 'uuid';
 
 @Injectable()
 export class AwsS3Service {
@@ -21,6 +20,15 @@ export class AwsS3Service {
       },
     });
     this.bucketName = process.env.AWS_BUCKET_NAME;
+  }
+
+  /**
+   * Generate a UUID using dynamic import to avoid ES module issues
+   * @returns A UUID string
+   */
+  private async generateUUID(): Promise<string> {
+    const { v4: uuidv4 } = await import('uuid');
+    return uuidv4();
   }
 
   /**
@@ -46,7 +54,8 @@ export class AwsS3Service {
       // Organize by document type and case
       const folder = documentType ? `documents/${documentType}` : 'documents';
       const caseFolder = caseId ? `/case-${caseId}` : '/general';
-      const fileName = `${folder}${caseFolder}/${uuidv4()}-${baseFileName}.${fileExtension}`;
+      const uuid = await this.generateUUID();
+      const fileName = `${folder}${caseFolder}/${uuid}-${baseFileName}.${fileExtension}`;
 
       console.log('☁️ Uploading document to S3:', fileName);
 
@@ -83,7 +92,8 @@ export class AwsS3Service {
     try {
       // Sanitize filename to remove spaces and special characters
       const sanitizedFileName = this.sanitizeFilename(fileName);
-      const key = `${folder}/${uuidv4()}-${sanitizedFileName}`;
+      const uuid = await this.generateUUID();
+      const key = `${folder}/${uuid}-${sanitizedFileName}`;
 
       // Determine content type from file extension
       const fileExtension = sanitizedFileName.split('.').pop()?.toLowerCase() || '';

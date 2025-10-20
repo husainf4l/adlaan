@@ -1,3 +1,9 @@
+// Polyfill for crypto.randomUUID() in Node.js < 19
+const { webcrypto } = require('crypto');
+if (!global.crypto) {
+  global.crypto = webcrypto;
+}
+
 import { NestFactory } from '@nestjs/core';
 import { FastifyAdapter, NestFastifyApplication } from '@nestjs/platform-fastify';
 import { AppModule } from './app.module';

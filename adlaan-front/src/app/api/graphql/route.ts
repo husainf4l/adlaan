@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-const PRODUCTION_GRAPHQL_URL = 'https://adlaan.com/api/graphql';
+const BACKEND_GRAPHQL_URL = 'http://localhost:4001/api/graphql';
 
 export async function POST(request: NextRequest) {
   try {
@@ -10,14 +10,14 @@ export async function POST(request: NextRequest) {
     // Get authorization header from the request
     const authHeader = request.headers.get('authorization');
 
-    console.log('Proxying request to:', PRODUCTION_GRAPHQL_URL);
+    console.log('Proxying request to:', BACKEND_GRAPHQL_URL);
     console.log('Request body:', JSON.stringify(body, null, 2));
 
-    // Forward the request to production API with timeout
+    // Forward the request to backend API with timeout
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 30000); // 30 second timeout
 
-    const response = await fetch(PRODUCTION_GRAPHQL_URL, {
+    const response = await fetch(BACKEND_GRAPHQL_URL, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -42,7 +42,7 @@ export async function POST(request: NextRequest) {
     console.error('Proxy Error:', error);
     const errorMessage = error instanceof Error ? error.message : 'Unknown error';
     return Response.json(
-      { errors: [{ message: `Failed to connect to production API: ${errorMessage}` }] },
+      { errors: [{ message: `Failed to connect to backend API: ${errorMessage}` }] },
       { status: 500 }
     );
   }
@@ -50,7 +50,7 @@ export async function POST(request: NextRequest) {
 
 export async function GET() {
   return Response.json({
-    message: 'GraphQL proxy endpoint - forwards requests to production API',
-    productionUrl: PRODUCTION_GRAPHQL_URL
+    message: 'GraphQL proxy endpoint - forwards requests to backend API',
+    backendUrl: BACKEND_GRAPHQL_URL
   });
 }

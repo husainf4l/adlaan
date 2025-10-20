@@ -69,6 +69,27 @@ export class Document {
   @JoinColumn({ name: 'caseId' })
   case?: Case;
 
+  // AI-related fields
+  @Field(() => Boolean, { defaultValue: false, description: 'Whether document was AI-generated' })
+  @Column({ default: false })
+  isAiGenerated: boolean;
+
+  @Field(() => String, { nullable: true, description: 'AI-generated summary of the document' })
+  @Column({ type: 'text', nullable: true })
+  aiSummary?: string;
+
+  @Field(() => String, { nullable: true, description: 'AI-determined classification' })
+  @Column({ nullable: true })
+  aiClassification?: string;
+
+  @Field(() => String, { nullable: true, description: 'AI analysis metadata' })
+  @Column({ type: 'jsonb', nullable: true })
+  aiMetadata?: any;
+
+  @Field(() => Number, { nullable: true, description: 'AI confidence score for classification (0-1)' })
+  @Column({ type: 'decimal', precision: 5, scale: 4, nullable: true })
+  aiConfidenceScore?: number;
+
   @Field(() => Int, { nullable: true, description: 'Associated client ID' })
   @Column({ nullable: true })
   clientId?: number;

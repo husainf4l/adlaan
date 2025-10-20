@@ -15,6 +15,7 @@ import { TagModule } from './tag/tag.module';
 import { DocumentVersionModule } from './document-version/document-version.module';
 import { CommentModule } from './comment/comment.module';
 import { ServicesModule } from './services/services.module';
+import { AiAgentModule } from './ai-agent/ai-agent.module';
 import { User } from './user/user.entity';
 import { Company } from './company/company.entity';
 import { Client } from './client/client.entity';
@@ -23,6 +24,7 @@ import { Document } from './document/document.entity';
 import { Tag } from './tag/tag.entity';
 import { DocumentVersion } from './document-version/document-version.entity';
 import { Comment } from './comment/comment.entity';
+import { AgentTask } from './ai-agent/agent-task.entity';
 
 @Module({
   imports: [
@@ -46,7 +48,7 @@ import { Comment } from './comment/comment.entity';
         database: configService.get('DB_DATABASE'),
         synchronize: false, // Disabled - use migrations instead
         logging: process.env.NODE_ENV !== 'production',
-        entities: [User, Company, Client, Case, Document, Tag, DocumentVersion, Comment],
+        entities: [User, Company, Client, Case, Document, Tag, DocumentVersion, Comment, AgentTask],
         migrations: ['dist/migrations/**/*.js'],
         migrationsRun: false, // Run migrations manually
       }),
@@ -62,6 +64,7 @@ import { Comment } from './comment/comment.entity';
     DocumentVersionModule,
     CommentModule,
     ServicesModule,
+    AiAgentModule,
   ],
   controllers: [AppController],
   providers: [AppService],

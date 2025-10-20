@@ -1,0 +1,15 @@
+nohup: ignoring input
+
+> adlaan-front@0.1.0 dev
+> next dev
+
+ ⚠ Port 3000 is in use by an unknown process, using available port 3003 instead.
+   ▲ Next.js 15.5.6
+   - Local:        http://localhost:3003
+   - Network:      http://192.168.1.177:3003
+
+ ✓ Starting...
+ ✓ Ready in 4.5s
+ ○ Compiling /api/graphql ...
+ ✓ Compiled /api/graphql in 1176ms (277 modules)
+ GET /api/graphql 200 in 1585ms
