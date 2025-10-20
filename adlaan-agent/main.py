@@ -1,36 +1,69 @@
-from fastapi import FastAPI, Request, BackgroundTasks
+from fastapi import FastAPI, Request, BackgroundTasks, HTTPException, Depends
 from fastapi.responses import HTMLResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 from fastapi.templating import Jinja2Templates
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 import asyncio
 import json
 import os
 import sys
 import uuid
 from datetime import datetime
+from typing import Optional, Dict, Any
 
 # Add current directory to path for agent imports
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
+# Import the enhanced agent service
+from services.enhanced_agent_service import get_enhanced_agent_service, EnhancedAgentService
+from integration.backend_service import BackendIntegrationService
+
 app = FastAPI(
-    title="Adlaan Legal Agent",
-    description="AI-powered legal document creation and consultation system",
-    version="1.0-alpha"
+    title="Adlaan Legal Agent Microservice",
+    description="AI-powered legal document creation and consultation microservice integrated with Nest.js backend",
+    version="2.0-beta",
+    docs_url="/docs",
+    redoc_url="/redoc"
 )
 
-# Add CORS middleware
+# Add CORS middleware for integration with Next.js frontend
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=["*"],
+    allow_origins=[
+        "http://localhost:3000",  # Next.js frontend
+        "http://localhost:3001",  # Nest.js backend
+        "http://localhost:8005",  # This service
+        "*"  # Allow all for development
+    ],
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
 )
 
+# Security
+security = HTTPBearer(auto_error=False)
+
+async def get_current_user(credentials: HTTPAuthorizationCredentials = Depends(security)) -> Optional[Dict[str, Any]]:
+    """Extract user info from JWT token (simplified for demo)."""
+    if not credentials:
+        return None
+    
+    # In production, you would validate the JWT token here
+    # For now, return a mock user
+    return {
+        "id": 1,
+        "email": "demo@adlaan.com",
+        "name": "Demo User",
+        "companyId": 1
+    }
+
 # Static files and templates
 app.mount("/static", StaticFiles(directory="static"), name="static")
 templates = Jinja2Templates(directory="templates")
+
+# Initialize enhanced agent service
+enhanced_service: Optional[EnhancedAgentService] = None
 
 # Initialize agent with enhanced intelligence
 try:
@@ -62,13 +95,18 @@ try:
         print("✅ Enhanced Intelligence Layer (Development Mode)")
         print(f"   ⚠️  Production features disabled: {str(intelligence_error)[:100]}...")
     
-    # Initialize agent (disable checkpointing for now)
+    # Initialize agent (disable checkpointing for microservice)
     agent = Agent(use_checkpointing=False)
+    
+    # Initialize enhanced service
+    enhanced_service = get_enhanced_agent_service(agent)
+    
     agent_loaded = True
     intelligence_enabled = True
-    print("✅ Agent loaded with Enhanced Intelligence Layer")
+    print("✅ Agent loaded with Backend Integration")
     print(f"   🧠 Intelligence Status: {enhanced_intelligence.get_system_status()['intelligence_layer']}")
     print(f"   🔧 Mode: {intelligence_mode}")
+    print("🔗 Backend Integration: Ready")
     
 except Exception as e:
     print(f"❌ Failed to load agent: {e}")
@@ -172,40 +210,195 @@ async def save_assistant_messages(thread_id: str, response_items: list):
 
 @app.get("/")
 async def root():
+    """Get service status and available endpoints."""
+    backend_health = False
+    try:
+        if enhanced_service:
+            health_info = await enhanced_service.health_check()
+            backend_health = health_info.get('backend') == 'connected'
+    except:
+        pass
+    
     return {
-        "message": "Adlaan Legal AI - Enhanced Intelligence Layer Active! 🧠",
+        "service": "Adlaan Legal Agent Microservice",
+        "version": "2.0-beta",
+        "status": "operational",
         "agent_loaded": agent_loaded,
         "intelligence_enabled": intelligence_enabled,
-        "layered_architecture_enabled": layered_enabled,
-        "checkpointing_enabled": agent.use_checkpointing if agent else False,
-        "intelligence_status": enhanced_intelligence.get_system_status() if intelligence_enabled else None,
+        "intelligence_mode": intelligence_mode,
+        "backend_integration": "enabled" if enhanced_service else "disabled",
+        "backend_connection": "connected" if backend_health else "disconnected",
         "endpoints": {
-            "workspace": "/workspace (dual-panel professional interface)",
-            "layered_chat": "/api/layered-chat (NEW: 3-layer pipeline with progress streaming)",
-            "chat_get": "/chat?message=...&thread_id=...",
-            "chat_post": "/api/chat (standard)",
-            "enhanced_chat": "/api/enhanced-chat (with full intelligence layer)",
-            "intelligence_status": "/api/intelligence/status",
-            "intelligence_configure": "/api/intelligence/configure",
+            "generate_document": "/api/v2/generate-document",
+            "analyze_document": "/api/v2/analyze-document",
+            "task_status": "/api/v2/tasks/{task_id}",
+            "user_tasks": "/api/v2/users/{user_id}/tasks",
+            "health": "/api/v2/health",
+            "legacy_chat": "/chat (for backward compatibility)",
+            "legacy_api_chat": "/api/chat (legacy)",
+            "docs": "/docs"
+        },
+        "integrations": {
+            "nestjs_backend": os.getenv('BACKEND_URL', 'http://localhost:3000'),
+            "graphql_endpoint": "/graphql"
+        },
+        "legacy_features": {
+            "layered_architecture": layered_enabled,
+            "workspace": "/workspace",
             "debug": "/debug"
-        },
-        "architecture": {
-            "layered_pipeline": layered_enabled,
-            "layers": {
-                "layer_1": "INPUT (Intent, Context, Memory)",
-                "layer_2": "REASONING (Multi-Agent Collaboration)",
-                "layer_3": "EXECUTION (Generation, Audit, Export)"
-            }
-        },
-        "features": {
-            "multi_agent_collaboration": intelligence_enabled,
-            "knowledge_versioning": intelligence_enabled,
-            "auto_citation": intelligence_enabled,
-            "legal_validation": intelligence_enabled,
-            "jurisdiction_specific_laws": intelligence_enabled,
-            "layered_architecture": layered_enabled
         }
     }
+
+# New API endpoints for backend integration
+@app.post("/api/v2/generate-document")
+async def generate_document(
+    request: Dict[str, Any],
+    user: Optional[Dict[str, Any]] = Depends(get_current_user)
+):
+    """Generate a legal document and integrate with backend."""
+    if not enhanced_service:
+        raise HTTPException(status_code=503, detail="Agent service not available")
+    
+    if not user:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    
+    try:
+        # Extract parameters from request
+        document_type = request.get('documentType')
+        title = request.get('title')
+        parameters = request.get('parameters', {})
+        case_id = request.get('caseId')
+        thread_id = request.get('threadId')
+        
+        if not document_type or not title:
+            raise HTTPException(status_code=400, detail="documentType and title are required")
+        
+        # Generate document using enhanced service
+        result = await enhanced_service.generate_legal_document(
+            document_type=document_type,
+            title=title,
+            parameters=parameters,
+            user_id=user['id'],
+            case_id=case_id,
+            thread_id=thread_id
+        )
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Document generation failed: {str(e)}")
+
+@app.post("/api/v2/analyze-document")
+async def analyze_document(
+    request: Dict[str, Any],
+    user: Optional[Dict[str, Any]] = Depends(get_current_user)
+):
+    """Analyze a document using the agent."""
+    if not enhanced_service:
+        raise HTTPException(status_code=503, detail="Agent service not available")
+    
+    if not user:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    
+    try:
+        # Extract parameters from request
+        document_id = request.get('documentId')
+        analysis_type = request.get('analysisType', 'general')
+        case_id = request.get('caseId')
+        
+        if not document_id:
+            raise HTTPException(status_code=400, detail="documentId is required")
+        
+        # Analyze document using enhanced service
+        result = await enhanced_service.analyze_document(
+            document_id=document_id,
+            analysis_type=analysis_type,
+            user_id=user['id'],
+            case_id=case_id
+        )
+        
+        return result
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Document analysis failed: {str(e)}")
+
+@app.get("/api/v2/tasks/{task_id}")
+async def get_task_status(
+    task_id: int,
+    user: Optional[Dict[str, Any]] = Depends(get_current_user)
+):
+    """Get the status of a specific task."""
+    if not enhanced_service:
+        raise HTTPException(status_code=503, detail="Agent service not available")
+    
+    if not user:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    
+    try:
+        task_status = await enhanced_service.get_task_status(task_id)
+        
+        if not task_status:
+            raise HTTPException(status_code=404, detail="Task not found")
+        
+        return task_status
+        
+    except HTTPException:
+        raise
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get task status: {str(e)}")
+
+@app.get("/api/v2/users/{user_id}/tasks")
+async def get_user_tasks(
+    user_id: int,
+    agent_type: Optional[str] = None,
+    user: Optional[Dict[str, Any]] = Depends(get_current_user)
+):
+    """Get all tasks for a user."""
+    if not enhanced_service:
+        raise HTTPException(status_code=503, detail="Agent service not available")
+    
+    if not user:
+        raise HTTPException(status_code=401, detail="Authentication required")
+    
+    # Ensure user can only access their own tasks
+    if user['id'] != user_id:
+        raise HTTPException(status_code=403, detail="Access denied")
+    
+    try:
+        tasks = await enhanced_service.get_user_tasks(user_id, agent_type)
+        return {
+            "userId": user_id,
+            "tasks": tasks,
+            "count": len(tasks)
+        }
+        
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Failed to get user tasks: {str(e)}")
+
+@app.get("/api/v2/health")
+async def health_check():
+    """Get service health status."""
+    if not enhanced_service:
+        return {
+            "status": "unhealthy",
+            "agent": "not_loaded",
+            "backend": "not_configured",
+            "timestamp": datetime.utcnow().isoformat()
+        }
+    
+    try:
+        health_info = await enhanced_service.health_check()
+        return health_info
+    except Exception as e:
+        return {
+            "status": "unhealthy",
+            "error": str(e),
+            "timestamp": datetime.utcnow().isoformat()
+        }
 
 
 # Professional Workspace - Dual Panel Interface
