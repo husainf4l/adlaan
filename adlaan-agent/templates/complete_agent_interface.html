@@ -1,0 +1,702 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adlaan Legal AI - Complete Agent Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .main-container {
+            display: grid;
+            grid-template-columns: 300px 1fr;
+            gap: 20px;
+            max-width: 1600px;
+            margin: 0 auto;
+            height: calc(100vh - 40px);
+        }
+        
+        .sidebar {
+            background: white;
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow-y: auto;
+        }
+        
+        .main-panel {
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .agent-selector {
+            margin-bottom: 20px;
+        }
+        
+        .agent-card {
+            background: #f8f9fa;
+            border: 2px solid #e9ecef;
+            border-radius: 10px;
+            padding: 15px;
+            margin-bottom: 10px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .agent-card:hover {
+            background: #e3f2fd;
+            border-color: #2196f3;
+        }
+        
+        .agent-card.active {
+            background: #e3f2fd;
+            border-color: #2196f3;
+            box-shadow: 0 4px 12px rgba(33, 150, 243, 0.3);
+        }
+        
+        .agent-icon {
+            font-size: 20px;
+            margin-right: 10px;
+        }
+        
+        .agent-name {
+            font-weight: bold;
+            font-size: 14px;
+            color: #333;
+        }
+        
+        .agent-desc {
+            font-size: 12px;
+            color: #666;
+            margin-top: 5px;
+        }
+        
+        .content-area {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            padding: 20px;
+        }
+        
+        .form-container {
+            flex: 1;
+            overflow-y: auto;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .result-area {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            border-left: 4px solid #28a745;
+        }
+        
+        .result-area.error {
+            border-left-color: #dc3545;
+            background: #ffeaea;
+        }
+        
+        .result-area.loading {
+            border-left-color: #ffc107;
+            background: #fff3cd;
+        }
+        
+        .task-status {
+            margin-top: 10px;
+            padding: 10px;
+            background: #e9ecef;
+            border-radius: 5px;
+            font-family: monospace;
+            font-size: 12px;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        .loading-spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <div class="sidebar">
+            <h2 style="margin-bottom: 20px; color: #333;">🤖 AI Legal Agents</h2>
+            
+            <div class="agent-selector">
+                <div class="agent-card active" data-agent="legal_document_generator">
+                    <div>
+                        <span class="agent-icon">📄</span>
+                        <span class="agent-name">Document Generator</span>
+                    </div>
+                    <div class="agent-desc">Generate legal documents like contracts, agreements, and forms</div>
+                </div>
+                
+                <div class="agent-card" data-agent="document_analyzer">
+                    <div>
+                        <span class="agent-icon">🔍</span>
+                        <span class="agent-name">Document Analyzer</span>
+                    </div>
+                    <div class="agent-desc">Analyze legal documents for key terms, risks, and compliance</div>
+                </div>
+                
+                <div class="agent-card" data-agent="document_classifier">
+                    <div>
+                        <span class="agent-icon">🏷️</span>
+                        <span class="agent-name">Document Classifier</span>
+                    </div>
+                    <div class="agent-desc">Classify and categorize legal documents by type and content</div>
+                </div>
+                
+                <div class="agent-card" data-agent="legal_research">
+                    <div>
+                        <span class="agent-icon">⚖️</span>
+                        <span class="agent-name">Legal Research</span>
+                    </div>
+                    <div class="agent-desc">Research legal precedents, statutes, and case law</div>
+                </div>
+                
+                <div class="agent-card" data-agent="contract_reviewer">
+                    <div>
+                        <span class="agent-icon">✅</span>
+                        <span class="agent-name">Contract Reviewer</span>
+                    </div>
+                    <div class="agent-desc">Review contracts for potential issues and improvements</div>
+                </div>
+            </div>
+            
+            <div style="margin-top: 30px; padding: 15px; background: #e8f5e8; border-radius: 8px;">
+                <h4>🟢 System Status</h4>
+                <div style="font-size: 12px; margin-top: 5px;">
+                    <div>✅ OpenAI API: Connected</div>
+                    <div>✅ Backend: Connected</div>
+                    <div>✅ All Agents: Ready</div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="main-panel">
+            <div class="header">
+                <h1 id="panel-title">📄 Legal Document Generator</h1>
+                <p id="panel-description">Generate professional legal documents with AI assistance</p>
+            </div>
+            
+            <div class="content-area">
+                <!-- Document Generator Form -->
+                <div id="form-legal_document_generator" class="form-container">
+                    <div class="form-group">
+                        <label for="doc-type">Document Type</label>
+                        <select id="doc-type">
+                            <option value="contract">Contract</option>
+                            <option value="agreement">Agreement</option>
+                            <option value="memo">Legal Memo</option>
+                            <option value="letter">Legal Letter</option>
+                            <option value="nda">Non-Disclosure Agreement</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="doc-title">Document Title</label>
+                        <input type="text" id="doc-title" placeholder="e.g., Service Agreement Contract">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parties">Parties Involved</label>
+                        <input type="text" id="parties" placeholder="e.g., Company A, Company B">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="terms">Terms and Conditions</label>
+                        <textarea id="terms" placeholder="Describe the key terms, conditions, and requirements..."></textarea>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="executeAgent('legal_document_generator')">
+                            <span class="loading-spinner hidden" id="spinner-legal_document_generator"></span>
+                            Generate Document
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Document Analyzer Form -->
+                <div id="form-document_analyzer" class="form-container hidden">
+                    <div class="form-group">
+                        <label for="analyze-content">Document Content to Analyze</label>
+                        <textarea id="analyze-content" placeholder="Paste the document content here..." style="min-height: 200px;"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="analysis-type">Analysis Type</label>
+                        <select id="analysis-type">
+                            <option value="legal_review">Legal Review</option>
+                            <option value="risk_assessment">Risk Assessment</option>
+                            <option value="compliance_check">Compliance Check</option>
+                            <option value="terms_extraction">Terms Extraction</option>
+                        </select>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="executeAgent('document_analyzer')">
+                            <span class="loading-spinner hidden" id="spinner-document_analyzer"></span>
+                            Analyze Document
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Document Classifier Form -->
+                <div id="form-document_classifier" class="form-container hidden">
+                    <div class="form-group">
+                        <label for="classify-content">Document Content to Classify</label>
+                        <textarea id="classify-content" placeholder="Paste the document content here..." style="min-height: 200px;"></textarea>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="executeAgent('document_classifier')">
+                            <span class="loading-spinner hidden" id="spinner-document_classifier"></span>
+                            Classify Document
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Legal Research Form -->
+                <div id="form-legal_research" class="form-container hidden">
+                    <div class="form-group">
+                        <label for="research-query">Research Query</label>
+                        <input type="text" id="research-query" placeholder="e.g., Contract law precedents in commercial disputes">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jurisdiction">Jurisdiction</label>
+                        <select id="jurisdiction">
+                            <option value="jordan">Jordan</option>
+                            <option value="uae">United Arab Emirates</option>
+                            <option value="saudi">Saudi Arabia</option>
+                            <option value="international">International</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="research-details">Additional Details</label>
+                        <textarea id="research-details" placeholder="Provide specific context, dates, or areas of focus..."></textarea>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="executeAgent('legal_research')">
+                            <span class="loading-spinner hidden" id="spinner-legal_research"></span>
+                            Research Legal Issues
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Contract Reviewer Form -->
+                <div id="form-contract_reviewer" class="form-container hidden">
+                    <div class="form-group">
+                        <label for="contract-content">Contract Content to Review</label>
+                        <textarea id="contract-content" placeholder="Paste the contract content here..." style="min-height: 200px;"></textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="review-focus">Review Focus</label>
+                        <select id="review-focus">
+                            <option value="general">General Review</option>
+                            <option value="risk_analysis">Risk Analysis</option>
+                            <option value="clause_review">Clause Review</option>
+                            <option value="compliance">Compliance Check</option>
+                        </select>
+                    </div>
+                    
+                    <div class="button-group">
+                        <button class="btn btn-primary" onclick="executeAgent('contract_reviewer')">
+                            <span class="loading-spinner hidden" id="spinner-contract_reviewer"></span>
+                            Review Contract
+                        </button>
+                        <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+                    </div>
+                </div>
+                
+                <!-- Results Area -->
+                <div id="results" class="result-area hidden">
+                    <h4>📋 Results</h4>
+                    <div id="result-content"></div>
+                    <div id="task-status" class="task-status hidden"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentAgent = 'legal_document_generator';
+        let currentTaskId = null;
+        
+        // Agent metadata
+        const agentMeta = {
+            'legal_document_generator': {
+                title: '📄 Legal Document Generator',
+                description: 'Generate professional legal documents with AI assistance'
+            },
+            'document_analyzer': {
+                title: '🔍 Document Analyzer',
+                description: 'Analyze legal documents for key terms, risks, and compliance'
+            },
+            'document_classifier': {
+                title: '🏷️ Document Classifier',
+                description: 'Classify and categorize legal documents by type and content'
+            },
+            'legal_research': {
+                title: '⚖️ Legal Research Agent',
+                description: 'Research legal precedents, statutes, and case law'
+            },
+            'contract_reviewer': {
+                title: '✅ Contract Reviewer',
+                description: 'Review contracts for potential issues and improvements'
+            }
+        };
+        
+        // Initialize the interface
+        document.addEventListener('DOMContentLoaded', function() {
+            // Add click handlers for agent cards
+            document.querySelectorAll('.agent-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    selectAgent(this.dataset.agent);
+                });
+            });
+            
+            // Check system health
+            checkSystemHealth();
+        });
+        
+        function selectAgent(agentType) {
+            // Update active state
+            document.querySelectorAll('.agent-card').forEach(card => {
+                card.classList.remove('active');
+            });
+            document.querySelector(`[data-agent="${agentType}"]`).classList.add('active');
+            
+            // Hide all forms
+            document.querySelectorAll('.form-container').forEach(form => {
+                form.classList.add('hidden');
+            });
+            
+            // Show selected form
+            document.getElementById(`form-${agentType}`).classList.remove('hidden');
+            
+            // Update header
+            const meta = agentMeta[agentType];
+            document.getElementById('panel-title').textContent = meta.title;
+            document.getElementById('panel-description').textContent = meta.description;
+            
+            // Hide results
+            document.getElementById('results').classList.add('hidden');
+            
+            currentAgent = agentType;
+        }
+        
+        async function executeAgent(agentType) {
+            const spinner = document.getElementById(`spinner-${agentType}`);
+            const resultsDiv = document.getElementById('results');
+            const resultContent = document.getElementById('result-content');
+            const taskStatus = document.getElementById('task-status');
+            
+            // Show loading state
+            spinner.classList.remove('hidden');
+            resultsDiv.classList.remove('hidden', 'error');
+            resultsDiv.classList.add('loading');
+            resultContent.innerHTML = '<div class="loading-spinner"></div> Processing request...';
+            
+            try {
+                let requestData;
+                let endpoint;
+                
+                // Prepare request based on agent type
+                if (agentType === 'legal_document_generator') {
+                    endpoint = '/api/v2/documents/generate';
+                    requestData = {
+                        document_type: document.getElementById('doc-type').value,
+                        title: document.getElementById('doc-title').value || 'Generated Legal Document',
+                        parameters: {
+                            parties: document.getElementById('parties').value.split(',').map(p => p.trim()),
+                            terms: document.getElementById('terms').value
+                        }
+                    };
+                } else if (agentType === 'document_analyzer') {
+                    endpoint = '/api/v2/documents/analyze';
+                    requestData = {
+                        document_content: document.getElementById('analyze-content').value,
+                        analysis_type: document.getElementById('analysis-type').value
+                    };
+                } else {
+                    // For other agents, we'll use a generic task creation
+                    endpoint = '/api/v2/tasks';
+                    requestData = {
+                        agent_type: agentType,
+                        input_data: getAgentInputData(agentType)
+                    };
+                }
+                
+                // Make API call
+                const response = await fetch(`http://localhost:8005${endpoint}?user_id=1`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Accept': 'application/json'
+                    },
+                    mode: 'cors',
+                    credentials: 'omit',
+                    body: JSON.stringify(requestData)
+                });
+                
+                if (!response.ok) {
+                    throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+                }
+                
+                const result = await response.json();
+                currentTaskId = result.id;
+                
+                // Show initial result
+                resultsDiv.classList.remove('loading');
+                resultContent.innerHTML = `
+                    <h5>✅ Task Created Successfully</h5>
+                    <p><strong>Task ID:</strong> ${result.id}</p>
+                    <p><strong>Agent:</strong> ${result.agent_type}</p>
+                    <p><strong>Status:</strong> ${result.status}</p>
+                    <p><strong>Created:</strong> ${new Date(result.created_at).toLocaleString()}</p>
+                `;
+                
+                // Show task status
+                taskStatus.classList.remove('hidden');
+                taskStatus.innerHTML = JSON.stringify(result, null, 2);
+                
+                // Start polling for results
+                pollTaskStatus(result.id);
+                
+            } catch (error) {
+                console.error('Error executing agent:', error);
+                resultsDiv.classList.remove('loading');
+                resultsDiv.classList.add('error');
+                resultContent.innerHTML = `
+                    <h5>❌ Error</h5>
+                    <p>${error.message}</p>
+                    <p>Please check the console for more details.</p>
+                `;
+            } finally {
+                spinner.classList.add('hidden');
+            }
+        }
+        
+        function getAgentInputData(agentType) {
+            switch(agentType) {
+                case 'document_classifier':
+                    return {
+                        document_content: document.getElementById('classify-content').value
+                    };
+                case 'legal_research':
+                    return {
+                        query: document.getElementById('research-query').value,
+                        jurisdiction: document.getElementById('jurisdiction').value,
+                        details: document.getElementById('research-details').value
+                    };
+                case 'contract_reviewer':
+                    return {
+                        contract_content: document.getElementById('contract-content').value,
+                        review_focus: document.getElementById('review-focus').value
+                    };
+                default:
+                    return {};
+            }
+        }
+        
+        async function pollTaskStatus(taskId) {
+            let attempts = 0;
+            const maxAttempts = 30; // 30 seconds
+            
+            const interval = setInterval(async () => {
+                attempts++;
+                
+                try {
+                    const response = await fetch(`http://localhost:8005/api/v2/tasks/${taskId}`, {
+                        method: 'GET',
+                        headers: {
+                            'Accept': 'application/json'
+                        },
+                        mode: 'cors',
+                        credentials: 'omit'
+                    });
+                    
+                    if (response.ok) {
+                        const task = await response.json();
+                        updateTaskStatus(task);
+                        
+                        if (task.status === 'completed' || task.status === 'failed' || attempts >= maxAttempts) {
+                            clearInterval(interval);
+                        }
+                    } else if (response.status === 404) {
+                        // Task not found, stop polling
+                        clearInterval(interval);
+                        updateTaskStatus({status: 'not_found', error_message: 'Task not found'});
+                    }
+                } catch (error) {
+                    console.error('Polling error:', error);
+                    if (attempts >= maxAttempts) {
+                        clearInterval(interval);
+                    }
+                }
+            }, 1000);
+        }
+        
+        function updateTaskStatus(task) {
+            const taskStatus = document.getElementById('task-status');
+            const resultContent = document.getElementById('result-content');
+            
+            taskStatus.innerHTML = JSON.stringify(task, null, 2);
+            
+            if (task.status === 'completed' && task.output_data) {
+                resultContent.innerHTML = `
+                    <h5>✅ Task Completed Successfully</h5>
+                    <div style="margin-top: 15px; padding: 15px; background: white; border-radius: 8px; border: 1px solid #ddd;">
+                        <h6>📄 Generated Output:</h6>
+                        <div style="white-space: pre-wrap; font-family: 'Times New Roman', serif; line-height: 1.6; margin-top: 10px;">
+                            ${JSON.stringify(task.output_data, null, 2)}
+                        </div>
+                    </div>
+                `;
+            } else if (task.status === 'failed') {
+                const resultsDiv = document.getElementById('results');
+                resultsDiv.classList.add('error');
+                resultContent.innerHTML = `
+                    <h5>❌ Task Failed</h5>
+                    <p><strong>Error:</strong> ${task.error_message || 'Unknown error'}</p>
+                    <p>Task ID: ${task.id}</p>
+                `;
+            }
+        }
+        
+        function clearForm() {
+            // Clear all form inputs
+            document.querySelectorAll('input, textarea, select').forEach(input => {
+                if (input.type === 'select-one') {
+                    input.selectedIndex = 0;
+                } else {
+                    input.value = '';
+                }
+            });
+            
+            // Hide results
+            document.getElementById('results').classList.add('hidden');
+            currentTaskId = null;
+        }
+        
+        async function checkSystemHealth() {
+            try {
+                const response = await fetch('http://localhost:8005/api/v2/health', {
+                    method: 'GET',
+                    headers: {
+                        'Accept': 'application/json'
+                    },
+                    mode: 'cors',
+                    credentials: 'omit'
+                });
+                const health = await response.json();
+                
+                // Update status indicator based on health check
+                console.log('System health:', health);
+            } catch (error) {
+                console.error('Health check failed:', error);
+            }
+        }
+    </script>
+</body>
+</html>

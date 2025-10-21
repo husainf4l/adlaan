@@ -1,0 +1,1822 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adlaan Agents - Local Development Mode</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        .content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            padding: 30px;
+        }
+        
+        .input-panel, .output-panel {
+            background: #f8f9fa;
+            border-radius: 10px;
+            padding: 20px;
+        }
+        
+        .agent-selector {
+            margin-bottom: 20px;
+        }
+        
+        .agent-selector select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 8px;
+            color: #333;
+        }
+        
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 14px;
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: bold;
+            transition: all 0.3s ease;
+            margin-right: 10px;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(102, 126, 234, 0.4);
+        }
+        
+        .btn-secondary {
+            background: #6c757d;
+            color: white;
+        }
+        
+        .output-content {
+            background: white;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            padding: 20px;
+            min-height: 300px;
+            font-family: 'Monaco', 'Courier New', monospace;
+            font-size: 13px;
+            line-height: 1.6;
+            white-space: pre-wrap;
+        }
+        
+        .success {
+            border-left: 4px solid #28a745;
+            background: #d4edda;
+        }
+        
+        .error {
+            border-left: 4px solid #dc3545;
+            background: #f8d7da;
+        }
+        
+        .loading {
+            border-left: 4px solid #ffc107;
+            background: #fff3cd;
+        }
+        
+        .mode-indicator {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: #28a745;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+        
+        .hidden {
+            display: none;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .spinner {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #3498db;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+        }
+    </style>
+</head>
+<body>
+    <div class="mode-indicator">🔧 LOCAL DEV MODE</div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>🤖 Adlaan Legal Agents - Local Development</h1>
+            <p>Test and edit agent inputs/outputs without backend dependency</p>
+        </div>
+        
+        <div class="content">
+            <div class="input-panel">
+                <h3>📝 Input Configuration</h3>
+                
+                <div class="agent-selector">
+                    <label for="agent-type">Select Agent:</label>
+                    <select id="agent-type" onchange="updateForm()">
+                        <option value="legal_document_generator">📄 Legal Document Generator</option>
+                        <option value="document_analyzer">🔍 Document Analyzer</option>
+                        <option value="document_classifier">🏷️ Document Classifier</option>
+                        <option value="legal_research">⚖️ Legal Research</option>
+                        <option value="contract_reviewer">✅ Contract Reviewer</option>
+                    </select>
+                </div>
+                
+                <!-- Legal Document Generator Form -->
+                <div id="form-legal_document_generator" class="agent-form">
+                    <div class="form-group">
+                        <label for="doc-type">Document Type:</label>
+                        <select id="doc-type">
+                            <option value="contract">Service Contract</option>
+                            <option value="agreement">Partnership Agreement</option>
+                            <option value="nda">Non-Disclosure Agreement</option>
+                            <option value="memo">Legal Memorandum</option>
+                            <option value="letter">Legal Letter</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="doc-title">Document Title:</label>
+                        <input type="text" id="doc-title" value="Professional Services Agreement" placeholder="Enter document title">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="parties">Parties:</label>
+                        <input type="text" id="parties" value="TechCorp Solutions LLC, Digital Innovations Inc" placeholder="Party 1, Party 2">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="terms">Terms & Requirements:</label>
+                        <textarea id="terms" placeholder="Describe the key terms and requirements...">Software development services for web application project. Duration: 6 months. Payment: $50,000 total. Deliverables include UI/UX design, backend development, and deployment. Intellectual property rights to remain with client.</textarea>
+                    </div>
+                </div>
+                
+                <!-- Document Analyzer Form -->
+                <div id="form-document_analyzer" class="agent-form hidden">
+                    <div class="form-group">
+                        <label for="analyze-pdf">Upload PDF Document:</label>
+                        <input type="file" id="analyze-pdf" accept=".pdf" class="form-control">
+                        <small class="text-muted">Select a PDF file to analyze</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="pdf-preview">Document Preview:</label>
+                        <div id="pdf-preview" class="border p-3 bg-light" style="min-height: 100px; border-radius: 5px;">
+                            <span class="text-muted">PDF content will appear here after upload...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Document Classifier Form -->
+                <div id="form-document_classifier" class="agent-form hidden">
+                    <div class="form-group">
+                        <label for="classify-pdf">Upload PDF Document:</label>
+                        <input type="file" id="classify-pdf" accept=".pdf" class="form-control">
+                        <small class="text-muted">Select a PDF file to classify</small>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="classify-pdf-preview">Document Preview:</label>
+                        <div id="classify-pdf-preview" class="border p-3 bg-light" style="min-height: 100px; border-radius: 5px;">
+                            <span class="text-muted">PDF content will appear here after upload...</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Legal Research Form -->
+                <div id="form-legal_research" class="agent-form hidden">
+                    <div class="form-group">
+                        <label for="research-query">Research Query:</label>
+                        <input type="text" id="research-query" value="Liability limitations in software development contracts" placeholder="Enter your legal research question">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="jurisdiction">Jurisdiction:</label>
+                        <select id="jurisdiction">
+                            <option value="jordan">Jordan</option>
+                            <option value="uae">United Arab Emirates</option>
+                            <option value="saudi">Saudi Arabia</option>
+                            <option value="international">International</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="research-context">Additional Context:</label>
+                        <textarea id="research-context" placeholder="Provide additional context...">Looking for precedents on limiting contractor liability in technology service agreements, particularly for software development projects with defined deliverables and timelines.</textarea>
+                    </div>
+                </div>
+                
+                <!-- Contract Reviewer Form -->
+                <div id="form-contract_reviewer" class="agent-form hidden">
+                    <div class="form-group">
+                        <label for="contract-content">Contract Content:</label>
+                        <textarea id="contract-content" placeholder="Paste contract content here...">SERVICE AGREEMENT
+
+This Agreement is made between TechCorp Solutions LLC ("Provider") and Digital Innovations Inc ("Client").
+
+1. SERVICES: Provider shall develop a web application according to specifications.
+2. TIMELINE: 6 months from contract signing
+3. PAYMENT: $50,000 total, paid monthly
+4. INTELLECTUAL PROPERTY: All rights transfer to Client upon final payment
+5. TERMINATION: Either party may terminate with 30 days notice</textarea>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="review-focus">Review Focus:</label>
+                        <select id="review-focus">
+                            <option value="general">General Review</option>
+                            <option value="risk_analysis">Risk Analysis</option>
+                            <option value="clause_review">Clause Review</option>
+                            <option value="compliance">Compliance Check</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <button class="btn btn-primary" onclick="processAgent()">
+                        <span id="process-spinner" class="spinner hidden"></span>
+                        Process Agent
+                    </button>
+                    <button class="btn btn-secondary" onclick="clearForm()">Clear</button>
+                    <button class="btn btn-secondary" onclick="editOutput()">Edit Output</button>
+                </div>
+            </div>
+            
+            <div class="output-panel">
+                <h3>📋 Agent Output</h3>
+                <div id="output-content" class="output-content">
+                    Click "Process Agent" to see the output...
+                </div>
+                
+                <div style="margin-top: 20px;">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-secondary" onclick="copyOutput()">📋 Copy Output</button>
+                        <button class="btn btn-secondary" onclick="downloadOutput()">💾 Download TXT</button>
+                        <button class="btn btn-secondary" onclick="downloadPDF()">📄 Download PDF</button>
+                        <button class="btn btn-secondary" onclick="saveAsTemplate()">💼 Save Template</button>
+                        <button id="view-saved-docs-btn" class="btn btn-info hidden" onclick="viewSavedDocuments()">📁 View Saved Docs</button>
+                        <button id="save-to-drive-btn" class="btn btn-success hidden" onclick="saveToDrive()">💾 Save to Drive</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentOutput = '';
+        
+        // Mock agent responses for local development
+        const mockResponses = {
+            legal_document_generator: `PROFESSIONAL SERVICES AGREEMENT
+
+This Professional Services Agreement ("Agreement") is entered into on ${new Date().toLocaleDateString()} between TechCorp Solutions LLC, a limited liability company organized under the laws of Delaware ("Provider"), and Digital Innovations Inc, a corporation organized under the laws of California ("Client").
+
+RECITALS
+
+WHEREAS, Provider has expertise in software development and related technical services; and
+WHEREAS, Client desires to engage Provider to develop a web application according to the specifications outlined herein.
+
+NOW, THEREFORE, in consideration of the mutual covenants contained herein, the parties agree as follows:
+
+1. SCOPE OF SERVICES
+   Provider shall provide software development services including:
+   • User interface and user experience (UI/UX) design
+   • Backend system development and database integration
+   • Web application deployment and configuration
+   • Quality assurance testing and documentation
+   • Project management and regular progress reporting
+
+2. PROJECT TIMELINE AND MILESTONES
+   The project shall be completed within six (6) months from the effective date of this Agreement:
+   
+   Phase 1 (Months 1-2): Design and Architecture
+   • Requirements analysis and technical specifications
+   • UI/UX design mockups and user journey mapping
+   • System architecture and database design
+   
+   Phase 2 (Months 3-4): Development and Integration
+   • Frontend development and responsive design implementation
+   • Backend API development and database setup
+   • Third-party integrations and security implementation
+   
+   Phase 3 (Months 5-6): Testing and Deployment
+   • Comprehensive testing (unit, integration, user acceptance)
+   • Performance optimization and security auditing
+   • Production deployment and go-live support
+
+3. COMPENSATION AND PAYMENT TERMS
+   Client shall pay Provider a total sum of Fifty Thousand Dollars ($50,000) according to the following schedule:
+   • Upon signing: $10,000 (20%)
+   • Phase 1 completion: $15,000 (30%)
+   • Phase 2 completion: $15,000 (30%)
+   • Final delivery and acceptance: $10,000 (20%)
+   
+   All payments are due within thirty (30) days of invoice receipt.
+
+4. INTELLECTUAL PROPERTY RIGHTS
+   Upon full payment of all fees due under this Agreement:
+   • All custom-developed software and documentation shall become the exclusive property of Client
+   • Provider retains ownership of pre-existing intellectual property and general methodologies
+   • Provider grants Client a perpetual, non-exclusive license to use any Provider tools or frameworks incorporated into the deliverables
+
+5. CONFIDENTIALITY AND DATA PROTECTION
+   Both parties acknowledge that they may have access to confidential information and agree to:
+   • Maintain strict confidentiality of all proprietary information
+   • Implement appropriate security measures to protect data
+   • Comply with applicable data protection regulations
+   • Return or destroy confidential information upon termination
+
+6. WARRANTIES AND REPRESENTATIONS
+   Provider warrants that:
+   • Services will be performed in a professional and workmanlike manner
+   • Deliverables will be free from material defects for ninety (90) days
+   • All work will be original and will not infringe third-party rights
+   • Provider has the necessary skills and authority to perform the services
+
+7. LIMITATION OF LIABILITY
+   Provider's total liability under this Agreement shall not exceed the total amount paid by Client. Neither party shall be liable for indirect, incidental, or consequential damages, except in cases of gross negligence or willful misconduct.
+
+8. CHANGE MANAGEMENT
+   Any changes to the project scope must be agreed upon in writing and may result in adjustments to timeline and compensation. Change requests will be evaluated within five (5) business days.
+
+9. TERMINATION
+   Either party may terminate this Agreement with thirty (30) days written notice. Upon termination:
+   • Client shall pay for all services performed to the date of termination
+   • Provider shall deliver all completed work and transfer project materials
+   • Both parties shall return confidential information
+
+10. GOVERNING LAW AND DISPUTE RESOLUTION
+    This Agreement shall be governed by the laws of California. Any disputes shall be resolved through binding arbitration in accordance with the rules of the American Arbitration Association.
+
+11. FORCE MAJEURE
+    Neither party shall be liable for delays or failures in performance resulting from circumstances beyond their reasonable control, including but not limited to natural disasters, government actions, or network failures.
+
+12. ENTIRE AGREEMENT
+    This Agreement constitutes the entire agreement between the parties and supersedes all prior negotiations, representations, or agreements relating to this subject matter.
+
+IN WITNESS WHEREOF, the parties have executed this Agreement as of the date first written above.
+
+PROVIDER:                           CLIENT:
+TechCorp Solutions LLC             Digital Innovations Inc
+
+_________________________         _________________________
+Signature                         Signature
+
+_________________________         _________________________
+Print Name                        Print Name
+
+_________________________         _________________________
+Title                            Title
+
+_________________________         _________________________
+Date                             Date
+
+
+EXHIBIT A: TECHNICAL SPECIFICATIONS
+
+Application Requirements:
+• Responsive web application compatible with modern browsers
+• User authentication and role-based access control
+• Real-time data synchronization and notifications
+• RESTful API with comprehensive documentation
+• Database optimization for scalability
+• SSL/TLS encryption and security best practices
+• Mobile-responsive design for tablets and smartphones
+
+Performance Standards:
+• Page load times under 3 seconds
+• 99.5% uptime after deployment
+• Support for minimum 1,000 concurrent users
+• Cross-browser compatibility (Chrome, Firefox, Safari, Edge)
+
+Deliverables:
+• Complete source code with documentation
+• Database schema and migration scripts
+• User manual and administrator guide
+• Deployment instructions and configuration files
+• 30-day post-launch support and bug fixes`,
+            
+            
+            document_analyzer: `LEGAL DOCUMENT ANALYSIS REPORT
+
+Document Source: PDF Upload
+Analysis Date: ${new Date().toLocaleDateString()}
+Processing Method: Automated PDF Content Extraction & Analysis
+
+EXECUTIVE SUMMARY
+Comprehensive analysis of uploaded PDF document completed successfully. The document has been processed for legal content, structural elements, key provisions, and potential risk factors. All critical components have been identified and evaluated.
+
+DOCUMENT OVERVIEW
+
+📄 DOCUMENT DETAILS
+• File Format: PDF Document
+• Content Extraction: Successful
+• Text Recognition: High Quality
+• Total Pages: Multiple pages detected
+• Processing Time: < 2 seconds
+
+🔍 CONTENT ANALYSIS
+• Document Structure: Well-organized with clear sections
+• Legal Language: Professional and precise terminology used
+• Clause Organization: Logical flow and proper numbering
+• Signature Blocks: Present and properly formatted
+
+KEY FINDINGS
+
+✓ STRENGTHS IDENTIFIED
+• Professional document formatting and structure
+• Clear articulation of terms and conditions
+• Appropriate legal terminology and precision
+• Well-defined obligations and responsibilities
+• Proper clause numbering and organization
+
+⚠ AREAS REQUIRING ATTENTION
+• Some provisions may benefit from additional specificity
+• Certain terms could be clarified for better understanding
+• Risk allocation mechanisms may need enhancement
+• Compliance requirements should be verified
+• Enforcement mechanisms could be strengthened
+
+RISK ASSESSMENT
+
+HIGH PRIORITY ITEMS
+• Contract Performance: Monitor deliverable specifications
+• Legal Compliance: Ensure regulatory requirement adherence
+• Liability Management: Review limitation and indemnification clauses
+• Dispute Resolution: Verify conflict resolution mechanisms
+
+MEDIUM PRIORITY CONSIDERATIONS
+• Payment Terms: Confirm schedule and penalty structures
+• Intellectual Property: Clarify ownership and usage rights
+• Confidentiality: Strengthen information protection measures
+• Termination: Review exit procedures and obligations
+
+STRUCTURAL ANALYSIS
+
+📋 DOCUMENT COMPONENTS
+• Preamble and Party Identification: ✓ Present
+• Definitions and Interpretations: ✓ Adequate
+• Core Obligations: ✓ Clearly Defined
+• Payment and Compensation: ✓ Specified
+• Term and Termination: ✓ Included
+• Miscellaneous Provisions: ✓ Standard Clauses
+
+⚖ LEGAL ADEQUACY
+• Contract Formation Elements: Complete
+• Consideration: Properly documented
+• Legal Capacity: Assumed valid
+• Enforceability: Generally sound structure
+• Compliance Framework: Needs verification
+
+RECOMMENDATIONS
+
+IMMEDIATE ACTIONS
+1. Review and validate all financial terms and calculations
+2. Confirm compliance with applicable laws and regulations
+3. Verify proper execution procedures and signature requirements
+4. Ensure all exhibits and schedules are properly referenced
+5. Conduct final proofreading for accuracy and completeness
+
+ENHANCEMENT OPPORTUNITIES
+1. Consider adding force majeure provisions
+2. Strengthen confidentiality and data protection clauses
+3. Include specific performance standards and metrics
+4. Add dispute resolution and governing law provisions
+5. Implement regular review and update procedures
+
+COMPLIANCE VERIFICATION
+□ Industry-specific regulations reviewed
+□ Jurisdiction-specific requirements confirmed
+□ Tax and financial reporting obligations checked
+□ Insurance and indemnification requirements verified
+□ International considerations (if applicable) addressed
+
+CONCLUSION
+The uploaded PDF document demonstrates professional legal drafting with clear structure and comprehensive coverage of essential contractual elements. While the document appears legally sound, implementing the recommended enhancements will provide additional protection and clarity for all parties involved.
+
+Analysis completed successfully using advanced PDF processing and legal content recognition systems. All text has been extracted and analyzed for legal significance and structural integrity.
+
+Document Processing Status: ✅ Complete
+Legal Analysis Confidence: 95.2%
+Recommended Action: Proceed with recommended improvements`,
+            
+            
+            document_classifier: `DOCUMENT TYPE CLASSIFICATION REPORT
+
+📄 PDF Document Analysis Complete
+Classification Date: ${new Date().toLocaleDateString()}
+Processing Time: 0.38 seconds
+Classification Confidence: 96.7%
+
+🎯 DOCUMENT TYPE IDENTIFICATION
+
+PRIMARY CLASSIFICATION: SERVICE CONTRACT
+Document Category: Commercial Agreement
+Sub-type: Professional Services Contract
+Specialization: Technology/Software Development Services
+
+📊 CLASSIFICATION CONFIDENCE SCORES
+• Service Contract: 96.7% ✅ IDENTIFIED
+• Partnership Agreement: 12.3%
+• Legal Letter: 8.5%
+• Employment Contract: 15.7%
+• ID Document: 2.1%
+• NDA/Confidentiality: 18.9%
+• Purchase Agreement: 11.4%
+• License Agreement: 22.3%
+
+🔍 DOCUMENT TYPE INDICATORS DETECTED
+✅ Service delivery obligations and specifications
+✅ Payment terms and milestone schedules  
+✅ Project scope and deliverable definitions
+✅ Professional services terminology
+✅ Contract duration and termination clauses
+✅ Liability and indemnification provisions
+
+📁 AUTOMATIC FILING RECOMMENDATION
+
+Primary Folder: /Legal Documents/Service Contracts/
+Sub-folder: Technology Services/
+File Name: Service_Contract_${new Date().getFullYear()}_${String(Date.now()).slice(-6)}.pdf
+
+🏷️ DOCUMENT TAGS FOR ORGANIZATION
+• #ServiceContract #TechnologyServices #CommercialAgreement
+• #ProfessionalServices #B2BContract #ProjectBased
+• #ContractManagement #LegalDocument
+
+📋 ALTERNATIVE POSSIBLE CLASSIFICATIONS
+
+If confidence was lower, could be:
+• Partnership Agreement (if joint venture elements detected)
+• License Agreement (if IP licensing terms prominent)
+• Consulting Agreement (if advisory services focused)
+• Maintenance Agreement (if ongoing support emphasized)
+
+💾 SAVE TO DRIVE LOCATION
+
+Recommended Drive Structure:
+📂 Legal Documents/
+  └── 📂 Service Contracts/
+      ├── 📂 Technology Services/
+      ├── 📂 Consulting Services/
+      ├── 📂 Professional Services/
+      └── 📂 Maintenance Contracts/
+
+🔄 AUTOMATED FILING PROCESS
+1. Document classified as: SERVICE CONTRACT
+2. Auto-save location: /Legal Documents/Service Contracts/Technology Services/
+3. Metadata tags applied for searchability
+4. Indexed in document management system
+5. Notification sent to contract administrator
+
+⚡ QUICK CLASSIFICATION RESULTS
+
+DOCUMENT TYPE: Service Contract ✅
+CONFIDENCE: 96.7% (High)
+SAVE LOCATION: Legal Documents/Service Contracts/Technology Services/
+STATUS: Ready for automated filing
+NEXT ACTION: Auto-save to recommended folder
+
+Document successfully classified and ready for organized storage based on type identification.`,
+            
+            
+            legal_research: `LEGAL RESEARCH REPORT
+
+Research Query: Liability Limitations in Software Development Contracts
+Jurisdiction: International Comparative Analysis
+Research Date: ${new Date().toLocaleDateString()}
+Researcher: AI Legal Research System
+
+EXECUTIVE SUMMARY
+Liability limitation clauses in software development contracts are widely accepted legal mechanisms used to allocate risk between parties. This research examines enforceability standards, common practices, and jurisdictional variations in liability caps for technology service agreements.
+
+KEY FINDINGS
+
+1. STANDARD LIABILITY LIMITATION PRACTICES
+
+Most jurisdictions recognize the validity of liability limitation clauses in commercial software development contracts, subject to specific legal constraints:
+
+• Contract Value Caps: 70% of agreements limit liability to 1x-3x annual contract value
+• Total Fee Limits: Many contracts cap liability at total fees paid under the agreement  
+• Mutual Limitations: Progressive contracts include mutual liability caps protecting both parties
+• Tiered Structures: Sophisticated agreements use different caps for different damage types
+
+2. ENFORCEABILITY STANDARDS
+
+Courts generally uphold liability limitations when they meet these criteria:
+• Reasonable relationship between cap amount and contract value
+• Clear, conspicuous language that both parties understand
+• Mutual benefit or consideration for the limitation
+• Absence of gross negligence or willful misconduct
+• No attempt to limit liability for personal injury or death
+
+3. COMMON EXCLUSIONS FROM LIABILITY CAPS
+
+The following damages typically cannot be limited by contract:
+• Gross negligence and willful misconduct
+• Intentional breaches of confidentiality  
+• Intellectual property infringement claims
+• Personal injury, death, or property damage
+• Fraud, criminal acts, or statutory violations
+• Data breaches involving personal information (varies by jurisdiction)
+
+JURISDICTIONAL ANALYSIS
+
+UNITED STATES
+• Generally enforces reasonable liability caps in commercial contracts
+• Unconscionability doctrine may void extremely low caps
+• State variations in enforcement standards
+• Strong protection for limitation clauses in technology agreements
+
+EUROPEAN UNION  
+• EU law permits liability limitations in B2B contracts
+• Consumer protection laws restrict limitations in B2C agreements
+• GDPR creates specific liability exposure for data processing
+• Member state variations in commercial contract enforcement
+
+MIDDLE EAST (UAE, SAUDI ARABIA, JORDAN)
+• Growing acceptance of liability limitations in commercial agreements
+• Islamic law principles may influence enforceability  
+• Government contracts often have specific liability requirements
+• Technology sector seeing increased adoption of standard practices
+
+PRECEDENT CASES
+
+Notable Case Law:
+• TechCorp v. DataSystems (2023): Court upheld 2x contract value cap for performance issues
+• Global Software Ltd. v. Enterprise Co. (2022): Liability limitation voided for intentional data deletion
+• CloudServ Inc. v. Manufacturing Corp (2024): Mutual cap enforced despite significant damages
+
+Industry Standards:
+• SaaS agreements typically limit liability to 12 months' fees
+• Custom development contracts often use project value as cap
+• Enterprise software licenses may include higher caps or carve-outs
+
+RECOMMENDATIONS FOR DRAFTING
+
+BEST PRACTICES
+1. Set reasonable caps (typically 1x-3x contract value)
+2. Include mutual limitations protecting both parties
+3. Clearly define excluded damages and circumstances
+4. Use plain language that both parties can understand
+5. Consider separate caps for different types of damages
+
+ESSENTIAL EXCLUSIONS
+• Gross negligence and willful misconduct
+• Confidentiality breaches and IP infringement  
+• Indemnification obligations
+• Personal injury and property damage
+• Regulatory violations and compliance failures
+
+STRATEGIC CONSIDERATIONS
+• Higher caps may be necessary for mission-critical systems
+• Insurance requirements should align with liability exposure
+• Industry-specific regulations may impose minimum liability standards
+• International contracts require careful jurisdiction analysis
+
+COMPLIANCE NOTES
+• Professional liability insurance should cover gaps in limitation clauses
+• Regular legal review ensures continued enforceability
+• Industry standards evolve with technology and legal precedents
+• Cross-border agreements need multi-jurisdictional analysis
+
+Research completed by Legal AI Research Division
+Confidence Level: High (93%)
+Sources: 127 cases, 45 jurisdictions, current as of ${new Date().toLocaleDateString()}`,
+            
+            
+            contract_reviewer: `CONTRACT REVIEW REPORT
+
+Contract Title: Service Agreement
+Review Date: ${new Date().toLocaleDateString()}
+Review Type: Comprehensive Legal Analysis
+Reviewer: AI Contract Analysis System v4.1
+
+OVERALL ASSESSMENT
+The contract provides a reasonable foundation for the professional services engagement but requires several critical improvements to ensure comprehensive legal protection for both parties.
+
+Risk Level: MEDIUM
+Recommendation: Proceed with modifications
+
+DETAILED CLAUSE ANALYSIS
+
+SERVICES DEFINITION
+Status: ✅ SATISFACTORY
+Analysis: Services are clearly defined with specific deliverables including software development, testing, and deployment. Technical specifications provide adequate detail for performance measurement.
+Recommendation: Consider adding more detailed acceptance criteria and quality standards.
+
+PAYMENT TERMS  
+Status: ⚠️ NEEDS IMPROVEMENT
+Analysis: Monthly payment structure is reasonable, but lacks important financial protections.
+Issues Identified:
+• No late payment penalties or interest charges
+• Missing provisions for expense reimbursement
+• No clear invoice and payment processing timeline
+Recommendations:
+• Add 1.5% monthly late payment penalty
+• Include 30-day payment terms with collection cost provisions
+• Specify invoice format and approval procedures
+
+INTELLECTUAL PROPERTY RIGHTS
+Status: ❌ REQUIRES REVISION  
+Analysis: IP transfer clause is overly broad and creates potential disputes.
+Critical Issues:
+• Doesn't protect provider's pre-existing IP and methodologies
+• Unclear boundaries between custom work and standard tools
+• No licensing terms for provider's proprietary frameworks
+Recommendations:
+• Clearly define "deliverables" vs. "pre-existing IP"
+• Add license terms for provider tools incorporated in solution
+• Include IP indemnification provisions
+
+TIMELINE AND DELIVERABLES
+Status: ✅ SATISFACTORY
+Analysis: Six-month timeline with defined phases is realistic and well-structured.
+Minor Improvement: Add provisions for handling delays caused by client feedback cycles.
+
+TERMINATION PROVISIONS
+Status: ✅ GOOD
+Analysis: Balanced termination rights with 30-day notice period protects both parties appropriately.
+Note: Consider adding immediate termination rights for material breach.
+
+LIABILITY AND INDEMNIFICATION
+Status: ⚠️ NEEDS IMPROVEMENT  
+Analysis: Basic liability limitation exists but lacks comprehensive protection.
+Recommendations:
+• Add mutual indemnification clauses
+• Include professional liability insurance requirements
+• Specify force majeure protections
+
+CRITICAL MISSING PROVISIONS
+
+HIGH PRIORITY ADDITIONS NEEDED:
+□ Force Majeure Clause
+   Natural disasters, government actions, pandemics, network failures
+
+□ Dispute Resolution Mechanism  
+   Mediation followed by binding arbitration
+
+□ Governing Law and Jurisdiction
+   Specify applicable state/country law and court jurisdiction
+
+□ Confidentiality and Data Protection
+   Mutual confidentiality obligations and data security requirements
+
+□ Change Order Procedures
+   Process for handling scope changes and cost adjustments
+
+MEDIUM PRIORITY ADDITIONS:
+□ Warranty and Support Terms
+   Post-delivery support period and bug fix obligations
+
+□ Professional Standards Compliance
+   Industry best practices and regulatory compliance requirements
+
+□ Insurance Requirements
+   Professional liability and errors & omissions coverage
+
+□ Assignment and Subcontracting
+   Restrictions on delegation of services to third parties
+
+RECOMMENDED CONTRACT MODIFICATIONS
+
+IMMEDIATE REVISIONS (Before Signing):
+1. Revise IP clause to protect provider's pre-existing rights
+2. Add governing law and dispute resolution provisions  
+3. Include force majeure protections
+4. Add late payment penalties and collection terms
+
+SUGGESTED IMPROVEMENTS:
+1. Enhance confidentiality and data protection terms
+2. Add professional liability insurance requirements
+3. Include change order procedures with cost implications
+4. Specify warranty period and post-delivery support
+
+RISK MITIGATION STRATEGIES
+
+Financial Risk Management:
+• Require advance payments or deposits for large milestones
+• Include collection costs and attorney fees for unpaid invoices
+• Consider requiring client's financial statements for large projects
+
+Legal Protection Enhancement:
+• Add choice of law and forum selection clauses
+• Include attorney fee shifting for contract disputes
+• Add specific performance and injunctive relief provisions
+
+Operational Risk Reduction:
+• Define clear acceptance criteria for deliverables
+• Add client cooperation and resource provision requirements
+• Include provisions for handling third-party dependencies
+
+COMPLIANCE CHECKLIST
+
+Business Requirements:
+□ Verify professional licensing and insurance coverage
+□ Confirm tax registration and reporting obligations  
+□ Review industry-specific regulatory requirements
+
+Legal Requirements:
+□ Ensure compliance with applicable labor laws
+□ Verify intellectual property clearance procedures
+□ Confirm data protection regulation compliance
+
+FINAL RECOMMENDATIONS
+
+Priority Actions:
+1. Negotiate IP clause modifications before signing
+2. Add governing law and arbitration provisions
+3. Include force majeure and dispute resolution terms
+4. Enhance payment terms with penalty provisions
+
+This contract can proceed to execution after addressing the high-priority modifications. The suggested improvements will significantly reduce legal risks and provide clearer operational guidance for both parties.
+
+Review Confidence: 92%
+Next Review Recommended: Upon any scope changes or annually`
+        };
+        
+        function updateForm() {
+            const agentType = document.getElementById('agent-type').value;
+            
+            // Hide all forms
+            document.querySelectorAll('.agent-form').forEach(form => {
+                form.classList.add('hidden');
+            });
+            
+            // Show selected form
+            document.getElementById(`form-${agentType}`).classList.remove('hidden');
+            
+            // Show/hide buttons based on agent type
+            const saveToDriveBtn = document.getElementById('save-to-drive-btn');
+            const viewSavedDocsBtn = document.getElementById('view-saved-docs-btn');
+            
+            if (agentType === 'document_classifier') {
+                viewSavedDocsBtn.classList.remove('hidden');
+            } else {
+                viewSavedDocsBtn.classList.add('hidden');
+            }
+            saveToDriveBtn.classList.add('hidden');
+            
+            // Clear output
+            document.getElementById('output-content').textContent = 'Click "Process Agent" to see the output...';
+            document.getElementById('output-content').className = 'output-content';
+        }
+        
+        function generateClassificationResponse() {
+            const pdfFile = document.getElementById('classify-pdf').files[0];
+            const fileName = pdfFile ? pdfFile.name : 'uploaded_document.pdf';
+            const extractedText = classifyExtractedPdfText || '';
+            
+            // Enhanced document type detection based on content analysis
+            const documentType = analyzeDocumentContent(extractedText, fileName);
+            
+            // Automatically save to drive after classification
+            const saveResult = autoSaveToDrive(documentType, fileName, extractedText);
+            
+            return `DOCUMENT CLASSIFICATION & AUTO-SAVE COMPLETE
+
+📄 DOCUMENT: ${fileName}
+🎯 TYPE: ${documentType.type}
+📁 SAVED TO: ${saveResult.fullPath}
+✅ STATUS: Successfully classified and saved
+⏰ TIME: ${new Date().toLocaleString()}
+
+📊 CLASSIFICATION RESULTS
+Document Type: ${documentType.type}
+Confidence: ${documentType.confidence}%
+Drive Location: ${saveResult.fullPath}
+
+� AUTO-SAVE SUMMARY
+✅ Document classified successfully
+✅ Automatically saved to correct folder
+✅ File organized in drive structure
+✅ Ready for immediate access
+
+📁 DRIVE ORGANIZATION
+${saveResult.driveStructure}
+
+The document has been automatically classified and saved to the appropriate drive location.`;
+        }
+        
+        function autoSaveToDrive(documentType, fileName, content) {
+            // Create organized filename
+            const timestamp = new Date().toISOString().split('T')[0];
+            const fileId = String(Date.now()).slice(-6);
+            const cleanFileName = fileName.replace(/\.pdf$/i, '');
+            const finalFileName = `${documentType.type.replace(/\s+/g, '_')}_${cleanFileName}_${timestamp}_${fileId}.pdf`;
+            
+            // Get drive structure
+            const driveInfo = getDriveStructure(documentType.type);
+            const fullPath = `${driveInfo.path}${finalFileName}`;
+            
+            // Create the save data
+            const driveData = {
+                filename: finalFileName,
+                path: fullPath,
+                documentType: documentType.type,
+                confidence: documentType.confidence,
+                timestamp: new Date().toISOString(),
+                originalContent: content,
+                originalFileName: fileName
+            };
+            
+            // Save to local storage (simulating drive save)
+            const savedDocuments = JSON.parse(localStorage.getItem('savedDocuments') || '[]');
+            savedDocuments.push(driveData);
+            localStorage.setItem('savedDocuments', JSON.stringify(savedDocuments));
+            
+            // Create drive structure visualization
+            const driveStructure = createDriveStructureVisualization(driveInfo.path, finalFileName);
+            
+            return {
+                fullPath: fullPath,
+                driveStructure: driveStructure,
+                savedData: driveData
+            };
+        }
+        
+        function createDriveStructureVisualization(path, fileName) {
+            const pathParts = path.split('/').filter(p => p);
+            let structure = '📂 Drive/\n';
+            
+            pathParts.forEach((part, index) => {
+                const indent = '  '.repeat(index + 1);
+                structure += `${indent}└── 📂 ${part}/\n`;
+            });
+            
+            const finalIndent = '  '.repeat(pathParts.length + 1);
+            structure += `${finalIndent}└── 📄 ${fileName}`;
+            
+            return structure;
+        }
+        
+        function analyzeDocumentContent(text, filename) {
+            const lowerText = text.toLowerCase();
+            const upperText = text.toUpperCase();
+            
+            // Legal Letter Detection Patterns (Enhanced)
+            const legalLetterPatterns = [
+                /dear\s+(mr|mrs|ms|dr|attorney|counsel|sir|madam)/i,
+                /(demand|notice|cease\s+and\s+desist|legal\s+notice)/i,
+                /(hereby\s+demand|you\s+are\s+hereby|take\s+notice)/i,
+                /(legal\s+action|litigation|lawsuit|court\s+proceedings)/i,
+                /(breach\s+of\s+contract|violation|non-compliance)/i,
+                /(settlement|payment\s+demand|overdue|outstanding)/i,
+                /(attorney|law\s+firm|legal\s+counsel|esquire|esq\.)/i,
+                /(sincerely|respectfully|regards).*?(attorney|counsel|law)/i,
+                /within\s+\d+\s+days|cure\s+the\s+breach|remedy\s+the/i,
+                /(legal\s+representation|retain\s+counsel|seek\s+legal)/i
+            ];
+            
+            // Service Contract Patterns
+            const serviceContractPatterns = [
+                /(service\s+agreement|professional\s+services|consulting\s+agreement)/i,
+                /(scope\s+of\s+work|deliverables|milestones)/i,
+                /(payment\s+terms|invoice|billing)/i,
+                /(project\s+timeline|completion\s+date)/i,
+                /(intellectual\s+property|work\s+product)/i
+            ];
+            
+            // Partnership Agreement Patterns
+            const partnershipPatterns = [
+                /(partnership\s+agreement|joint\s+venture|business\s+partnership)/i,
+                /(profit\s+sharing|equity|ownership\s+percentage)/i,
+                /(partner\s+responsibilities|management\s+duties)/i,
+                /(capital\s+contribution|investment)/i
+            ];
+            
+            // ID Document Patterns
+            const idDocumentPatterns = [
+                /(passport|driver.*license|national\s+id|identity\s+card)/i,
+                /(date\s+of\s+birth|place\s+of\s+birth|nationality)/i,
+                /(government\s+issued|official\s+document)/i,
+                /(identification\s+number|id\s+number)/i
+            ];
+            
+            // NDA Patterns
+            const ndaPatterns = [
+                /(non.*disclosure|confidentiality\s+agreement|nda)/i,
+                /(confidential\s+information|proprietary|trade\s+secrets)/i,
+                /(receiving\s+party|disclosing\s+party)/i,
+                /(non.*use|non.*disclosure)/i
+            ];
+            
+            // Employment Contract Patterns
+            const employmentPatterns = [
+                /(employment\s+agreement|offer\s+letter|job\s+offer)/i,
+                /(salary|compensation|benefits|vacation)/i,
+                /(employee|employer|position|title)/i,
+                /(start\s+date|employment\s+term)/i
+            ];
+            
+            // Purchase Agreement Patterns
+            const purchasePatterns = [
+                /(purchase\s+agreement|sales\s+contract|bill\s+of\s+sale)/i,
+                /(buyer|seller|purchase\s+price)/i,
+                /(goods|products|merchandise)/i,
+                /(delivery|shipping|transfer)/i
+            ];
+            
+            // License Agreement Patterns
+            const licensePatterns = [
+                /(license\s+agreement|software\s+license|licensing)/i,
+                /(licensor|licensee|usage\s+rights)/i,
+                /(intellectual\s+property|copyright|trademark)/i,
+                /(permitted\s+use|restrictions)/i
+            ];
+            
+            // Count pattern matches for each document type
+            const scores = {
+                'LEGAL LETTER': countMatches(text, legalLetterPatterns),
+                'SERVICE CONTRACT': countMatches(text, serviceContractPatterns),
+                'PARTNERSHIP AGREEMENT': countMatches(text, partnershipPatterns),
+                'ID DOCUMENT': countMatches(text, idDocumentPatterns),
+                'NDA': countMatches(text, ndaPatterns),
+                'EMPLOYMENT CONTRACT': countMatches(text, employmentPatterns),
+                'PURCHASE AGREEMENT': countMatches(text, purchasePatterns),
+                'LICENSE AGREEMENT': countMatches(text, licensePatterns)
+            };
+            
+            // Additional scoring based on document structure and language
+            if (lowerText.includes('dear ') && lowerText.includes('sincerely')) {
+                scores['LEGAL LETTER'] += 3;
+            }
+            if (text.match(/\b(attorney|law firm|legal counsel)\b/gi)) {
+                scores['LEGAL LETTER'] += 2;
+            }
+            if (text.match(/\b(demand|notice|cease|legal action)\b/gi)) {
+                scores['LEGAL LETTER'] += 2;
+            }
+            
+            // Find the document type with highest score
+            const maxScore = Math.max(...Object.values(scores));
+            const detectedType = Object.keys(scores).find(key => scores[key] === maxScore);
+            
+            // Calculate confidence based on score and create response
+            const confidence = Math.min(95, Math.max(75, 70 + (maxScore * 5)));
+            
+            return createDocumentTypeResponse(detectedType, confidence, scores, text);
+        }
+        
+        function countMatches(text, patterns) {
+            let count = 0;
+            patterns.forEach(pattern => {
+                const matches = text.match(pattern);
+                if (matches) count += matches.length;
+            });
+            return count;
+        }
+        
+        function createDocumentTypeResponse(type, confidence, allScores, text) {
+            const documentTypes = {
+                'LEGAL LETTER': {
+                    category: 'Legal Correspondence',
+                    description: 'Legal notice, demand letter, or attorney correspondence',
+                    folder: 'Correspondence',
+                    tags: ['LegalLetter', 'Correspondence', 'LegalNotice', 'AttorneyCommunication'],
+                    indicators: [
+                        'Formal legal correspondence format',
+                        'Professional legal language and terminology',
+                        'Demand or notice language detected',
+                        'Attorney or law firm identification',
+                        'Legal action or compliance references'
+                    ],
+                    keyFeatures: ['Legal Language', 'Formal Notice', 'Professional Format']
+                },
+                'SERVICE CONTRACT': {
+                    category: 'Commercial Agreement',
+                    description: 'Professional services agreement for work delivery',
+                    folder: 'Service Contracts/Technology Services',
+                    tags: ['ServiceContract', 'ProfessionalServices', 'CommercialAgreement'],
+                    indicators: [
+                        'Service delivery obligations and specifications',
+                        'Payment terms and milestone schedules',
+                        'Project scope and deliverable definitions',
+                        'Professional services terminology',
+                        'Contract duration and termination clauses'
+                    ],
+                    keyFeatures: ['Service Scope', 'Payment Terms', 'Deliverables']
+                },
+                'PARTNERSHIP AGREEMENT': {
+                    category: 'Business Agreement',
+                    description: 'Business partnership or joint venture agreement',
+                    folder: 'Partnership Agreements',
+                    tags: ['PartnershipAgreement', 'JointVenture', 'BusinessPartnership'],
+                    indicators: [
+                        'Joint venture terms and profit sharing',
+                        'Partner responsibilities and obligations',
+                        'Business collaboration framework',
+                        'Equity and ownership provisions',
+                        'Management and decision-making structure'
+                    ],
+                    keyFeatures: ['Partnership Terms', 'Profit Sharing', 'Joint Responsibilities']
+                },
+                'ID DOCUMENT': {
+                    category: 'Personal Document',
+                    description: 'Government-issued identification document',
+                    folder: '../Personal Documents/Identification',
+                    tags: ['IDDocument', 'PersonalDocument', 'GovernmentIssued'],
+                    indicators: [
+                        'Government-issued identification markers',
+                        'Personal identification information',
+                        'Official document formatting and seals',
+                        'Photo identification elements',
+                        'Government agency authentication'
+                    ],
+                    keyFeatures: ['Official ID', 'Government Issued', 'Personal Info']
+                },
+                'NDA': {
+                    category: 'Confidentiality Agreement',
+                    description: 'Non-disclosure or confidentiality agreement',
+                    folder: 'Confidentiality Agreements',
+                    tags: ['NDA', 'Confidentiality', 'NonDisclosure'],
+                    indicators: [
+                        'Confidentiality obligations and restrictions',
+                        'Information protection requirements',
+                        'Non-disclosure terms and penalties',
+                        'Proprietary information definitions',
+                        'Mutual or unilateral disclosure terms'
+                    ],
+                    keyFeatures: ['Confidentiality', 'Non-Disclosure', 'Information Protection']
+                },
+                'EMPLOYMENT CONTRACT': {
+                    category: 'Employment Agreement',
+                    description: 'Employment agreement or offer letter',
+                    folder: 'Employment Contracts',
+                    tags: ['EmploymentContract', 'JobOffer', 'EmploymentAgreement'],
+                    indicators: [
+                        'Employment terms and conditions',
+                        'Salary and benefits provisions',
+                        'Job responsibilities and expectations',
+                        'Employment duration and termination',
+                        'Company policies and procedures'
+                    ],
+                    keyFeatures: ['Employment Terms', 'Compensation', 'Job Responsibilities']
+                },
+                'PURCHASE AGREEMENT': {
+                    category: 'Sales Agreement',
+                    description: 'Sales or purchase agreement for goods/services',
+                    folder: 'Purchase Agreements',
+                    tags: ['PurchaseAgreement', 'SalesContract', 'CommercialSale'],
+                    indicators: [
+                        'Purchase terms and pricing',
+                        'Delivery and payment conditions',
+                        'Product or service specifications',
+                        'Buyer and seller obligations',
+                        'Transfer of ownership terms'
+                    ],
+                    keyFeatures: ['Purchase Terms', 'Pricing', 'Delivery Conditions']
+                },
+                'LICENSE AGREEMENT': {
+                    category: 'Intellectual Property',
+                    description: 'Software or intellectual property license',
+                    folder: 'License Agreements',
+                    tags: ['LicenseAgreement', 'SoftwareLicense', 'IntellectualProperty'],
+                    indicators: [
+                        'License terms and usage rights',
+                        'Intellectual property provisions',
+                        'Usage restrictions and obligations',
+                        'Licensor and licensee definitions',
+                        'Royalty and payment terms'
+                    ],
+                    keyFeatures: ['Usage Rights', 'IP License', 'Usage Restrictions']
+                }
+            };
+            
+            const docInfo = documentTypes[type];
+            
+            // Create alternative scores (other document types with lower confidence)
+            const alternativeScores = Object.keys(allScores)
+                .filter(key => key !== type)
+                .map(key => ({
+                    type: key,
+                    score: Math.max(5, Math.min(confidence - 10, allScores[key] * 8))
+                }))
+                .sort((a, b) => b.score - a.score)
+                .slice(0, 5);
+            
+            return {
+                type,
+                confidence,
+                category: docInfo.category,
+                description: docInfo.description,
+                folder: docInfo.folder,
+                tags: docInfo.tags,
+                indicators: docInfo.indicators,
+                keyFeatures: docInfo.keyFeatures,
+                alternativeScores
+            };
+        }
+        
+        function viewSavedDocuments() {
+            const savedDocuments = JSON.parse(localStorage.getItem('savedDocuments') || '[]');
+            
+            if (savedDocuments.length === 0) {
+                alert('No documents have been saved yet. Upload and classify a PDF document first.');
+                return;
+            }
+            
+            let documentList = 'SAVED DOCUMENTS IN DRIVE\n\n';
+            documentList += `Total Documents: ${savedDocuments.length}\n`;
+            documentList += '=' .repeat(50) + '\n\n';
+            
+            savedDocuments.forEach((doc, index) => {
+                const saveDate = new Date(doc.timestamp).toLocaleDateString();
+                const saveTime = new Date(doc.timestamp).toLocaleTimeString();
+                
+                documentList += `${index + 1}. ${doc.filename}\n`;
+                documentList += `   Type: ${doc.documentType}\n`;
+                documentList += `   Location: ${doc.path}\n`;
+                documentList += `   Confidence: ${doc.confidence}%\n`;
+                documentList += `   Saved: ${saveDate} at ${saveTime}\n`;
+                documentList += `   Original: ${doc.originalFileName}\n\n`;
+            });
+            
+            // Show in output area
+            const outputDiv = document.getElementById('output-content');
+            outputDiv.textContent = documentList;
+            outputDiv.className = 'output-content success';
+            currentOutput = documentList;
+        }
+        
+        function processAgent() {
+            const agentType = document.getElementById('agent-type').value;
+            const outputDiv = document.getElementById('output-content');
+            const spinner = document.getElementById('process-spinner');
+            
+            // Special validation for document analyzer
+            if (agentType === 'document_analyzer') {
+                const pdfInput = document.getElementById('analyze-pdf');
+                if (!pdfInput.files.length) {
+                    alert('Please upload a PDF file for document analysis.');
+                    return;
+                }
+                if (!extractedPdfText) {
+                    alert('PDF is still processing. Please wait for the preview to appear.');
+                    return;
+                }
+            }
+            
+            // Show loading state
+            spinner.classList.remove('hidden');
+            outputDiv.textContent = 'Processing agent request...';
+            outputDiv.className = 'output-content loading';
+            
+            // Simulate processing time
+            setTimeout(() => {
+                let response = mockResponses[agentType];
+                
+                // For document analyzer, include information about the uploaded PDF
+                if (agentType === 'document_analyzer' && extractedPdfText) {
+                    const pdfFile = document.getElementById('analyze-pdf').files[0];
+                    response = response.replace('PDF Upload', `"${pdfFile.name}"`);
+                    response = response.replace('Multiple pages detected', `${Math.ceil(extractedPdfText.length / 2000)} pages detected`);
+                    response = response.replace('< 2 seconds', `${(extractedPdfText.length / 1000).toFixed(1)} seconds`);
+                }
+                
+                // For document classifier, generate varied document types
+                if (agentType === 'document_classifier' && classifyExtractedPdfText) {
+                    response = generateClassificationResponse();
+                }
+                
+                currentOutput = response;
+                
+                outputDiv.textContent = currentOutput;
+                outputDiv.className = 'output-content success';
+                spinner.classList.add('hidden');
+            }, 1500);
+        }
+        
+        function clearForm() {
+            // Clear all inputs
+            document.querySelectorAll('input, textarea, select').forEach(input => {
+                if (input.id !== 'agent-type') {
+                    if (input.type === 'select-one') {
+                        input.selectedIndex = 0;
+                    } else {
+                        input.value = '';
+                    }
+                }
+            });
+            
+            // Clear output
+            document.getElementById('output-content').textContent = 'Click "Process Agent" to see the output...';
+            document.getElementById('output-content').className = 'output-content';
+            currentOutput = '';
+        }
+        
+        function editOutput() {
+            if (!currentOutput) {
+                alert('No output to edit. Please process an agent first.');
+                return;
+            }
+            
+            const newOutput = prompt('Edit the output:', currentOutput);
+            if (newOutput !== null) {
+                currentOutput = newOutput;
+                document.getElementById('output-content').textContent = newOutput;
+                document.getElementById('output-content').className = 'output-content success';
+            }
+        }
+        
+        function copyOutput() {
+            if (!currentOutput) {
+                alert('No output to copy.');
+                return;
+            }
+            
+            navigator.clipboard.writeText(currentOutput).then(() => {
+                alert('Output copied to clipboard!');
+            }).catch(() => {
+                alert('Failed to copy output.');
+            });
+        }
+        
+        function downloadPDF() {
+            if (!currentOutput) {
+                alert('No output to download as PDF.');
+                return;
+            }
+            
+            const { jsPDF } = window.jspdf;
+            const doc = new jsPDF();
+            
+            const agentType = document.getElementById('agent-type').value;
+            const agentName = document.getElementById('agent-type').selectedOptions[0].text;
+            
+            // PDF settings
+            const pageWidth = doc.internal.pageSize.getWidth();
+            const pageHeight = doc.internal.pageSize.getHeight();
+            const margin = 20;
+            const maxWidth = pageWidth - (margin * 2);
+            const lineHeight = 6;
+            let yPosition = margin;
+            
+            // Helper function to add text with word wrapping
+            function addText(text, fontSize = 10, style = 'normal') {
+                doc.setFontSize(fontSize);
+                doc.setFont('helvetica', style);
+                
+                const lines = doc.splitTextToSize(text, maxWidth);
+                
+                for (let i = 0; i < lines.length; i++) {
+                    if (yPosition > pageHeight - margin) {
+                        doc.addPage();
+                        yPosition = margin;
+                    }
+                    doc.text(lines[i], margin, yPosition);
+                    yPosition += lineHeight;
+                }
+                
+                return yPosition;
+            }
+            
+            // Add header
+            doc.setFillColor(102, 126, 234);
+            doc.rect(0, 0, pageWidth, 40, 'F');
+            
+            doc.setTextColor(255, 255, 255);
+            doc.setFontSize(18);
+            doc.setFont('helvetica', 'bold');
+            doc.text('Adlaan Legal AI System', margin, 20);
+            
+            doc.setFontSize(12);
+            doc.setFont('helvetica', 'normal');
+            doc.text(agentName, margin, 30);
+            
+            yPosition = 50;
+            doc.setTextColor(0, 0, 0);
+            
+            // Add generation info
+            doc.setFontSize(10);
+            doc.setFont('helvetica', 'italic');
+            doc.text(`Generated on: ${new Date().toLocaleString()}`, margin, yPosition);
+            yPosition += 10;
+            
+            // Add separator line
+            doc.setLineWidth(0.5);
+            doc.line(margin, yPosition, pageWidth - margin, yPosition);
+            yPosition += 10;
+            
+            // Process and add content
+            const content = currentOutput;
+            const lines = content.split('\n');
+            
+            for (let line of lines) {
+                if (line.trim() === '') {
+                    yPosition += 3; // Empty line spacing
+                    continue;
+                }
+                
+                // Check if line is a header (all caps, short line, or contains special characters)
+                const isHeader = (line.match(/^[A-Z\s\d\.\-\_]{3,50}$/) && line.length < 80) || 
+                                line.includes('===') || line.includes('---') ||
+                                line.match(/^\d+\.\s[A-Z]/);
+                
+                // Check if line is a subheader (starts with bullet, number, or letter)
+                const isSubHeader = line.match(/^[•\-\*]\s/) || line.match(/^[A-Z]\.\s/) || 
+                                  line.match(/^\d+\.\d+/) || line.match(/^[a-z]\)/);
+                
+                if (yPosition > pageHeight - margin - 20) {
+                    doc.addPage();
+                    yPosition = margin;
+                }
+                
+                if (isHeader) {
+                    yPosition += 5; // Extra space before headers
+                    addText(line, 12, 'bold');
+                    yPosition += 3; // Extra space after headers
+                } else if (isSubHeader) {
+                    addText(line, 10, 'bold');
+                } else {
+                    addText(line, 10, 'normal');
+                }
+            }
+            
+            // Add footer
+            const totalPages = doc.internal.getNumberOfPages();
+            for (let i = 1; i <= totalPages; i++) {
+                doc.setPage(i);
+                doc.setFontSize(8);
+                doc.setFont('helvetica', 'italic');
+                doc.setTextColor(128, 128, 128);
+                
+                // Footer text
+                doc.text('Generated by Adlaan Legal AI System - For review purposes only', margin, pageHeight - 10);
+                doc.text(`Page ${i} of ${totalPages}`, pageWidth - margin - 30, pageHeight - 10);
+            }
+            
+            // Generate filename and save
+            const timestamp = new Date().toISOString().split('T')[0];
+            const filename = `${agentType.replace(/_/g, '-')}-${timestamp}.pdf`;
+            
+            doc.save(filename);
+        }
+        
+        function downloadOutput() {
+            if (!currentOutput) {
+                alert('No output to download.');
+                return;
+            }
+            
+            const agentType = document.getElementById('agent-type').value;
+            const blob = new Blob([currentOutput], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${agentType}-output-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function saveAsTemplate() {
+            if (!currentOutput) {
+                alert('No output to save.');
+                return;
+            }
+            
+            const templateName = prompt('Enter template name:');
+            if (templateName) {
+                const templates = JSON.parse(localStorage.getItem('agentTemplates') || '{}');
+                templates[templateName] = {
+                    agent: document.getElementById('agent-type').value,
+                    output: currentOutput,
+                    created: new Date().toISOString()
+                };
+                localStorage.setItem('agentTemplates', JSON.stringify(templates));
+                alert(`Template "${templateName}" saved successfully!`);
+            }
+        }
+        
+        function saveToDrive() {
+            if (!currentOutput || !classifyExtractedPdfText) {
+                alert('No classified document to save. Please upload and process a PDF first.');
+                return;
+            }
+            
+            // Extract document type from the classification output
+            const documentType = extractDocumentType(currentOutput);
+            const driveStructure = getDriveStructure(documentType);
+            
+            // Create organized filename
+            const timestamp = new Date().toISOString().split('T')[0];
+            const fileId = String(Date.now()).slice(-6);
+            const filename = `${documentType.replace(/\s+/g, '_')}_${timestamp}_${fileId}`;
+            
+            // Create the organized folder structure and save file
+            const folderPath = driveStructure.path;
+            const fullPath = `${folderPath}${filename}.pdf`;
+            
+            // Simulate saving to drive (in real implementation, this would connect to Google Drive API)
+            const driveData = {
+                filename: filename + '.pdf',
+                path: fullPath,
+                documentType: documentType,
+                classification: extractClassificationData(currentOutput),
+                timestamp: new Date().toISOString(),
+                originalContent: classifyExtractedPdfText,
+                classificationReport: currentOutput
+            };
+            
+            // Save to local storage as simulation (replace with actual drive API)
+            const savedDocuments = JSON.parse(localStorage.getItem('savedDocuments') || '[]');
+            savedDocuments.push(driveData);
+            localStorage.setItem('savedDocuments', JSON.stringify(savedDocuments));
+            
+            // Show success message with file location
+            const message = `✅ Document Saved Successfully!
+            
+📄 File: ${filename}.pdf
+📁 Location: ${folderPath}
+🏷️ Type: ${documentType}
+⏰ Saved: ${new Date().toLocaleString()}
+
+The document has been organized and saved based on its classification.`;
+            
+            alert(message);
+            
+            // Optional: Download a copy locally as well
+            downloadClassifiedDocument(filename, driveData);
+        }
+        
+        function extractDocumentType(classificationOutput) {
+            // Extract document type from classification report
+            const typeMatch = classificationOutput.match(/PRIMARY CLASSIFICATION:\s*([^\n]+)/);
+            if (typeMatch) {
+                return typeMatch[1].trim();
+            }
+            
+            // Fallback patterns
+            const patterns = [
+                /Document Type:\s*([^\n]+)/,
+                /DOCUMENT TYPE:\s*([^\n]+)/,
+                /Primary Category:\s*([^\n]+)/
+            ];
+            
+            for (const pattern of patterns) {
+                const match = classificationOutput.match(pattern);
+                if (match) {
+                    return match[1].trim();
+                }
+            }
+            
+            return 'Unknown Document';
+        }
+        
+        function getDriveStructure(documentType) {
+            const typeMapping = {
+                'SERVICE CONTRACT': {
+                    path: '/Legal Documents/Service Contracts/Technology Services/',
+                    tags: ['service-contract', 'technology', 'commercial']
+                },
+                'PARTNERSHIP AGREEMENT': {
+                    path: '/Legal Documents/Partnership Agreements/',
+                    tags: ['partnership', 'business-agreement', 'collaboration']
+                },
+                'ID DOCUMENT': {
+                    path: '/Personal Documents/Identification/',
+                    tags: ['id', 'personal', 'identification']
+                },
+                'LEGAL LETTER': {
+                    path: '/Legal Documents/Correspondence/',
+                    tags: ['legal-letter', 'correspondence', 'communication']
+                },
+                'NDA': {
+                    path: '/Legal Documents/Confidentiality Agreements/',
+                    tags: ['nda', 'confidentiality', 'non-disclosure']
+                },
+                'EMPLOYMENT CONTRACT': {
+                    path: '/Legal Documents/Employment Contracts/',
+                    tags: ['employment', 'hr', 'contract']
+                },
+                'PURCHASE AGREEMENT': {
+                    path: '/Legal Documents/Purchase Agreements/',
+                    tags: ['purchase', 'sales', 'commercial']
+                },
+                'LICENSE AGREEMENT': {
+                    path: '/Legal Documents/License Agreements/',
+                    tags: ['license', 'intellectual-property', 'usage-rights']
+                }
+            };
+            
+            // Find best match or use default
+            const normalizedType = documentType.toUpperCase();
+            for (const [key, value] of Object.entries(typeMapping)) {
+                if (normalizedType.includes(key) || key.includes(normalizedType)) {
+                    return value;
+                }
+            }
+            
+            // Default fallback
+            return {
+                path: '/Legal Documents/Miscellaneous/',
+                tags: ['legal-document', 'unclassified']
+            };
+        }
+        
+        function extractClassificationData(output) {
+            // Extract key classification data for metadata
+            const confidenceMatch = output.match(/Classification Confidence:\s*([0-9.]+%)/);
+            const tagsMatch = output.match(/#[\w\s#]+/g);
+            
+            return {
+                confidence: confidenceMatch ? confidenceMatch[1] : 'Unknown',
+                tags: tagsMatch ? tagsMatch.join(' ') : '',
+                processed: new Date().toISOString()
+            };
+        }
+        
+        function downloadClassifiedDocument(filename, driveData) {
+            // Create a comprehensive document package
+            const documentPackage = {
+                originalPDF: 'PDF content would be here',
+                classificationReport: driveData.classificationReport,
+                metadata: {
+                    filename: driveData.filename,
+                    path: driveData.path,
+                    type: driveData.documentType,
+                    classification: driveData.classification,
+                    savedAt: driveData.timestamp
+                }
+            };
+            
+            const blob = new Blob([JSON.stringify(documentPackage, null, 2)], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `${filename}_package.json`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        // PDF handling functionality
+        let extractedPdfText = '';
+        let classifyExtractedPdfText = '';
+        
+        async function handlePdfUpload(file, previewId = 'pdf-preview', textVariable = 'extractedPdfText') {
+            if (!file || file.type !== 'application/pdf') {
+                alert('Please select a valid PDF file.');
+                return;
+            }
+            
+            const previewDiv = document.getElementById(previewId);
+            previewDiv.innerHTML = '<span class="text-muted">📄 Processing PDF...</span>';
+            
+            try {
+                // Set the worker source for PDF.js
+                pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/pdf.worker.min.js';
+                
+                const arrayBuffer = await file.arrayBuffer();
+                const pdf = await pdfjsLib.getDocument(arrayBuffer).promise;
+                
+                let fullText = '';
+                const totalPages = pdf.numPages;
+                
+                // Extract text from all pages
+                for (let i = 1; i <= totalPages; i++) {
+                    const page = await pdf.getPage(i);
+                    const textContent = await page.getTextContent();
+                    const pageText = textContent.items.map(item => item.str).join(' ');
+                    fullText += pageText + '\n\n';
+                }
+                
+                const extractedText = fullText.trim();
+                
+                // Store extracted text based on which form is being used
+                if (previewId === 'pdf-preview') {
+                    extractedPdfText = extractedText;
+                } else if (previewId === 'classify-pdf-preview') {
+                    classifyExtractedPdfText = extractedText;
+                }
+                
+                // Show preview (first 500 characters)
+                const preview = extractedText.substring(0, 500) + (extractedText.length > 500 ? '...' : '');
+                previewDiv.innerHTML = `
+                    <div class="d-flex justify-content-between align-items-center mb-2">
+                        <strong>📄 ${file.name}</strong>
+                        <small class="text-muted">${totalPages} pages • ${extractedText.length} characters</small>
+                    </div>
+                    <div style="white-space: pre-wrap; font-family: monospace; font-size: 12px; max-height: 200px; overflow-y: auto;">
+                        ${preview}
+                    </div>
+                `;
+                
+            } catch (error) {
+                console.error('Error processing PDF:', error);
+                previewDiv.innerHTML = '<span class="text-danger">❌ Error processing PDF. Please try a different file.</span>';
+                
+                // Clear extracted text on error
+                if (previewId === 'pdf-preview') {
+                    extractedPdfText = '';
+                } else if (previewId === 'classify-pdf-preview') {
+                    classifyExtractedPdfText = '';
+                }
+            }
+        }
+        
+        // Initialize the interface
+        document.addEventListener('DOMContentLoaded', function() {
+            updateForm();
+            
+            // Add event listener for Document Analyzer PDF upload
+            const pdfInput = document.getElementById('analyze-pdf');
+            if (pdfInput) {
+                pdfInput.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        handlePdfUpload(file, 'pdf-preview');
+                    }
+                });
+            }
+            
+            // Add event listener for Document Classifier PDF upload
+            const classifyPdfInput = document.getElementById('classify-pdf');
+            if (classifyPdfInput) {
+                classifyPdfInput.addEventListener('change', function(event) {
+                    const file = event.target.files[0];
+                    if (file) {
+                        handlePdfUpload(file, 'classify-pdf-preview');
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,75 @@
+version: '3.8'
+
+services:
+  adlaan-agent:
+    build: .
+    ports:
+      - "8005:8005"
+    environment:
+      - ENVIRONMENT=development
+      - HOST=0.0.0.0
+      - PORT=8005
+      - SECRET_KEY=your-secret-key-change-in-production
+      - BACKEND_URL=http://adlaan-backend:3000
+      - BACKEND_AUTH_TOKEN=adlaan-agent-service-token
+      - OPENAI_API_KEY=${OPENAI_API_KEY}
+      - DATABASE_URL=sqlite:///./data/adlaan_agent.db
+      - LOG_LEVEL=INFO
+    volumes:
+      - ./data:/app/data
+      - ./logs:/app/logs
+    depends_on:
+      - redis
+    networks:
+      - adlaan-network
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8005/api/v2/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - adlaan-network
+    restart: unless-stopped
+    command: redis-server --appendonly yes
+
+  # Mock backend for testing (remove when connecting to real backend)
+  mock-backend:
+    image: node:18-alpine
+    ports:
+      - "3000:3000"
+    working_dir: /app
+    command: >
+      sh -c "
+        npm init -y &&
+        npm install express cors &&
+        node -e \"
+          const express = require('express');
+          const cors = require('cors');
+          const app = express();
+          app.use(cors());
+          app.use(express.json());
+          app.post('/graphql', (req, res) => {
+            res.json({ data: { __typename: 'Query' } });
+          });
+          app.listen(3000, () => console.log('Mock backend running on port 3000'));
+        \"
+      "
+    networks:
+      - adlaan-network
+    restart: unless-stopped
+
+volumes:
+  redis_data:
+
+networks:
+  adlaan-network:
+    driver: bridge

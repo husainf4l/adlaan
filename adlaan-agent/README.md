@@ -1,138 +1,392 @@
-# Adlaan Legal Agent
+# 🤖 Adlaan Legal Agent Microservice v3.0
 
-**Version: v1.0-alpha**
+> **A modern, production-ready AI-powered legal document creation and consultation microservice built with best practices and enterprise architecture.**
 
-AI-powered legal document creation and consultation system built with FastAPI and LangGraph.
+## 📋 Table of Contents
 
-## Features
+- [Overview](#overview)
+- [Architecture](#architecture)
+- [Features](#features)
+- [Quick Start](#quick-start)
+- [API Documentation](#api-documentation)
+- [Development](#development)
+- [Deployment](#deployment)
+- [Testing](#testing)
+- [Contributing](#contributing)
 
-- 🤖 **Legal AI Agent**: Intelligent legal assistant powered by LangGraph and OpenAI GPT-4
-- 📄 **Document Generation**: Create legal documents, contracts, and agreements
-- 💬 **Real-time Chat**: Streaming conversation interface with modern UI
-- 🗄️ **Database Integration**: PostgreSQL with async support for data persistence
-- 🎨 **Modern UI**: Beautiful web interface with real-time updates and responsive design
-- 🔧 **Modular Architecture**: Well-organized code structure with nodes and tools
-- ⚡ **Latest Dependencies**: All packages updated to latest versions (October 2025)
+## 🌟 Overview
 
-## Tech Stack
+The Adlaan Legal Agent is a sophisticated microservice that provides AI-powered legal document generation and analysis capabilities. Built with FastAPI and following enterprise-grade architectural patterns, it integrates seamlessly with Nest.js backends and Next.js frontends.
 
-- **Backend**: FastAPI 0.118.2, Uvicorn 0.37.0
-- **AI/ML**: LangGraph 0.6.8, LangChain 0.3.27, OpenAI GPT-4
-- **Database**: PostgreSQL, SQLAlchemy 2.0.43, AsyncPG 0.30.0
-- **Frontend**: HTML5, Tailwind CSS, HTMX, JavaScript
-
-## Project Structure
+### 🏗️ Architecture
 
 ```
-adlaan-agent/
-├── .venv/                    # Virtual environment
-├── agent/                    # AI Agent components
-│   ├── __init__.py
-│   ├── agent.py              # Main legal agent
-│   ├── nodes/                # Agent processing nodes
-│   │   ├── __init__.py
-│   │   └── legal_agent.py    # Legal processing node
-│   └── tools/                # Legal tools and utilities
-│       ├── __init__.py
-│       └── legal_tools.py    # Legal analysis tools
-├── core/                     # Core application components
-│   ├── __init__.py
-│   └── database.py           # Database configuration
-├── models/                   # Database models
-│   ├── __init__.py
-│   └── database.py           # SQLAlchemy models
-├── app/                      # FastAPI application structure
-├── main.py                   # Main FastAPI application
-├── templates/                # Jinja2 templates
-│   └── debug.html            # Web interface
-├── static/                   # Static files (CSS, JS)
-├── requirements.txt          # Python dependencies
-├── .env                      # Environment variables
-└── .env.example             # Environment template
+┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
+│   Next.js       │    │   Nest.js        │    │  FastAPI Agent  │
+│   Frontend      │◄──►│   Backend        │◄──►│  Microservice   │
+│                 │    │  (GraphQL API)   │    │  (This Service) │
+└─────────────────┘    └─────────────────┘    └─────────────────┘
 ```
 
-## Setup
+### 🚀 Key Features
 
-1. **Virtual Environment** (already created):
-   ```bash
-   .\.venv\Scripts\Activate.ps1  # Windows PowerShell
-   ```
+- **🔗 Backend Integration** - Seamless GraphQL communication with Nest.js
+- **🤖 Multi-Agent System** - Specialized AI agents for different legal tasks
+- **📄 Document Generation** - Advanced legal document creation
+- **🔍 Document Analysis** - Intelligent document review and risk assessment
+- **⚡ Async Processing** - Non-blocking background task execution
+- **📊 Real-time Streaming** - Live progress updates and SSE support
+- **🏥 Health Monitoring** - Comprehensive health checks and metrics
+- **🐳 Docker Ready** - Containerized deployment with Docker Compose
+- **🧪 Test Coverage** - Comprehensive unit and integration tests
+- **📝 Type Safety** - Full TypeScript-style typing with Pydantic
 
-2. **Install Dependencies** (already installed):
-   ```bash
-   pip install -r requirements.txt
-   ```
+## 🚀 Quick Start
 
-3. **Environment Variables**:
-   - Your `.env` file already contains your OpenAI API key
-   - The agents will use this automatically
+### Prerequisites
 
-## Usage
+- Python 3.12+
+- Docker & Docker Compose (optional)
+- OpenAI API key
+- Access to Nest.js backend
 
-### 1. Test the Agents Directly
+### 🐳 Docker Deployment (Recommended)
 
-Run the test suite to see both agents in action:
+1. **Clone and configure:**
 ```bash
-python agent/test_agents.py
+git clone <repository>
+cd adlaan-agent
+cp .env.example .env
+# Edit .env with your configuration
 ```
 
-### 2. Run FastAPI with Agent Integration
-
-Start the API server with agent endpoints:
+2. **Start with Docker Compose:**
 ```bash
-python agent/api_integration.py
+docker-compose up -d
 ```
 
-Or use the VS Code task: "Run FastAPI App"
-
-### 3. Use the Simple FastAPI App
-
-Run the basic FastAPI app:
+3. **Verify deployment:**
 ```bash
-python main.py
+curl http://localhost:8005/api/v2/health
 ```
 
-## API Endpoints
+### 🛠️ Local Development
 
-When running `agent/api_integration.py`:
+1. **Install dependencies:**
+```bash
+python -m venv venv
+source venv/bin/activate  # On Windows: venv\Scripts\activate
+pip install -r src/requirements.txt
+```
 
-- **GET /**: Welcome message
-- **GET /health**: Health check
-- **GET /agents**: List available agents
-- **POST /chat**: Chat with agents
-  ```json
-  {
-    "message": "Hello!",
-    "agent_type": "simple"  // or "advanced"
-  }
-  ```
+2. **Configure environment:**
+```bash
+cp .env.example .env
+# Edit .env with your settings
+```
 
-## Agents
+3. **Run the service:**
+```bash
+uvicorn src.main:app --reload --port 8005
+```
 
-### Legal Agent (`agent.py`)
-- AI-powered legal document creation and consultation
-- LangGraph workflow with structured response handling
-- Supports both message and document generation
-- PostgreSQL database integration
+4. **Access the service:**
+- **API Docs:** http://localhost:8005/docs
+- **Health Check:** http://localhost:8005/api/v2/health
+- **Service Info:** http://localhost:8005/api/v2/
 
-### Advanced Agent (`advanced_agent.py`)
-- Enhanced with tools and conditional routing
-- Weather tool (mock implementation)
-- Calculator tool
-- More complex graph with tool nodes
+## 📖 API Documentation
 
-## Development
+### 🏥 Health & Status
 
-- **Auto-reload**: Both FastAPI apps support auto-reload
-- **VS Code Tasks**: Use Ctrl+Shift+P → "Tasks: Run Task"
-- **Interactive Docs**: Visit http://localhost:8005/docs when running the API
+```http
+GET /api/v2/health
+GET /api/v2/
+GET /api/v2/agents/{agent_type}/status
+```
 
-## Next Steps
+### 📄 Document Operations
 
-1. Replace the mock weather tool with a real API
-2. Add more sophisticated tools
-3. Implement memory/persistence
-4. Add authentication to the API
-5. Deploy to production
+```http
+POST /api/v2/documents/generate
+POST /api/v2/documents/analyze
+```
 
-Enjoy building with LangGraph! 🚀
+**Example: Generate Employment Contract**
+```bash
+curl -X POST "http://localhost:8005/api/v2/documents/generate?user_id=1" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "document_type": "employment_contract",
+    "title": "Employment Agreement - John Doe",
+    "parameters": {
+      "employee_name": "John Doe",
+      "position": "Software Developer",
+      "salary": 75000,
+      "start_date": "2025-01-01",
+      "jurisdiction": "jordan"
+    }
+  }'
+```
+
+### 📋 Task Management
+
+```http
+POST /api/v2/tasks
+GET  /api/v2/tasks/{task_id}
+GET  /api/v2/tasks/user/{user_id}
+GET  /api/v2/tasks/{task_id}/progress
+POST /api/v2/tasks/{task_id}/cancel
+GET  /api/v2/tasks/{task_id}/stream
+```
+
+### 🤖 Available Agent Types
+
+| Agent Type | Description | Capabilities |
+|------------|-------------|--------------|
+| `legal_document_generator` | Document creation | Contracts, agreements, legal forms |
+| `document_analyzer` | Document analysis | Risk assessment, compliance review |
+| `document_classifier` | Document categorization | Auto-tagging, organization |
+
+## 🛠️ Development
+
+### 📁 Project Structure
+
+```
+src/
+├── api/                    # API routes and endpoints
+│   └── v2/                # API version 2
+├── agents/                # AI agent implementations
+├── core/                  # Core utilities and configuration
+├── integrations/          # External service integrations
+├── schemas/               # Pydantic models and schemas
+├── services/              # Business logic services
+└── main.py               # Application entry point
+
+tests/
+├── unit/                  # Unit tests
+├── integration/           # Integration tests
+└── conftest.py           # Test configuration
+
+docker/
+├── Dockerfile            # Docker image configuration
+└── docker-compose.yml    # Multi-service deployment
+```
+
+### 🔧 Configuration
+
+The service uses environment-based configuration with validation:
+
+```python
+# Core settings
+ENVIRONMENT=development
+APP_NAME=Adlaan Legal Agent
+APP_VERSION=3.0.0
+
+# API configuration
+HOST=0.0.0.0
+PORT=8005
+
+# Security
+SECRET_KEY=your-secret-key
+JWT_ALGORITHM=HS256
+
+# Backend integration
+BACKEND_URL=http://localhost:3000
+BACKEND_AUTH_TOKEN=your-token
+GRAPHQL_ENDPOINT=/graphql
+
+# AI configuration
+OPENAI_API_KEY=your-openai-key
+OPENAI_MODEL=gpt-4
+OPENAI_TEMPERATURE=0.1
+
+# Database
+DATABASE_URL=sqlite:///./data/adlaan_agent.db
+
+# Performance
+MAX_CONCURRENT_TASKS=10
+TASK_TIMEOUT_SECONDS=300
+```
+
+### 🏗️ Architecture Patterns
+
+#### Dependency Injection
+```python
+from src.core.dependencies import get_container
+from src.services.task_manager import TaskManagerService
+
+def get_task_manager() -> TaskManagerService:
+    container = get_container()
+    return container.get(TaskManagerService)
+```
+
+#### Service Layer Pattern
+```python
+from src.services.base import AsyncService
+
+class TaskManagerService(AsyncService):
+    async def create_task(self, agent_type, input_data, user_id):
+        # Business logic here
+        pass
+```
+
+#### Error Handling
+```python
+from src.core.exceptions import AdlaanAgentException, create_http_exception
+
+try:
+    result = await service.process(data)
+except AdlaanAgentException as e:
+    raise create_http_exception(e)
+```
+
+## 🧪 Testing
+
+### Run Tests
+
+```bash
+# Install test dependencies
+pip install pytest pytest-asyncio pytest-cov httpx
+
+# Run all tests
+pytest
+
+# Run with coverage
+pytest --cov=src --cov-report=html
+
+# Run specific test types
+pytest tests/unit/          # Unit tests only
+pytest tests/integration/   # Integration tests only
+```
+
+### Test Structure
+
+- **Unit Tests:** Test individual components in isolation
+- **Integration Tests:** Test API endpoints and service integration
+- **Mocking:** Comprehensive mocking of external dependencies
+
+## 🚀 Deployment
+
+### 🐳 Production Docker Deployment
+
+1. **Build production image:**
+```bash
+docker build -t adlaan-agent:latest .
+```
+
+2. **Deploy with compose:**
+```bash
+# Production environment
+ENVIRONMENT=production docker-compose -f docker-compose.prod.yml up -d
+```
+
+3. **Health monitoring:**
+```bash
+# Check service health
+curl http://your-domain:8005/api/v2/health
+
+# Monitor logs
+docker-compose logs -f adlaan-agent
+```
+
+### ☸️ Kubernetes Deployment
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: adlaan-agent
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: adlaan-agent
+  template:
+    metadata:
+      labels:
+        app: adlaan-agent
+    spec:
+      containers:
+      - name: adlaan-agent
+        image: adlaan-agent:latest
+        ports:
+        - containerPort: 8005
+        env:
+        - name: ENVIRONMENT
+          value: "production"
+        # ... other environment variables
+```
+
+### 🔒 Security Considerations
+
+- **API Keys:** Store sensitive keys in secrets management
+- **Authentication:** Implement proper JWT validation
+- **CORS:** Configure appropriate CORS policies
+- **Rate Limiting:** Add rate limiting for production
+- **HTTPS:** Use TLS termination at load balancer
+
+## 📊 Monitoring & Observability
+
+### 🏥 Health Checks
+
+- **Liveness:** `/api/v2/health`
+- **Readiness:** Service dependency checks
+- **Metrics:** Prometheus-compatible metrics (planned)
+
+### 📝 Logging
+
+Structured JSON logging with different levels:
+
+```python
+from src.core.logging import get_logger
+
+logger = get_logger(__name__)
+logger.info("Processing document", extra={
+    "document_type": "contract",
+    "user_id": 123
+})
+```
+
+### 📈 Performance Metrics
+
+- Task completion rates
+- Response times
+- Error rates
+- Resource utilization
+
+## 🤝 Contributing
+
+### Development Workflow
+
+1. **Fork and clone** the repository
+2. **Create feature branch:** `git checkout -b feature/amazing-feature`
+3. **Make changes** following code style guidelines
+4. **Add tests** for new functionality
+5. **Run tests:** `pytest`
+6. **Submit pull request**
+
+### Code Style
+
+- **Python:** Follow PEP 8 with Black formatting
+- **Type Hints:** Use comprehensive type annotations
+- **Documentation:** Document all public APIs
+- **Testing:** Maintain >90% test coverage
+
+## 📞 Support & Resources
+
+- **API Documentation:** http://localhost:8005/docs
+- **Health Status:** http://localhost:8005/api/v2/health
+- **GitHub Issues:** For bug reports and feature requests
+- **Discord:** Community support channel
+
+## 📄 License
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+---
+
+**Built with ❤️ by the Adlaan Team**
+
+*Last Updated: October 21, 2025*  
+*Version: 3.0.0*
