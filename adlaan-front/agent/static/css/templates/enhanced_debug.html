@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adlaan Legal AI - Enhanced Intelligence Layer</title>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .message-user { background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); }
+        .message-agent { background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%); }
+        .enhanced-response { background: linear-gradient(135deg, #fa709a 0%, #fee140 100%); border-left: 4px solid #fa709a; }
+        .intelligence-status { background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); border-left: 4px solid #a8edea; }
+        .processing-stage { background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); border-left: 4px solid #fcb69f; }
+        .intelligence-metadata { background: linear-gradient(135deg, #84fab0 0%, #8fd3f4 100%); border-left: 4px solid #84fab0; }
+        .scrollbar-thin { scrollbar-width: thin; scrollbar-color: #4b5563 #1f2937; }
+        .scrollbar-thin::-webkit-scrollbar { width: 6px; }
+        .scrollbar-thin::-webkit-scrollbar-track { background: #1f2937; }
+        .scrollbar-thin::-webkit-scrollbar-thumb { background: #4b5563; border-radius: 3px; }
+        
+        .agent-card { 
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+            border-radius: 12px; 
+            transition: transform 0.3s ease;
+        }
+        .agent-card:hover { transform: translateY(-2px); }
+        
+        .intelligence-panel {
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(56, 178, 172, 0.3);
+        }
+    </style>
+</head>
+<body class="bg-gradient-to-br from-gray-900 via-slate-800 to-gray-900 text-white min-h-screen">
+    <div class="container mx-auto p-6 max-w-7xl">
+        
+        <!-- Enhanced Header -->
+        <header class="text-center mb-8">
+            <div class="flex items-center justify-center mb-4">
+                <i class="fas fa-brain text-5xl text-cyan-400 mr-4 animate-pulse"></i>
+                <div>
+                    <h1 class="text-4xl font-bold bg-gradient-to-r from-cyan-400 to-blue-500 bg-clip-text text-transparent">
+                        Adlaan Legal AI
+                    </h1>
+                    <p class="text-xl text-cyan-300 mt-2">Enhanced Intelligence Layer</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap justify-center gap-4 mt-6">
+                <div class="intelligence-panel px-4 py-2 rounded-lg">
+                    <i class="fas fa-users text-green-400 mr-2"></i>
+                    <span class="text-sm">Multi-Agent System</span>
+                </div>
+                <div class="intelligence-panel px-4 py-2 rounded-lg">
+                    <i class="fas fa-database text-blue-400 mr-2"></i>
+                    <span class="text-sm">Knowledge Versioning</span>
+                </div>
+                <div class="intelligence-panel px-4 py-2 rounded-lg">
+                    <i class="fas fa-quote-right text-purple-400 mr-2"></i>
+                    <span class="text-sm">Auto-Citation</span>
+                </div>
+                <div class="intelligence-panel px-4 py-2 rounded-lg">
+                    <i class="fas fa-shield-check text-emerald-400 mr-2"></i>
+                    <span class="text-sm">Legal Validation</span>
+                </div>
+            </div>
+        </header>
+
+        <!-- Intelligence Status Panel -->
+        <div class="intelligence-panel rounded-xl p-6 mb-8">
+            <h3 class="text-xl font-semibold mb-4 flex items-center">
+                <i class="fas fa-brain text-cyan-400 mr-2"></i>
+                Intelligence Status
+            </h3>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-4" id="intelligence-status">
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-cyan-400" id="status-indicator">
+                        <i class="fas fa-spinner fa-spin"></i>
+                    </div>
+                    <div class="text-sm text-gray-300 mt-2">System Status</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-blue-400" id="agents-count">--</div>
+                    <div class="text-sm text-gray-300 mt-2">Active Agents</div>
+                </div>
+                <div class="text-center">
+                    <div class="text-2xl font-bold text-purple-400" id="jurisdictions-count">--</div>
+                    <div class="text-sm text-gray-300 mt-2">Jurisdictions</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Enhanced Chat Interface -->
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            
+            <!-- Main Chat Area -->
+            <div class="lg:col-span-2">
+                <div class="intelligence-panel rounded-xl p-6">
+                    <div class="flex items-center justify-between mb-6">
+                        <h3 class="text-xl font-semibold">
+                            <i class="fas fa-comments text-cyan-400 mr-2"></i>
+                            Enhanced Legal Consultation
+                        </h3>
+                        
+                        <!-- Chat Mode Toggle -->
+                        <div class="flex items-center space-x-3">
+                            <label class="flex items-center">
+                                <input type="radio" name="chat-mode" value="standard" class="mr-2" checked>
+                                <span class="text-sm">Standard</span>
+                            </label>
+                            <label class="flex items-center">
+                                <input type="radio" name="chat-mode" value="enhanced" class="mr-2">
+                                <span class="text-sm text-cyan-400">Enhanced AI</span>
+                            </label>
+                        </div>
+                    </div>
+                    
+                    <!-- Messages Area -->
+                    <div id="messages" class="h-96 overflow-y-auto scrollbar-thin bg-gray-800 rounded-lg p-4 mb-4 space-y-4">
+                        <div class="text-center text-gray-400 text-sm">
+                            <i class="fas fa-brain text-cyan-400 mr-2"></i>
+                            Enhanced Intelligence Layer Ready - Ask me anything about legal matters!
+                        </div>
+                    </div>
+
+                    <!-- Enhanced Input Area -->
+                    <div class="space-y-4">
+                        <!-- Legal Context Controls -->
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-3" id="legal-context" style="display: none;">
+                            <select id="jurisdiction" class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white text-sm">
+                                <option value="general">General</option>
+                                <option value="jordan">Jordan</option>
+                                <option value="uae">UAE</option>
+                                <option value="us">United States</option>
+                                <option value="uk">United Kingdom</option>
+                            </select>
+                            <select id="legal-domain" class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white text-sm">
+                                <option value="general">General</option>
+                                <option value="commercial">Commercial</option>
+                                <option value="employment">Employment</option>
+                                <option value="corporate">Corporate</option>
+                                <option value="contract">Contract</option>
+                                <option value="intellectual-property">IP Law</option>
+                            </select>
+                            <select id="task-type" class="bg-gray-700 border border-gray-600 rounded px-3 py-2 text-white text-sm">
+                                <option value="consultation">Consultation</option>
+                                <option value="document_creation">Document Creation</option>
+                                <option value="contract_review">Contract Review</option>
+                                <option value="legal_research">Legal Research</option>
+                                <option value="compliance_check">Compliance Check</option>
+                            </select>
+                        </div>
+                        
+                        <!-- Message Input -->
+                        <div class="flex space-x-3">
+                            <input type="text" id="messageInput" 
+                                   class="flex-1 bg-gray-700 border border-gray-600 rounded-lg px-4 py-3 text-white placeholder-gray-400 focus:outline-none focus:border-cyan-400"
+                                   placeholder="Ask me about legal matters, contracts, compliance, or document creation..."
+                                   onkeypress="if(event.key==='Enter') sendMessage()">
+                            <button onclick="sendMessage()" 
+                                    class="bg-gradient-to-r from-cyan-500 to-blue-500 hover:from-cyan-600 hover:to-blue-600 px-6 py-3 rounded-lg font-semibold transition-all duration-200 transform hover:scale-105">
+                                <i class="fas fa-paper-plane mr-2"></i>
+                                Send
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Intelligence Panel -->
+            <div class="lg:col-span-1">
+                <!-- Multi-Agent Status -->
+                <div class="intelligence-panel rounded-xl p-6 mb-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-users text-green-400 mr-2"></i>
+                        Agent Collaboration
+                    </h3>
+                    <div class="space-y-3" id="agent-status">
+                        <div class="agent-card p-3 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium">Research Agent</span>
+                                <div class="w-2 h-2 bg-gray-500 rounded-full" id="research-agent"></div>
+                            </div>
+                        </div>
+                        <div class="agent-card p-3 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium">Draft Agent</span>
+                                <div class="w-2 h-2 bg-gray-500 rounded-full" id="draft-agent"></div>
+                            </div>
+                        </div>
+                        <div class="agent-card p-3 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium">Review Agent</span>
+                                <div class="w-2 h-2 bg-gray-500 rounded-full" id="review-agent"></div>
+                            </div>
+                        </div>
+                        <div class="agent-card p-3 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium">Citation Agent</span>
+                                <div class="w-2 h-2 bg-gray-500 rounded-full" id="citation-agent"></div>
+                            </div>
+                        </div>
+                        <div class="agent-card p-3 rounded-lg">
+                            <div class="flex items-center justify-between">
+                                <span class="text-sm font-medium">Validation Agent</span>
+                                <div class="w-2 h-2 bg-gray-500 rounded-full" id="validation-agent"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Processing Metrics -->
+                <div class="intelligence-panel rounded-xl p-6">
+                    <h3 class="text-lg font-semibold mb-4 flex items-center">
+                        <i class="fas fa-chart-line text-blue-400 mr-2"></i>
+                        Processing Metrics
+                    </h3>
+                    <div class="space-y-4">
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Confidence Score</span>
+                                <span id="confidence-score">--</span>
+                            </div>
+                            <div class="w-full bg-gray-700 rounded-full h-2">
+                                <div id="confidence-bar" class="bg-gradient-to-r from-green-400 to-blue-500 h-2 rounded-full" style="width: 0%"></div>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Processing Time</span>
+                                <span id="processing-time">--</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Citations Generated</span>
+                                <span id="citations-count">--</span>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="flex justify-between text-sm mb-1">
+                                <span>Laws Consulted</span>
+                                <span id="laws-consulted">--</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let eventSource = null;
+        let currentThreadId = null;
+        let chatMode = 'standard';
+
+        // Initialize intelligence status on load
+        document.addEventListener('DOMContentLoaded', function() {
+            loadIntelligenceStatus();
+            
+            // Chat mode listeners
+            document.querySelectorAll('input[name="chat-mode"]').forEach(radio => {
+                radio.addEventListener('change', function() {
+                    chatMode = this.value;
+                    const legalContext = document.getElementById('legal-context');
+                    if (chatMode === 'enhanced') {
+                        legalContext.style.display = 'grid';
+                        updateAgentStatus('ready');
+                    } else {
+                        legalContext.style.display = 'none';
+                        updateAgentStatus('inactive');
+                    }
+                });
+            });
+        });
+
+        async function loadIntelligenceStatus() {
+            try {
+                const response = await fetch('/api/intelligence/status');
+                const data = await response.json();
+                
+                if (data.intelligence_enabled) {
+                    document.getElementById('status-indicator').innerHTML = '<i class="fas fa-check-circle text-green-400"></i>';
+                    document.getElementById('agents-count').textContent = '5';
+                    document.getElementById('jurisdictions-count').textContent = data.status.components.knowledge_base.split(' ')[0];
+                } else {
+                    document.getElementById('status-indicator').innerHTML = '<i class="fas fa-times-circle text-red-400"></i>';
+                }
+            } catch (error) {
+                console.error('Failed to load intelligence status:', error);
+                document.getElementById('status-indicator').innerHTML = '<i class="fas fa-exclamation-circle text-yellow-400"></i>';
+            }
+        }
+
+        function updateAgentStatus(status) {
+            const agents = ['research-agent', 'draft-agent', 'review-agent', 'citation-agent', 'validation-agent'];
+            const colors = {
+                'inactive': 'bg-gray-500',
+                'ready': 'bg-blue-400',
+                'active': 'bg-green-400 animate-pulse',
+                'complete': 'bg-green-500'
+            };
+            
+            agents.forEach(agent => {
+                const element = document.getElementById(agent);
+                element.className = `w-2 h-2 rounded-full ${colors[status] || 'bg-gray-500'}`;
+            });
+        }
+
+        function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+
+            // Get enhanced mode settings
+            const jurisdiction = document.getElementById('jurisdiction').value;
+            const legalDomain = document.getElementById('legal-domain').value;
+            const taskType = document.getElementById('task-type').value;
+
+            // Add user message to chat
+            addMessage(message, 'user');
+
+            // Close existing connection
+            if (eventSource) {
+                eventSource.close();
+            }
+
+            // Choose endpoint based on chat mode
+            const endpoint = chatMode === 'enhanced' ? '/api/enhanced-chat' : '/api/chat';
+            
+            // Prepare request data
+            const requestData = {
+                message: message,
+                thread_id: currentThreadId
+            };
+            
+            if (chatMode === 'enhanced') {
+                requestData.jurisdiction = jurisdiction;
+                requestData.legal_domain = legalDomain;
+                requestData.task_type = taskType;
+                requestData.enable_citations = true;
+                updateAgentStatus('active');
+            }
+
+            // Send request
+            fetch(endpoint, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(requestData)
+            }).then(response => {
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                let buffer = '';
+                let currentMessage = null;
+
+                function readStream() {
+                    reader.read().then(({done, value}) => {
+                        if (done) return;
+
+                        buffer += decoder.decode(value, {stream: true});
+                        const lines = buffer.split('\n');
+                        buffer = lines.pop();
+
+                        lines.forEach(line => {
+                            if (line.startsWith('data: ')) {
+                                try {
+                                    const data = JSON.parse(line.slice(6));
+                                    handleStreamMessage(data);
+                                } catch (e) {
+                                    console.error('Failed to parse stream data:', e);
+                                }
+                            }
+                        });
+
+                        readStream();
+                    });
+                }
+
+                readStream();
+            });
+
+            input.value = '';
+            input.focus();
+        }
+
+        function handleStreamMessage(data) {
+            switch (data.type) {
+                case 'start':
+                    currentThreadId = data.thread_id;
+                    break;
+
+                case 'intelligence_status':
+                    addMessage(data.content, 'intelligence-status', data.status);
+                    break;
+
+                case 'intelligence_init':
+                    addMessage(data.content, 'intelligence-status', data.details);
+                    break;
+
+                case 'processing_stage':
+                    addMessage(data.content, 'processing-stage', {
+                        stage: data.stage,
+                        total: data.total_stages
+                    });
+                    break;
+
+                case 'token':
+                    if (!window.currentMessage) {
+                        window.currentMessage = addMessage('', 'agent');
+                    }
+                    appendToMessage(window.currentMessage, data.content);
+                    break;
+
+                case 'intelligence_metadata':
+                    addMessage(data.content, 'intelligence-metadata', data.metadata);
+                    updateProcessingMetrics(data.metadata);
+                    updateAgentStatus('complete');
+                    break;
+
+                case 'end':
+                    window.currentMessage = null;
+                    if (chatMode === 'enhanced') {
+                        setTimeout(() => updateAgentStatus('ready'), 2000);
+                    }
+                    break;
+
+                case 'error':
+                    addMessage(`Error: ${data.content}`, 'error');
+                    updateAgentStatus('inactive');
+                    break;
+            }
+        }
+
+        function addMessage(content, type, metadata = null) {
+            const messagesDiv = document.getElementById('messages');
+            const messageDiv = document.createElement('div');
+            
+            let className = 'p-4 rounded-lg shadow-lg';
+            let icon = '';
+            
+            switch (type) {
+                case 'user':
+                    className += ' message-user text-white ml-8';
+                    icon = '<i class="fas fa-user mr-2"></i>';
+                    break;
+                case 'agent':
+                    className += ' message-agent text-gray-900 mr-8';
+                    icon = '<i class="fas fa-robot mr-2"></i>';
+                    break;
+                case 'intelligence-status':
+                    className += ' intelligence-status text-gray-900';
+                    icon = '<i class="fas fa-brain mr-2"></i>';
+                    break;
+                case 'processing-stage':
+                    className += ' processing-stage text-gray-900';
+                    icon = '<i class="fas fa-cog fa-spin mr-2"></i>';
+                    break;
+                case 'intelligence-metadata':
+                    className += ' intelligence-metadata text-gray-900';
+                    icon = '<i class="fas fa-chart-bar mr-2"></i>';
+                    break;
+                case 'error':
+                    className += ' bg-red-600 text-white';
+                    icon = '<i class="fas fa-exclamation-triangle mr-2"></i>';
+                    break;
+                default:
+                    className += ' bg-gray-700';
+            }
+            
+            messageDiv.className = className;
+            messageDiv.innerHTML = `${icon}<span class="message-content">${content}</span>`;
+            
+            if (metadata) {
+                const metaDiv = document.createElement('div');
+                metaDiv.className = 'text-xs mt-2 opacity-75';
+                metaDiv.textContent = JSON.stringify(metadata, null, 2);
+                messageDiv.appendChild(metaDiv);
+            }
+            
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            return messageDiv.querySelector('.message-content');
+        }
+
+        function appendToMessage(messageElement, text) {
+            if (messageElement) {
+                messageElement.textContent += text;
+                const messagesDiv = document.getElementById('messages');
+                messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            }
+        }
+
+        function updateProcessingMetrics(metadata) {
+            if (metadata.confidence_score !== undefined) {
+                document.getElementById('confidence-score').textContent = `${(metadata.confidence_score * 100).toFixed(1)}%`;
+                document.getElementById('confidence-bar').style.width = `${metadata.confidence_score * 100}%`;
+            }
+            
+            if (metadata.processing_time !== undefined) {
+                document.getElementById('processing-time').textContent = `${metadata.processing_time}s`;
+            }
+            
+            if (metadata.citations_count !== undefined) {
+                document.getElementById('citations-count').textContent = metadata.citations_count;
+            }
+            
+            if (metadata.laws_consulted !== undefined) {
+                document.getElementById('laws-consulted').textContent = metadata.laws_consulted;
+            }
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (eventSource) {
+                eventSource.close();
+            }
+        });
+    </script>
+</body>
+</html>

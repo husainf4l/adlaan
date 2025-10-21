@@ -67,10 +67,18 @@ export function HeroSection() {
             <ArrowRight className="ml-2 h-5 w-5" />
           </Button>
           <Button 
-            onClick={handleWatchDemo}
+            onClick={() => router.push("/agents-demo")}
             variant="outline" 
             size="lg" 
-            className="px-8 py-6 text-base font-medium border-2 border-primary/30 text-primary hover:bg-primary/10 hover:border-primary/60 transition-all duration-300"
+            className="px-8 py-6 text-base font-medium border-2 border-blue-500/30 text-blue-600 hover:bg-blue-500/10 hover:border-blue-500/60 transition-all duration-300"
+          >
+            Try AI Agents Demo
+          </Button>
+          <Button 
+            onClick={handleWatchDemo}
+            variant="ghost" 
+            size="lg" 
+            className="px-8 py-6 text-base font-medium text-muted-foreground hover:text-foreground transition-all duration-300"
           >
             Watch Demo
           </Button>

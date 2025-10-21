@@ -1,0 +1,872 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adlaan Legal AI Agent - Chat Interface</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+        
+        .main-container {
+            display: flex;
+            gap: 20px;
+            width: 100%;
+            max-width: 1400px;
+            height: 700px;
+        }
+        
+        .chat-container {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            flex: 1;
+            max-width: 800px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .document-panel {
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.1);
+            flex: 0 0 400px;
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .header {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            padding: 20px;
+            text-align: center;
+        }
+        
+        .header h1 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+        
+        .header p {
+            opacity: 0.9;
+            font-size: 14px;
+        }
+        
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f8fafc;
+        }
+        
+        .message {
+            margin-bottom: 15px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            max-width: 80%;
+            word-wrap: break-word;
+        }
+        
+        .user-message {
+            background: #4f46e5;
+            color: white;
+            margin-left: auto;
+        }
+        
+        .assistant-message {
+            background: white;
+            border: 1px solid #e2e8f0;
+            margin-right: auto;
+        }
+        
+        .input-area {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e2e8f0;
+        }
+        
+        .input-group {
+            display: flex;
+            gap: 10px;
+        }
+        
+        #messageInput {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e2e8f0;
+            border-radius: 25px;
+            font-size: 16px;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+        
+        #messageInput:focus {
+            border-color: #4f46e5;
+        }
+        
+        #sendButton {
+            background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 100%);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            font-size: 16px;
+            font-weight: 600;
+            transition: transform 0.2s;
+        }
+        
+        #sendButton:hover {
+            transform: translateY(-1px);
+        }
+        
+        #sendButton:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+        
+        .thinking-panel {
+            padding: 15px 20px;
+            background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+            border-top: 1px solid #e2e8f0;
+            display: none;
+        }
+        
+        .thinking-stage {
+            display: flex;
+            align-items: center;
+            padding: 8px 0;
+            color: #0369a1;
+            font-size: 14px;
+        }
+        
+        .thinking-stage.active {
+            font-weight: 600;
+        }
+        
+        .thinking-stage .icon {
+            margin-right: 8px;
+            min-width: 20px;
+        }
+        
+        .thinking-stage .spinner {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border: 2px solid #e0f2fe;
+            border-top: 2px solid #0369a1;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-right: 8px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .document-header {
+            background: linear-gradient(135deg, #059669 0%, #047857 100%);
+            color: white;
+            padding: 15px 20px;
+            font-weight: 600;
+        }
+        
+        .document-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            font-family: 'Courier New', monospace;
+            font-size: 12px;
+            line-height: 1.6;
+            background: #f8fafc;
+        }
+        
+        .document-section {
+            margin-bottom: 15px;
+            padding: 15px;
+            background: white;
+            border-radius: 8px;
+            border-left: 4px solid #059669;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        
+        .document-section h3 {
+            color: #047857;
+            margin-bottom: 10px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .document-header-info {
+            background: linear-gradient(135deg, #f0fdf4 0%, #dcfce7 100%);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 15px;
+            border: 1px solid #bbf7d0;
+        }
+        
+        .document-clause {
+            margin: 12px 0;
+            padding: 10px;
+            background: #f9fafb;
+            border-left: 3px solid #d1d5db;
+            border-radius: 4px;
+        }
+        
+        .document-signature {
+            margin-top: 30px;
+            padding: 15px;
+            background: #fffbeb;
+            border: 1px solid #fed7aa;
+            border-radius: 8px;
+        }
+        
+        .document-footer {
+            margin-top: 20px;
+            padding: 10px;
+            background: #f3f4f6;
+            border-radius: 6px;
+            font-size: 11px;
+            color: #6b7280;
+            text-align: center;
+        }
+        
+        .document-actions {
+            padding: 15px 20px;
+            border-top: 1px solid #e2e8f0;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .doc-button {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 600;
+            transition: all 0.2s;
+        }
+        
+        .doc-button.primary {
+            background: #059669;
+            color: white;
+        }
+        
+        .doc-button.secondary {
+            background: #e5e7eb;
+            color: #374151;
+        }
+        
+        .doc-button:hover {
+            transform: translateY(-1px);
+        }
+        
+        .status {
+            padding: 8px 12px;
+            margin: 5px 0;
+            border-radius: 8px;
+            background: #f0f9ff;
+            border-left: 4px solid #0ea5e9;
+            font-size: 12px;
+            color: #0369a1;
+        }
+        
+        .error {
+            background: #fef2f2;
+            border-left-color: #ef4444;
+            color: #dc2626;
+        }
+    </style>
+</head>
+<body>
+    <div class="main-container">
+        <!-- Chat Panel -->
+        <div class="chat-container">
+            <div class="header">
+                <h1>🤖 Adlaan Legal AI Agent</h1>
+                <p>Your AI-powered legal assistant for document creation and consultation</p>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="assistant-message">
+                    <strong>🤖 Legal Assistant:</strong><br>
+                    Hello! I'm your AI legal assistant. I can help you with:
+                    <ul style="margin: 10px 0 0 20px;">
+                        <li>Legal document creation and review</li>
+                        <li>Legal research and case analysis</li>
+                        <li>Jurisdiction-specific legal advice</li>
+                        <li>Contract drafting and review</li>
+                        <li>Compliance and regulatory questions</li>
+                    </ul>
+                    What can I help you with today?
+                </div>
+            </div>
+            
+            <div class="thinking-panel" id="thinkingPanel">
+                <div class="thinking-stage active" id="simple-thinking">
+                    <span class="spinner"></span>
+                    <span>🤖 AI is thinking...</span>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <div class="input-group">
+                    <input 
+                        type="text" 
+                        id="messageInput" 
+                        placeholder="Ask me about legal matters, document creation, or any legal questions..."
+                        onkeypress="handleKeyPress(event)"
+                    >
+                    <button id="sendButton" onclick="sendMessage()">Send</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Document Generation Panel -->
+        <div class="document-panel">
+            <div class="document-header">
+                <div>📄 Legal Document Generator</div>
+                <div style="font-size: 12px; opacity: 0.8; margin-top: 5px;" id="docStatus">Ready to generate</div>
+            </div>
+            
+            <div class="document-content" id="documentContent">
+                <div style="text-align: center; color: #6b7280; padding: 20px;">
+                    <div style="font-size: 48px; margin-bottom: 15px;">⚖️</div>
+                    <div style="font-weight: 600; margin-bottom: 10px;">Legal Document Generator</div>
+                    <div style="font-size: 13px; line-height: 1.5;">
+                        Documents will automatically appear here when you request:
+                        <ul style="text-align: left; margin: 15px 0; padding-left: 20px;">
+                            <li>Contracts & Agreements</li>
+                            <li>Legal Memorandums</li>
+                            <li>Letters & Notices</li>
+                            <li>Policies & Procedures</li>
+                            <li>Legal Forms</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Document Metadata Panel -->
+            <div id="documentMeta" style="display: none; padding: 15px 20px; background: #f8fafc; border-top: 1px solid #e2e8f0;">
+                <div style="font-size: 12px; color: #6b7280;">
+                    <div><strong>Document Type:</strong> <span id="docType">-</span></div>
+                    <div><strong>Word Count:</strong> <span id="wordCount">0</span></div>
+                    <div><strong>Generated:</strong> <span id="docTime">-</span></div>
+                    <div><strong>Jurisdiction:</strong> <span id="docJurisdiction">General</span></div>
+                </div>
+            </div>
+            
+            <div class="document-actions">
+                <button class="doc-button primary" onclick="downloadDocument()">📥 Download</button>
+                <button class="doc-button secondary" onclick="copyDocument()">📋 Copy</button>
+                <button class="doc-button secondary" onclick="editDocument()">✏️ Edit</button>
+                <button class="doc-button secondary" onclick="clearDocument()">🗑️ Clear</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentThreadId = null;
+        let currentDocument = '';
+        
+        function handleKeyPress(event) {
+            if (event.key === 'Enter') {
+                sendMessage();
+            }
+        }
+        
+        function showThinking() {
+            document.getElementById('thinkingPanel').style.display = 'block';
+            document.getElementById('docStatus').textContent = 'AI Processing...';
+        }
+        
+        function hideThinking() {
+            document.getElementById('thinkingPanel').style.display = 'none';
+            document.getElementById('docStatus').textContent = 'Ready to generate';
+        }
+        
+        function updateDocument(content, title = 'Legal Document') {
+            const docContent = document.getElementById('documentContent');
+            const docMeta = document.getElementById('documentMeta');
+            const timestamp = new Date().toLocaleString();
+            const wordCount = content.split(/\s+/).length;
+            
+            currentDocument = content;
+            
+            // Detect document type
+            let docType = 'Legal Document';
+            if (content.toLowerCase().includes('agreement') || content.toLowerCase().includes('contract')) {
+                docType = 'Contract/Agreement';
+            } else if (content.toLowerCase().includes('memorandum') || content.toLowerCase().includes('memo')) {
+                docType = 'Legal Memorandum';
+            } else if (content.toLowerCase().includes('letter') || content.toLowerCase().includes('notice')) {
+                docType = 'Legal Letter/Notice';
+            } else if (content.toLowerCase().includes('policy') || content.toLowerCase().includes('procedure')) {
+                docType = 'Policy/Procedure';
+            }
+            
+            // Format the document with proper structure
+            const formattedContent = formatLegalDocument(content, docType);
+            
+            docContent.innerHTML = `
+                <div class="document-header-info">
+                    <h3 style="margin: 0 0 8px 0; color: #065f46;">📄 ${title}</h3>
+                    <div style="font-size: 12px; color: #047857;">
+                        <strong>Type:</strong> ${docType} | <strong>Generated:</strong> ${timestamp}
+                    </div>
+                </div>
+                
+                <div class="document-section">
+                    <div style="font-family: 'Times New Roman', serif; font-size: 13px; line-height: 1.7; color: #1f2937;">
+                        ${formattedContent}
+                    </div>
+                </div>
+                
+                <div class="document-footer">
+                    Generated by Adlaan Legal AI Agent | This document should be reviewed by a qualified attorney
+                </div>
+            `;
+            
+            // Update metadata
+            document.getElementById('docType').textContent = docType;
+            document.getElementById('wordCount').textContent = wordCount.toLocaleString();
+            document.getElementById('docTime').textContent = timestamp;
+            document.getElementById('docJurisdiction').textContent = detectJurisdiction(content);
+            document.getElementById('docStatus').textContent = 'Document Generated';
+            
+            // Show metadata panel
+            docMeta.style.display = 'block';
+        }
+        
+        function formatLegalDocument(content, docType) {
+            let formatted = content;
+            
+            // Add proper legal document formatting
+            formatted = formatted.replace(/\n\n/g, '</p><p style="margin: 15px 0;">');
+            formatted = formatted.replace(/\n/g, '<br>');
+            formatted = '<p style="margin: 15px 0;">' + formatted + '</p>';
+            
+            // Format common legal patterns
+            formatted = formatted.replace(/WHEREAS/g, '<strong>WHEREAS</strong>');
+            formatted = formatted.replace(/THEREFORE/g, '<strong>THEREFORE</strong>');
+            formatted = formatted.replace(/Article \d+/g, '<div class="document-clause"><strong>$&</strong>');
+            formatted = formatted.replace(/Section \d+/g, '<div class="document-clause"><strong>$&</strong>');
+            formatted = formatted.replace(/\d+\./g, '<strong>$&</strong>');
+            
+            // Add signature section if detected
+            if (formatted.includes('Signature') || formatted.includes('Date:') || formatted.includes('_______')) {
+                const signatureMatch = formatted.match(/(Signature.*?Date:.*?)(<\/p>|$)/s);
+                if (signatureMatch) {
+                    const signaturePart = signatureMatch[1];
+                    formatted = formatted.replace(signaturePart, `<div class="document-signature">${signaturePart}</div>`);
+                }
+            }
+            
+            return formatted;
+        }
+        
+        function detectJurisdiction(content) {
+            const jurisdictions = {
+                'jordan': 'Jordan',
+                'uae': 'UAE',
+                'saudi': 'Saudi Arabia',
+                'united states': 'United States',
+                'uk': 'United Kingdom',
+                'eu': 'European Union'
+            };
+            
+            const contentLower = content.toLowerCase();
+            for (let [key, value] of Object.entries(jurisdictions)) {
+                if (contentLower.includes(key)) {
+                    return value;
+                }
+            }
+            return 'General';
+        }
+        
+        function extractPartialMessage(rawResponse) {
+            // Extract message content from incomplete JSON
+            const messageMatch = rawResponse.match(/"type":\s*"message",\s*"content":\s*"([^"]*)/);
+            if (messageMatch) {
+                return messageMatch[1].replace(/\\n/g, '\n').replace(/\\"/g, '"');
+            }
+            return null;
+        }
+        
+        function extractPartialDocument(rawResponse) {
+            // Extract document content from incomplete JSON
+            const docMatch = rawResponse.match(/"type":\s*"doc",\s*"content":\s*"([^"]*)/);
+            if (docMatch) {
+                return docMatch[1].replace(/\\n/g, '\n').replace(/\\"/g, '"');
+            }
+            return null;
+        }
+        
+        function updateDocumentStreaming(content) {
+            const docContent = document.getElementById('documentContent');
+            const docMeta = document.getElementById('documentMeta');
+            const timestamp = new Date().toLocaleString();
+            
+            currentDocument = content;
+            
+            // Detect document type
+            let docType = 'Legal Document';
+            if (content.toLowerCase().includes('agreement') || content.toLowerCase().includes('contract')) {
+                docType = 'Contract/Agreement';
+            } else if (content.toLowerCase().includes('memorandum') || content.toLowerCase().includes('memo')) {
+                docType = 'Legal Memorandum';
+            } else if (content.toLowerCase().includes('letter') || content.toLowerCase().includes('notice')) {
+                docType = 'Legal Letter/Notice';
+            } else if (content.toLowerCase().includes('policy') || content.toLowerCase().includes('procedure')) {
+                docType = 'Policy/Procedure';
+            }
+            
+            // Format the document with proper structure (streaming version)
+            const formattedContent = formatLegalDocument(content, docType);
+            
+            docContent.innerHTML = `
+                <div class="document-header-info">
+                    <h3 style="margin: 0 0 8px 0; color: #065f46;">📄 Streaming Legal Document</h3>
+                    <div style="font-size: 12px; color: #047857;">
+                        <strong>Type:</strong> ${docType} | <strong>Status:</strong> Generating...
+                    </div>
+                </div>
+                
+                <div class="document-section">
+                    <div style="font-family: 'Times New Roman', serif; font-size: 13px; line-height: 1.7; color: #1f2937;">
+                        ${formattedContent}
+                    </div>
+                </div>
+                
+                <div class="document-footer">
+                    Streaming by Adlaan Legal AI Agent | This document should be reviewed by a qualified attorney
+                </div>
+            `;
+            
+            // Update status
+            document.getElementById('docStatus').textContent = 'Streaming document...';
+            
+            // Show metadata panel
+            docMeta.style.display = 'block';
+        }
+        
+        function extractDocumentFromResponse(response) {
+            try {
+                // First try to parse JSON and extract doc type
+                const parsed = JSON.parse(response);
+                if (Array.isArray(parsed)) {
+                    for (let item of parsed) {
+                        if (item.type === 'doc') {
+                            return item.content;
+                        }
+                    }
+                }
+            } catch (e) {
+                // If not JSON, look for document patterns
+            }
+            
+            // Look for document patterns in the response
+            const docPatterns = [
+                /```(?:legal|document|contract|memo|agreement)\n(.*?)```/gs,
+                /"doc"[^"]*"content":\s*"([^"]+)"/gs,
+                /DOCUMENT:\s*(.*?)(?:\n\n|$)/s,
+                /CONTRACT:\s*(.*?)(?:\n\n|$)/s,
+                /AGREEMENT:\s*(.*?)(?:\n\n|$)/s,
+                /MEMORANDUM:\s*(.*?)(?:\n\n|$)/s
+            ];
+            
+            for (let pattern of docPatterns) {
+                const match = response.match(pattern);
+                if (match) {
+                    return match[1].trim().replace(/\\n/g, '\n').replace(/\\"/g, '"');
+                }
+            }
+            
+            // If response looks like a complete legal document
+            if (response.length > 300 && (
+                response.includes('WHEREAS') || 
+                response.includes('THEREFORE') || 
+                response.includes('Article') || 
+                response.includes('Section') ||
+                response.includes('TO WHOM IT MAY CONCERN') ||
+                response.includes('This Agreement') ||
+                response.includes('RENTAL AGREEMENT') ||
+                response.includes('LICENSE APPLICATION')
+            )) {
+                return processAIResponse(response);
+            }
+            
+            return null;
+        }
+        
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            
+            if (!message) return;
+            
+            // Add user message to chat
+            addMessage(message, 'user');
+            input.value = '';
+            
+            // Show simple thinking indicator
+            showThinking();
+            document.getElementById('sendButton').disabled = true;
+            
+            try {
+                // Generate thread ID if not exists
+                if (!currentThreadId) {
+                    currentThreadId = generateUUID();
+                }
+                
+                // Create EventSource for streaming
+                const eventSource = new EventSource(`/chat?message=${encodeURIComponent(message)}&thread_id=${currentThreadId}`);
+                
+                let assistantMessage = '';
+                let documentContent = '';
+                let messageContainer = null;
+                let documentStreaming = false;
+                
+                eventSource.onmessage = function(event) {
+                    const data = JSON.parse(event.data);
+                    
+                    if (data.type === 'start') {
+                        // Hide thinking panel
+                        hideThinking();
+                        // Create new assistant message container
+                        messageContainer = addMessage('', 'assistant');
+                    } else if (data.type === 'token') {
+                        // Append token to accumulated response
+                        assistantMessage += data.content;
+                        
+                        // Try to parse the accumulated content as JSON
+                        try {
+                            const parsed = JSON.parse(assistantMessage);
+                            if (Array.isArray(parsed)) {
+                                let messageText = '';
+                                let docText = '';
+                                
+                                for (let item of parsed) {
+                                    if (item.type === 'message') {
+                                        messageText += item.content + '\n\n';
+                                    } else if (item.type === 'doc') {
+                                        docText = item.content;
+                                        documentStreaming = true;
+                                    }
+                                }
+                                
+                                // Update chat with message content only
+                                if (messageContainer && messageText.trim()) {
+                                    messageContainer.innerHTML = '<strong>🤖 Legal Assistant:</strong><br>' + messageText.trim();
+                                }
+                                
+                                // Stream document content directly to document panel
+                                if (docText && documentStreaming) {
+                                    updateDocumentStreaming(docText);
+                                }
+                            }
+                        } catch (e) {
+                            // If not complete JSON yet, try to extract partial content
+                            const partialMessage = extractPartialMessage(assistantMessage);
+                            const partialDoc = extractPartialDocument(assistantMessage);
+                            
+                            if (partialMessage && messageContainer) {
+                                messageContainer.innerHTML = '<strong>🤖 Legal Assistant:</strong><br>' + partialMessage;
+                            }
+                            
+                            if (partialDoc) {
+                                documentStreaming = true;
+                                updateDocumentStreaming(partialDoc);
+                            }
+                        }
+                    } else if (data.type === 'intelligence_status') {
+                        // Show intelligence status briefly
+                        addStatusMessage(data.content, false);
+                    } else if (data.type === 'error') {
+                        hideThinking();
+                        addStatusMessage('Error: ' + data.content, true);
+                        eventSource.close();
+                    } else if (data.type === 'end') {
+                        // Final processing - ensure complete content is displayed
+                        try {
+                            const finalParsed = JSON.parse(assistantMessage);
+                            if (Array.isArray(finalParsed)) {
+                                let finalMessage = '';
+                                let finalDoc = '';
+                                
+                                for (let item of finalParsed) {
+                                    if (item.type === 'message') {
+                                        finalMessage += item.content + '\n\n';
+                                    } else if (item.type === 'doc') {
+                                        finalDoc = item.content;
+                                    }
+                                }
+                                
+                                if (messageContainer && finalMessage.trim()) {
+                                    messageContainer.innerHTML = '<strong>🤖 Legal Assistant:</strong><br>' + finalMessage.trim();
+                                }
+                                
+                                if (finalDoc) {
+                                    updateDocument(finalDoc, 'AI Generated Legal Document');
+                                    document.getElementById('docStatus').textContent = 'Document Generated';
+                                }
+                            }
+                        } catch (e) {
+                            // Fallback processing
+                            const cleanedMessage = processAIResponse(assistantMessage);
+                            if (messageContainer && cleanedMessage) {
+                                messageContainer.innerHTML = '<strong>🤖 Legal Assistant:</strong><br>' + cleanedMessage;
+                            }
+                            
+                            const documentContent = extractDocumentFromResponse(assistantMessage);
+                            if (documentContent) {
+                                updateDocument(documentContent, 'AI Generated Legal Document');
+                            }
+                        }
+                        eventSource.close();
+                    }
+                };
+                
+                eventSource.onerror = function(event) {
+                    hideThinking();
+                    document.getElementById('sendButton').disabled = false;
+                    addStatusMessage('Connection error. Please try again.', true);
+                    eventSource.close();
+                };
+                
+                eventSource.addEventListener('end', function() {
+                    document.getElementById('sendButton').disabled = false;
+                });
+                
+            } catch (error) {
+                document.getElementById('thinking').style.display = 'none';
+                document.getElementById('sendButton').disabled = false;
+                addStatusMessage('Error: ' + error.message, true);
+            }
+        }
+        
+        function addMessage(content, type) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${type}-message`;
+            
+            if (type === 'user') {
+                messageDiv.innerHTML = '<strong>👤 You:</strong><br>' + content;
+            } else {
+                messageDiv.innerHTML = '<strong>🤖 Legal Assistant:</strong><br>' + content;
+            }
+            
+            messagesContainer.appendChild(messageDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+            
+            return messageDiv;
+        }
+        
+        function addStatusMessage(content, isError = false) {
+            const messagesContainer = document.getElementById('chatMessages');
+            const statusDiv = document.createElement('div');
+            statusDiv.className = `status ${isError ? 'error' : ''}`;
+            statusDiv.innerHTML = content;
+            
+            messagesContainer.appendChild(statusDiv);
+            messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        }
+        
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                var r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+        
+        function downloadDocument() {
+            if (!currentDocument) {
+                alert('No document to download');
+                return;
+            }
+            
+            const blob = new Blob([currentDocument], { type: 'text/plain' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `legal-document-${new Date().toISOString().split('T')[0]}.txt`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+        
+        function copyDocument() {
+            if (!currentDocument) {
+                alert('No document to copy');
+                return;
+            }
+            
+            navigator.clipboard.writeText(currentDocument).then(() => {
+                const btn = event.target;
+                const originalText = btn.innerHTML;
+                btn.innerHTML = '✅ Copied!';
+                setTimeout(() => {
+                    btn.innerHTML = originalText;
+                }, 2000);
+            }).catch(() => {
+                alert('Failed to copy document');
+            });
+        }
+        
+        function editDocument() {
+            if (!currentDocument) {
+                alert('No document to edit');
+                return;
+            }
+            
+            const newContent = prompt('Edit document content:', currentDocument);
+            if (newContent && newContent.trim()) {
+                updateDocument(newContent.trim(), 'Edited Legal Document');
+            }
+        }
+        
+        function clearDocument() {
+            currentDocument = '';
+            document.getElementById('documentMeta').style.display = 'none';
+            document.getElementById('docStatus').textContent = 'Ready to generate';
+            document.getElementById('documentContent').innerHTML = `
+                <div style="text-align: center; color: #6b7280; padding: 20px;">
+                    <div style="font-size: 48px; margin-bottom: 15px;">⚖️</div>
+                    <div style="font-weight: 600; margin-bottom: 10px;">Legal Document Generator</div>
+                    <div style="font-size: 13px; line-height: 1.5;">
+                        Documents will automatically appear here when you request:
+                        <ul style="text-align: left; margin: 15px 0; padding-left: 20px;">
+                            <li>Contracts & Agreements</li>
+                            <li>Legal Memorandums</li>
+                            <li>Letters & Notices</li>
+                            <li>Policies & Procedures</li>
+                            <li>Legal Forms</li>
+                        </ul>
+                    </div>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>

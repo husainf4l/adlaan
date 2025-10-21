@@ -4,11 +4,10 @@ const ADLAAN_AGENT_BASE_URL = process.env.ADLAAN_AGENT_URL || 'http://adlaan.com
 
 // Agent endpoints configuration
 const AGENT_ENDPOINTS = {
-  documentGenerator: '/ai/agents/document-generator',
-  documentAnalyzer: '/ai/agents/document-analyzer', 
-  documentClassifier: '/ai/agents/document-classifier',
-  taskManager: '/ai/agents/task-manager',
-  legalAssistant: '/ai/agents/legal-assistant',
+  legalDocGenerator: '/ai/agents/legal-doc-generator',
+  docAnalyzer: '/ai/agents/doc-analyzer', 
+  docClassifier: '/ai/agents/doc-classifier',
+  legalResearch: '/ai/agents/legal-research',
   contractReviewer: '/ai/agents/contract-reviewer'
 };
 
@@ -27,10 +26,10 @@ interface AgentResponse {
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: { agentType: string } }
+  { params }: { params: Promise<{ agentType: string }> }
 ): Promise<NextResponse<AgentResponse>> {
   try {
-    const { agentType } = params;
+    const { agentType } = await params;
     const body: AgentRequest = await request.json();
     
     // Validate agent type
@@ -119,10 +118,10 @@ export async function POST(
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: { agentType: string } }
+  { params }: { params: Promise<{ agentType: string }> }
 ): Promise<NextResponse<AgentResponse>> {
   try {
-    const { agentType } = params;
+    const { agentType } = await params;
     const { searchParams } = new URL(request.url);
     const taskId = searchParams.get('taskId');
     const status = searchParams.get('status');

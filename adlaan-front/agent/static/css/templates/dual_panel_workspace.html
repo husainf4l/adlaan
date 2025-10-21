@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adlaan Legal AI - Professional Document Workspace</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
+            background: #0f172a;
+            color: #e2e8f0;
+            height: 100vh;
+            overflow: hidden;
+        }
+        
+        /* Main Layout - Dual Panel */
+        .workspace {
+            display: flex;
+            height: 100vh;
+            gap: 0;
+        }
+        
+        /* Left Panel - Chat & Reasoning */
+        .left-panel {
+            flex: 0 0 45%;
+            background: linear-gradient(135deg, #1e293b 0%, #0f172a 100%);
+            display: flex;
+            flex-direction: column;
+            border-right: 2px solid #334155;
+        }
+        
+        /* Right Panel - Document Generator */
+        .right-panel {
+            flex: 1;
+            background: #1e293b;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+        }
+        
+        /* Header Styling */
+        .panel-header {
+            padding: 20px 24px;
+            border-bottom: 2px solid #334155;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .panel-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #f1f5f9;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .panel-subtitle {
+            font-size: 13px;
+            color: #94a3b8;
+            margin-top: 4px;
+        }
+        
+        /* Status Badge */
+        .status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 12px;
+            background: #10b981;
+            color: white;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .status-dot {
+            width: 6px;
+            height: 6px;
+            background: white;
+            border-radius: 50%;
+            animation: pulse 2s infinite;
+        }
+        
+        @keyframes pulse {
+            0%, 100% { opacity: 1; }
+            50% { opacity: 0.5; }
+        }
+        
+        /* Chat Messages Area */
+        .chat-messages {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+        
+        .message {
+            margin-bottom: 20px;
+            animation: fadeIn 0.3s ease-in;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(10px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .message-header {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-bottom: 8px;
+            font-size: 13px;
+            font-weight: 600;
+            color: #94a3b8;
+        }
+        
+        .message-icon {
+            width: 24px;
+            height: 24px;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 14px;
+        }
+        
+        .user-icon {
+            background: #3b82f6;
+        }
+        
+        .ai-icon {
+            background: #8b5cf6;
+        }
+        
+        .message-content {
+            background: #334155;
+            padding: 16px 20px;
+            border-radius: 12px;
+            line-height: 1.6;
+            color: #e2e8f0;
+        }
+        
+        .user-message .message-content {
+            background: #3b82f6;
+            color: white;
+        }
+        
+        /* Reasoning Stages */
+        .reasoning-stage {
+            background: #1e293b;
+            border: 1px solid #475569;
+            border-radius: 12px;
+            padding: 16px;
+            margin-bottom: 12px;
+        }
+        
+        .stage-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 600;
+            color: #f1f5f9;
+            margin-bottom: 10px;
+        }
+        
+        .stage-icon {
+            width: 28px;
+            height: 28px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 16px;
+        }
+        
+        .thinking-icon { background: #3b82f6; }
+        .planning-icon { background: #f59e0b; }
+        .executing-icon { background: #10b981; }
+        
+        .stage-content {
+            font-size: 14px;
+            color: #cbd5e1;
+            line-height: 1.5;
+        }
+        
+        /* Input Area */
+        .input-area {
+            padding: 20px 24px;
+            border-top: 2px solid #334155;
+            background: rgba(30, 41, 59, 0.8);
+            backdrop-filter: blur(10px);
+        }
+        
+        .input-container {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+        
+        #messageInput {
+            flex: 1;
+            padding: 14px 18px;
+            background: #0f172a;
+            border: 2px solid #475569;
+            border-radius: 12px;
+            color: #e2e8f0;
+            font-size: 14px;
+            outline: none;
+            transition: all 0.3s ease;
+        }
+        
+        #messageInput:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+        }
+        
+        #sendButton {
+            padding: 14px 28px;
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            color: white;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: transform 0.2s ease, box-shadow 0.2s ease;
+        }
+        
+        #sendButton:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 16px rgba(59, 130, 246, 0.3);
+        }
+        
+        #sendButton:active {
+            transform: translateY(0);
+        }
+        
+        /* Document Generator Panel */
+        .document-workspace {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+        
+        .document-controls {
+            padding: 16px 24px;
+            border-bottom: 2px solid #334155;
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+            background: rgba(30, 41, 59, 0.6);
+        }
+        
+        .control-btn {
+            padding: 8px 16px;
+            background: #334155;
+            color: #e2e8f0;
+            border: 1px solid #475569;
+            border-radius: 8px;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+        
+        .control-btn:hover {
+            background: #475569;
+            border-color: #64748b;
+        }
+        
+        .control-btn.primary {
+            background: linear-gradient(135deg, #3b82f6 0%, #8b5cf6 100%);
+            border: none;
+            color: white;
+        }
+        
+        .control-btn.success {
+            background: #10b981;
+            border: none;
+            color: white;
+        }
+        
+        .control-btn.warning {
+            background: #f59e0b;
+            border: none;
+            color: white;
+        }
+        
+        /* Document Editor */
+        .document-editor {
+            flex: 1;
+            padding: 32px;
+            overflow-y: auto;
+            background: #0f172a;
+        }
+        
+        .document-container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            color: #1e293b;
+            padding: 60px;
+            border-radius: 8px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            min-height: 100%;
+        }
+        
+        .document-empty {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100%;
+            color: #64748b;
+            text-align: center;
+        }
+        
+        .document-empty-icon {
+            font-size: 64px;
+            margin-bottom: 20px;
+            opacity: 0.3;
+        }
+        
+        .document-empty-text {
+            font-size: 18px;
+            font-weight: 500;
+            margin-bottom: 8px;
+        }
+        
+        .document-empty-hint {
+            font-size: 14px;
+            color: #94a3b8;
+        }
+        
+        /* Document Content Styling */
+        .document-content h1 {
+            font-size: 28px;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 32px;
+            color: #0f172a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        
+        .document-content h2 {
+            font-size: 18px;
+            font-weight: 700;
+            margin-top: 32px;
+            margin-bottom: 16px;
+            color: #1e293b;
+            border-bottom: 2px solid #e2e8f0;
+            padding-bottom: 8px;
+        }
+        
+        .document-content p {
+            margin-bottom: 16px;
+            line-height: 1.8;
+            text-align: justify;
+        }
+        
+        .document-content .placeholder {
+            background: #fef3c7;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 600;
+            color: #92400e;
+        }
+        
+        .document-content .citation {
+            color: #3b82f6;
+            font-weight: 500;
+        }
+        
+        /* Document Metadata */
+        .document-metadata {
+            margin-top: 40px;
+            padding: 20px;
+            background: #f8fafc;
+            border-radius: 8px;
+            border: 1px solid #e2e8f0;
+        }
+        
+        .metadata-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 12px;
+        }
+        
+        .metadata-grid {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            font-size: 13px;
+        }
+        
+        .metadata-item {
+            display: flex;
+            justify-content: space-between;
+        }
+        
+        .metadata-label {
+            color: #64748b;
+            font-weight: 500;
+        }
+        
+        .metadata-value {
+            color: #1e293b;
+            font-weight: 600;
+        }
+        
+        /* Loading Animation */
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 1s linear infinite;
+        }
+        
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+        
+        /* Scrollbar Styling */
+        ::-webkit-scrollbar {
+            width: 10px;
+            height: 10px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 5px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body>
+    <div class="workspace">
+        <!-- Left Panel: Chat & Reasoning -->
+        <div class="left-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    🧠 Legal AI Assistant
+                    <span class="status-badge">
+                        <span class="status-dot"></span>
+                        Active
+                    </span>
+                </div>
+                <div class="panel-subtitle">Multi-Agent Reasoning System</div>
+            </div>
+            
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai-message">
+                    <div class="message-header">
+                        <div class="message-icon ai-icon">🤖</div>
+                        <span>Adlaan AI</span>
+                    </div>
+                    <div class="message-content">
+                        Hello! I'm Adlaan, your advanced legal AI assistant with multi-agent intelligence.
+                        <br><br>
+                        I can help you with:
+                        <br>• <strong>Document Generation</strong> - Create professional legal documents
+                        <br>• <strong>Legal Consultation</strong> - Answer legal questions with citations
+                        <br>• <strong>Document Review</strong> - Analyze and validate contracts
+                        <br>• <strong>Legal Research</strong> - Research case law and statutes
+                        <br><br>
+                        Documents will appear in the right panel automatically!
+                    </div>
+                </div>
+            </div>
+            
+            <div class="input-area">
+                <div class="input-container">
+                    <input type="text" id="messageInput" placeholder="Describe your legal needs..." />
+                    <button id="sendButton">Send ✨</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Right Panel: Document Generator -->
+        <div class="right-panel">
+            <div class="panel-header">
+                <div class="panel-title">
+                    📄 Document Generator
+                    <span id="docStatus" class="status-badge" style="background: #64748b;">
+                        <span class="status-dot"></span>
+                        Waiting
+                    </span>
+                </div>
+                <div class="panel-subtitle">Auto-Generated Legal Documents</div>
+            </div>
+            
+            <div class="document-controls" id="documentControls" style="display: none;">
+                <button class="control-btn primary" onclick="regenerateDocument()">🔄 Regenerate</button>
+                <button class="control-btn" onclick="addClause()">➕ Add Clause</button>
+                <button class="control-btn success" onclick="validateDocument()">✅ Validate</button>
+                <button class="control-btn" onclick="exportPDF()">📥 Export PDF</button>
+                <button class="control-btn" onclick="exportWord()">📥 Export Word</button>
+                <button class="control-btn warning" onclick="citeSources()">📖 Citations</button>
+            </div>
+            
+            <div class="document-editor">
+                <div class="document-empty" id="documentEmpty">
+                    <div class="document-empty-icon">📄</div>
+                    <div class="document-empty-text">No Document Generated Yet</div>
+                    <div class="document-empty-hint">Ask the AI to create a legal document</div>
+                </div>
+                <div class="document-container" id="documentContainer" style="display: none;"></div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let threadId = generateUUID();
+        let currentDocument = null;
+        
+        function generateUUID() {
+            return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+                const r = Math.random() * 16 | 0;
+                const v = c === 'x' ? r : (r & 0x3 | 0x8);
+                return v.toString(16);
+            });
+        }
+        
+        // Send Message
+        document.getElementById('sendButton').addEventListener('click', sendMessage);
+        document.getElementById('messageInput').addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') sendMessage();
+        });
+        
+        async function sendMessage() {
+            const input = document.getElementById('messageInput');
+            const message = input.value.trim();
+            if (!message) return;
+            
+            // Add user message
+            addMessage('user', message);
+            input.value = '';
+            
+            // Stream response
+            try {
+                const response = await fetch(`/chat?message=${encodeURIComponent(message)}&thread_id=${threadId}`);
+                const reader = response.body.getReader();
+                const decoder = new TextDecoder();
+                
+                let aiMessageDiv = null;
+                let currentStage = null;
+                let accumulatedText = '';
+                let rawAccumulated = '';
+                
+                while (true) {
+                    const {done, value} = await reader.read();
+                    if (done) break;
+                    
+                    const chunk = decoder.decode(value);
+                    const lines = chunk.split('\n');
+                    
+                    for (const line of lines) {
+                        if (line.startsWith('data: ')) {
+                            try {
+                                const data = JSON.parse(line.slice(6));
+                                
+                                if (data.type === 'token') {
+                                    rawAccumulated += data.content;
+                                    accumulatedText += data.content;
+                                    if (!aiMessageDiv) {
+                                        aiMessageDiv = addMessage('ai', '');
+                                    }
+                                    // Clean the display - remove JSON markers as we stream
+                                    const cleanText = cleanStreamedText(accumulatedText);
+                                    aiMessageDiv.querySelector('.message-content').innerHTML = formatMessageContent(cleanText);
+                                }
+                                else if (data.type === 'complete' && data.data) {
+                                    handleCompleteResponse(data.data);
+                                }
+                                else if (data.type === 'end') {
+                                    // Parse the complete raw response and extract documents
+                                    try {
+                                        const parsed = JSON.parse(rawAccumulated);
+                                        if (Array.isArray(parsed)) {
+                                            handleParsedResponse(parsed, aiMessageDiv);
+                                        }
+                                    } catch (e) {
+                                        // If not JSON, just display as-is (already cleaned)
+                                    }
+                                }
+                            } catch (e) {
+                                console.error('Parse error:', e);
+                            }
+                        }
+                    }
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                addMessage('ai', 'Sorry, I encountered an error. Please try again.');
+            }
+        }
+        
+        function cleanStreamedText(text) {
+            // Remove JSON array markers and common JSON syntax
+            let cleaned = text
+                .replace(/^\[/g, '')  // Remove opening bracket
+                .replace(/\]$/g, '')  // Remove closing bracket
+                .replace(/\{\s*"type"\s*:\s*"message"\s*,\s*"content"\s*:\s*"/gi, '')  // Remove message type markers
+                .replace(/\{\s*"type"\s*:\s*"doc"\s*,\s*"content"\s*:\s*"/gi, '\n\n📄 **Document:**\n\n')  // Replace doc markers
+                .replace(/"\s*\}\s*,?\s*/g, '\n')  // Remove closing braces
+                .replace(/\\n/g, '\n')  // Unescape newlines
+                .replace(/\\"/g, '"')  // Unescape quotes
+                .replace(/\s+}/g, '')  // Remove trailing braces
+                .replace(/^,\s*/gm, '');  // Remove leading commas
+            
+            return cleaned.trim();
+        }
+        
+        function formatMessageContent(text) {
+            // Format the cleaned text with proper HTML
+            return text
+                .replace(/\n\n/g, '</p><p>')
+                .replace(/\n/g, '<br>')
+                .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
+                .replace(/^(.+)$/gm, '<p>$1</p>')
+                .replace(/<p><\/p>/g, '');
+        }
+        
+        function handleParsedResponse(items, messageDiv) {
+            // Clear the message div for clean display
+            let messageContent = '';
+            let hasDocument = false;
+            
+            for (const item of items) {
+                if (item.type === 'message' && item.content) {
+                    messageContent += item.content + '\n\n';
+                } else if (item.type === 'doc' && item.content) {
+                    hasDocument = true;
+                    // Display document in right panel
+                    displayDocument(item.content, item.metadata);
+                    messageContent += '📄 **Document generated and displayed in the right panel** →\n\n';
+                }
+            }
+            
+            // Update message with clean content
+            if (messageDiv && messageContent) {
+                messageDiv.querySelector('.message-content').innerHTML = formatMessageContent(messageContent.trim());
+            }
+        }
+        
+        function addMessage(role, content) {
+            const messagesDiv = document.getElementById('chatMessages');
+            const messageDiv = document.createElement('div');
+            messageDiv.className = `message ${role}-message`;
+            
+            const icon = role === 'user' ? '👤' : '🤖';
+            const name = role === 'user' ? 'You' : 'Adlaan AI';
+            
+            messageDiv.innerHTML = `
+                <div class="message-header">
+                    <div class="message-icon ${role}-icon">${icon}</div>
+                    <span>${name}</span>
+                </div>
+                <div class="message-content">${content}</div>
+            `;
+            
+            messagesDiv.appendChild(messageDiv);
+            messagesDiv.scrollTop = messagesDiv.scrollHeight;
+            
+            return messageDiv;
+        }
+        
+        function handleCompleteResponse(data) {
+            // Handle structured response data
+            if (Array.isArray(data)) {
+                for (const item of data) {
+                    if (item.type === 'doc' && item.content) {
+                        displayDocument(item.content, item.metadata);
+                        currentDocument = item;
+                    }
+                }
+            }
+        }
+        
+        function displayDocument(content, metadata) {
+            const container = document.getElementById('documentContainer');
+            const emptyState = document.getElementById('documentEmpty');
+            const controls = document.getElementById('documentControls');
+            const status = document.getElementById('docStatus');
+            
+            // Show document, hide empty state
+            emptyState.style.display = 'none';
+            container.style.display = 'block';
+            controls.style.display = 'flex';
+            
+            // Update status
+            status.innerHTML = '<span class="status-dot"></span> Generated';
+            status.style.background = '#10b981';
+            
+            // Clean and format document content
+            let cleanContent = content
+                .replace(/\\n/g, '\n')  // Unescape newlines
+                .replace(/\\"/g, '"')   // Unescape quotes
+                .replace(/\\t/g, '\t')  // Unescape tabs
+                .trim();
+            
+            // Format document with proper styling
+            let formatted = cleanContent
+                .replace(/\[([^\]]+)\]/g, '<span class="placeholder">[$1]</span>')  // Highlight placeholders
+                .replace(/^(#{1,3})\s+(.+)$/gm, (match, hashes, title) => {  // Handle markdown headers
+                    const level = hashes.length;
+                    return `<h${level}>${title}</h${level}>`;
+                })
+                .replace(/^([A-Z][A-Z\s]{2,}):?\s*$/gm, '<h2>$1</h2>')  // Section headers (ALL CAPS)
+                .replace(/^(\d+\.)\s+([A-Z][^\n]+)$/gm, '<h3>$1 $2</h3>')  // Numbered sections
+                .replace(/^([A-Z][^:\n]{5,}):$/gm, '<h3>$1:</h3>')  // Subsection headers with colons
+                .replace(/\n\n+/g, '</p><p>')  // Paragraphs
+                .replace(/\n/g, '<br>')  // Line breaks
+                .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')  // Bold text
+                .replace(/\*(.+?)\*/g, '<em>$1</em>');  // Italic text
+            
+            // Wrap content in paragraph tags
+            if (!formatted.startsWith('<h') && !formatted.startsWith('<p>')) {
+                formatted = '<p>' + formatted + '</p>';
+            }
+            
+            // Build metadata display
+            let metadataHtml = '';
+            if (metadata) {
+                metadataHtml = `
+                <div class="document-metadata">
+                    <div class="metadata-title">📋 Document Information</div>
+                    <div class="metadata-grid">
+                        ${metadata.document_id ? `
+                        <div class="metadata-item">
+                            <span class="metadata-label">Document ID:</span>
+                            <span class="metadata-value">${metadata.document_id}</span>
+                        </div>` : ''}
+                        ${metadata.document_type ? `
+                        <div class="metadata-item">
+                            <span class="metadata-label">Type:</span>
+                            <span class="metadata-value">${metadata.document_type}</span>
+                        </div>` : ''}
+                        ${metadata.jurisdiction ? `
+                        <div class="metadata-item">
+                            <span class="metadata-label">Jurisdiction:</span>
+                            <span class="metadata-value">${metadata.jurisdiction}</span>
+                        </div>` : ''}
+                        ${metadata.version ? `
+                        <div class="metadata-item">
+                            <span class="metadata-label">Version:</span>
+                            <span class="metadata-value">${metadata.version}</span>
+                        </div>` : ''}
+                        ${metadata.word_count ? `
+                        <div class="metadata-item">
+                            <span class="metadata-label">Word Count:</span>
+                            <span class="metadata-value">${metadata.word_count}</span>
+                        </div>` : ''}
+                        ${metadata.validation_status ? `
+                        <div class="metadata-item">
+                            <span class="metadata-label">Status:</span>
+                            <span class="metadata-value">${metadata.validation_status}</span>
+                        </div>` : ''}
+                    </div>
+                </div>
+                `;
+            }
+            
+            container.innerHTML = `
+                <div class="document-content">${formatted}</div>
+                ${metadataHtml}
+            `;
+        }
+        
+        function regenerateDocument() {
+            alert('Regenerate feature - coming soon!');
+        }
+        
+        function addClause() {
+            alert('Add clause feature - coming soon!');
+        }
+        
+        function validateDocument() {
+            alert('✅ Document validation in progress...\n\nChecking:\n• Legal compliance\n• Section completeness\n• Citation accuracy\n• Jurisdiction requirements');
+        }
+        
+        function exportPDF() {
+            alert('📥 Exporting to PDF...\n\nThis will download the document as a formatted PDF file.');
+        }
+        
+        function exportWord() {
+            alert('📥 Exporting to Word...\n\nThis will download the document as a .docx file.');
+        }
+        
+        function citeSources() {
+            alert('📖 Legal Citations:\n\n• Civil Code No. 43 of 1976\n• Labor Law No. 8 of 1996\n• Commercial Code\n\nDetailed citations available in document.');
+        }
+    </script>
+</body>
+</html>

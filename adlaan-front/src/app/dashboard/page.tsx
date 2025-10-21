@@ -168,19 +168,19 @@ export default function Dashboard() {
         <div className="mt-12">
           <h3 className="text-2xl font-bold text-foreground mb-6">Quick Actions</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 hover:border-primary/50" onClick={() => router.push("/dashboard/ai")}>
+            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 hover:border-primary/50" onClick={() => router.push("/dashboard/agents")}>
               <CardHeader className="pb-3">
                 <CardTitle className="flex items-center text-lg">
                   <Settings className="h-5 w-5 mr-2 text-primary" />
                   AI Agents
                 </CardTitle>
                 <CardDescription>
-                  Access AI-powered legal tools and document automation
+                  Access AI-powered legal assistants and automation tools
                 </CardDescription>
               </CardHeader>
               <CardContent>
                 <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                  Launch AI Tools
+                  Launch Agents
                   <ArrowRight className="h-4 w-4 ml-2" />
                 </Button>
               </CardContent>
