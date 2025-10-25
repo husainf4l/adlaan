@@ -57,6 +57,8 @@ export default function CompanySetup() {
     try {
       await createCompany(companyName, description, address, phone, companyEmail, website);
       setCompanyCreated(true);
+      // Redirect immediately to dashboard
+      router.push("/dashboard");
     } catch (err: unknown) {
       const error = err as Error;
       setError(error.message || "Failed to create company");

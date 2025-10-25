@@ -247,6 +247,16 @@ export const UPDATE_DOCUMENT_MUTATION = gql`
   }
 `;
 
+export const MOVE_DOCUMENT_MUTATION = gql`
+  mutation MoveDocument($id: String!, $parentId: String) {
+    moveDocument(id: $id, parentId: $parentId) {
+      id
+      parentId
+      updatedAt
+    }
+  }
+`;
+
 // AI Agents GraphQL Operations
 
 export const GET_DOCUMENT_TEMPLATES_QUERY = gql`

@@ -1,0 +1,197 @@
+
+> adlaan-front@0.1.0 build
+> next build
+
+   ▲ Next.js 15.5.6
+   - Environments: .env.local
+
+   Creating an optimized production build ...
+ ✓ Compiled successfully in 13.8s
+   Linting and checking validity of types ...
+
+./src/app/agents-demo/page.tsx
+13:3  Warning: 'Pause' is defined but never used.  @typescript-eslint/no-unused-vars
+14:3  Warning: 'RotateCcw' is defined but never used.  @typescript-eslint/no-unused-vars
+36:10  Warning: 'systemHealth' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/api/agents/stream/route.ts
+24:14  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+119:12  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+161:18  Warning: 'error' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/cases/new/page.tsx
+30:10  Warning: 'users' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+30:17  Warning: 'setUsers' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/cases/page.tsx
+11:3  Warning: 'Filter' is defined but never used.  @typescript-eslint/no-unused-vars
+12:3  Warning: 'Calendar' is defined but never used.  @typescript-eslint/no-unused-vars
+19:3  Warning: 'Settings' is defined but never used.  @typescript-eslint/no-unused-vars
+25:18  Warning: 'AvatarImage' is defined but never used.  @typescript-eslint/no-unused-vars
+81:6  Warning: React Hook useEffect has a missing dependency: 'fetchCases'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/agents/debug/page.tsx
+146:9  Warning: 'getLevelColor' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/dashboard/agents/dev/page.tsx
+8:10  Warning: 'Input' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/dashboard/agents/drive/page.tsx
+5:29  Warning: 'CardHeader' is defined but never used.  @typescript-eslint/no-unused-vars
+5:41  Warning: 'CardTitle' is defined but never used.  @typescript-eslint/no-unused-vars
+13:3  Warning: 'Download' is defined but never used.  @typescript-eslint/no-unused-vars
+22:3  Warning: 'Clock' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/dashboard/agents/page.tsx
+15:3  Warning: 'Play' is defined but never used.  @typescript-eslint/no-unused-vars
+16:3  Warning: 'Pause' is defined but never used.  @typescript-eslint/no-unused-vars
+44:6  Warning: React Hook useEffect has a missing dependency: 'fetchAgentStatus'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/dashboard/agents/workspace/page.tsx
+14:3  Warning: 'Filter' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/dashboard/ai/page.tsx
+25:9  Warning: 'router' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/dashboard/documents/page.tsx
+14:3  Warning: 'Filter' is defined but never used.  @typescript-eslint/no-unused-vars
+18:3  Warning: 'Trash2' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/dashboard/generate/page.tsx
+11:10  Warning: 'Badge' is defined but never used.  @typescript-eslint/no-unused-vars
+17:3  Warning: 'Calendar' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/dashboard/page.tsx
+6:10  Warning: 'Building2' is defined but never used.  @typescript-eslint/no-unused-vars
+6:28  Warning: 'Globe' is defined but never used.  @typescript-eslint/no-unused-vars
+6:35  Warning: 'ArrowRight' is defined but never used.  @typescript-eslint/no-unused-vars
+6:67  Warning: 'BarChart3' is defined but never used.  @typescript-eslint/no-unused-vars
+6:78  Warning: 'User' is defined but never used.  @typescript-eslint/no-unused-vars
+6:84  Warning: 'Mail' is defined but never used.  @typescript-eslint/no-unused-vars
+6:98  Warning: 'Calendar' is defined but never used.  @typescript-eslint/no-unused-vars
+6:127  Warning: 'AlertTriangle' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/documents/page.tsx
+17:3  Warning: 'Edit' is defined but never used.  @typescript-eslint/no-unused-vars
+21:3  Warning: 'Share' is defined but never used.  @typescript-eslint/no-unused-vars
+22:3  Warning: 'Eye' is defined but never used.  @typescript-eslint/no-unused-vars
+28:3  Warning: 'Filter' is defined but never used.  @typescript-eslint/no-unused-vars
+31:29  Warning: 'CardDescription' is defined but never used.  @typescript-eslint/no-unused-vars
+31:46  Warning: 'CardHeader' is defined but never used.  @typescript-eslint/no-unused-vars
+31:58  Warning: 'CardTitle' is defined but never used.  @typescript-eslint/no-unused-vars
+34:10  Warning: 'Avatar' is defined but never used.  @typescript-eslint/no-unused-vars
+34:18  Warning: 'AvatarImage' is defined but never used.  @typescript-eslint/no-unused-vars
+34:31  Warning: 'AvatarFallback' is defined but never used.  @typescript-eslint/no-unused-vars
+35:107  Warning: 'UPDATE_DOCUMENT_MUTATION' is defined but never used.  @typescript-eslint/no-unused-vars
+67:10  Warning: 'error' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+73:25  Warning: 'setSelectedFiles' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+76:10  Warning: 'uploading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+77:10  Warning: 'uploadError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+78:10  Warning: 'uploadSuccess' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+93:6  Warning: React Hook useEffect has a missing dependency: 'loadFiles'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/app/signin/page.tsx
+50:14  Warning: 'err' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/app/team/page.tsx
+8:3  Warning: 'Building2' is defined but never used.  @typescript-eslint/no-unused-vars
+17:3  Warning: 'CheckCircle' is defined but never used.  @typescript-eslint/no-unused-vars
+98:6  Warning: React Hook useEffect has a missing dependency: 'fetchUsers'. Either include it or remove the dependency array.  react-hooks/exhaustive-deps
+
+./src/components/CompanySetupGuard.tsx
+8:30  Warning: 'isAuthenticated' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/Hero.tsx
+3:8  Warning: 'Image' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/LanguageSwitcher.tsx
+14:9  Warning: 'router' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+15:9  Warning: 'pathname' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/ai/AIAgentsOverview.tsx
+14:3  Warning: 'AlertCircle' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/ai/AgentConfiguration.tsx
+86:13  Warning: 'unsubscribeStatus' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+98:13  Warning: 'unsubscribeHealth' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/ai/DocumentAnalyzer.tsx
+26:10  Warning: 'AnalyzeDocumentInput' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/ai/DocumentClassifier.tsx
+25:3  Warning: 'ClassifyDocumentsInput' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/ai/DocumentGenerator.tsx
+43:5  Warning: 'setError' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+45:5  Warning: 'setLoading' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+53:10  Warning: 'generateDocument' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+97:11  Warning: 'result' is assigned a value but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/ai/GeneratedDocuments.tsx
+4:20  Warning: 'useMutation' is defined but never used.  @typescript-eslint/no-unused-vars
+19:3  Warning: 'Filter' is defined but never used.  @typescript-eslint/no-unused-vars
+21:3  Warning: 'StarOff' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/ai/TaskManagement.tsx
+4:20  Warning: 'useMutation' is defined but never used.  @typescript-eslint/no-unused-vars
+5:29  Warning: 'CardDescription' is defined but never used.  @typescript-eslint/no-unused-vars
+19:3  Warning: 'Filter' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/sections/FeaturesSection.tsx
+10:3  Warning: 'Clock' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/sections/Navigation.tsx
+6:18  Warning: 'User' is defined but never used.  @typescript-eslint/no-unused-vars
+
+./src/components/ui/bento-grid.tsx
+6:5  Warning: 'Clock' is defined but never used.  @typescript-eslint/no-unused-vars
+7:5  Warning: 'Star' is defined but never used.  @typescript-eslint/no-unused-vars
+
+info  - Need to disable some ESLint rules? Learn more here: https://nextjs.org/docs/app/api-reference/config/eslint#disabling-rules
+   Collecting page data ...
+   Generating static pages (0/30) ...
+   Generating static pages (7/30) 
+   Generating static pages (14/30) 
+   Generating static pages (22/30) 
+ ✓ Generating static pages (30/30)
+   Finalizing page optimization ...
+   Collecting build traces ...
+
+Route (app)                                 Size  First Load JS
+┌ ○ /                                    16.5 kB         189 kB
+├ ○ /_not-found                            998 B         103 kB
+├ ○ /agents-demo                         4.28 kB         119 kB
+├ ○ /agents-demo/chat                    5.43 kB         120 kB
+├ ○ /analytics                           3.71 kB         173 kB
+├ ƒ /api/agents/[agentType]                131 B         102 kB
+├ ƒ /api/agents/status                     131 B         102 kB
+├ ƒ /api/agents/stream                     131 B         102 kB
+├ ƒ /api/graphql                           131 B         102 kB
+├ ○ /cases                               7.36 kB         177 kB
+├ ○ /cases/new                            3.5 kB         173 kB
+├ ○ /company-setup                       2.67 kB         163 kB
+├ ○ /dashboard                           9.45 kB         182 kB
+├ ○ /dashboard/agents                    5.49 kB         178 kB
+├ ○ /dashboard/agents/chat               7.13 kB         122 kB
+├ ○ /dashboard/agents/classifier         5.59 kB         120 kB
+├ ○ /dashboard/agents/debug              2.84 kB         120 kB
+├ ○ /dashboard/agents/dev                 3.8 kB         121 kB
+├ ○ /dashboard/agents/drive              6.65 kB         121 kB
+├ ○ /dashboard/agents/workspace          5.34 kB         120 kB
+├ ○ /dashboard/ai                        24.3 kB         154 kB
+├ ○ /dashboard/analyze                   5.92 kB         120 kB
+├ ○ /dashboard/documents                 5.18 kB         120 kB
+├ ○ /dashboard/generate                  5.78 kB         120 kB
+├ ○ /documents                           6.09 kB         176 kB
+├ ○ /signin                              3.94 kB         177 kB
+├ ○ /signup                              4.31 kB         177 kB
+└ ○ /team                                6.28 kB         176 kB
++ First Load JS shared by all             102 kB
+  ├ chunks/255-a78b69fc76e8afca.js       45.6 kB
+  ├ chunks/4bd1b696-409494caf8c83275.js  54.2 kB
+  └ other shared chunks (total)          1.93 kB
+
+
+○  (Static)   prerendered as static content
+ƒ  (Dynamic)  server-rendered on demand
+

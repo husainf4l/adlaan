@@ -153,22 +153,6 @@ export const AIAgentsOverview = ({ onNavigate }: AIAgentsOverviewProps) => {
 
   const agents = [
     {
-      id: 'document-generator',
-      title: 'Legal Document Generator',
-      description: 'Create legal documents from templates with AI assistance',
-      icon: FileText,
-      route: '/dashboard/ai/document-generator',
-      agentType: AgentType.DOCUMENT_GENERATOR
-    },
-    {
-      id: 'document-analyzer',
-      title: 'Document Analyzer',
-      description: 'Analyze uploaded documents for insights and risks',
-      icon: Search,
-      route: '/dashboard/ai/document-analyzer',
-      agentType: AgentType.DOCUMENT_ANALYZER
-    },
-    {
       id: 'document-classifier',
       title: 'Document Classifier',
       description: 'Automatically categorize and organize documents',
@@ -259,25 +243,7 @@ export const AIAgentsOverview = ({ onNavigate }: AIAgentsOverviewProps) => {
           </CardDescription>
         </CardHeader>
         <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-            <Button 
-              variant="outline" 
-              className="h-20 flex-col space-y-2"
-              onClick={() => onNavigate('/dashboard/ai/document-generator')}
-            >
-              <FileText className="h-5 w-5" />
-              <span>Generate Contract</span>
-            </Button>
-            
-            <Button 
-              variant="outline" 
-              className="h-20 flex-col space-y-2"
-              onClick={() => onNavigate('/dashboard/ai/document-analyzer')}
-            >
-              <Search className="h-5 w-5" />
-              <span>Analyze Document</span>
-            </Button>
-            
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Button 
               variant="outline" 
               className="h-20 flex-col space-y-2"

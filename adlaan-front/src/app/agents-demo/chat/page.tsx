@@ -11,9 +11,6 @@ import {
   Bot, 
   User, 
   FileText, 
-  Download, 
-  Clock,
-  CheckCircle,
   AlertCircle,
   ArrowLeft,
   Upload

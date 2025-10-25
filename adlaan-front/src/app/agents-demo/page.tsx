@@ -10,7 +10,6 @@ import {
   FileText, 
   Search, 
   Settings, 
-  Play, 
   Pause, 
   RotateCcw,
   Activity,

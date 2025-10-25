@@ -1,65 +1,87 @@
 "use client";
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useQuery, useMutation } from '@apollo/client/react';
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from '../ui/card';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import { Badge } from '../ui/badge';
-import { 
-  FileText, 
-  Wand2, 
-  Download, 
-  Eye, 
+import {
+  FileText,
+  Wand2,
+  Download,
+  Eye,
   ArrowLeft,
   Loader2,
   CheckCircle,
   AlertCircle,
-  RefreshCw 
+  RefreshCw,
+  Send,
+  MessageSquare,
+  User,
+  Bot
 } from 'lucide-react';
-import { 
-  GET_DOCUMENT_TEMPLATES_QUERY, 
+import {
+  GET_DOCUMENT_TEMPLATES_QUERY,
   GENERATE_DOCUMENT_MUTATION,
-  GET_TASK_QUERY 
+  GET_TASK_QUERY
 } from '../../lib/graphql';
 import { DocumentTemplate, TemplateField, TaskStatus, DocumentTemplatesQueryResponse, TaskQueryResponse, GenerateDocumentMutationResponse, AgentType } from '../../lib/ai-types';
 import { aiAgentService, agentRealtimeService } from '../../lib/ai-agent-service';
 import { useAgentErrorHandling } from '../../lib/use-agent-error-handling';
+
+interface ChatMessage {
+  id: string;
+  role: 'user' | 'assistant';
+  content: string;
+  timestamp: Date;
+}
 
 interface DocumentGeneratorProps {
   onBack: () => void;
 }
 
 export const DocumentGenerator = ({ onBack }: DocumentGeneratorProps) => {
-  const [selectedTemplate, setSelectedTemplate] = useState<DocumentTemplate | null>(null);
-  const [formData, setFormData] = useState<Record<string, any>>({});
+  const [chatMessages, setChatMessages] = useState<ChatMessage[]>([
+    {
+      id: '1',
+      role: 'assistant',
+      content: 'Hello! I\'m your AI legal document assistant. Describe the type of legal document you need (e.g., "employment contract", "NDA", "service agreement") and I\'ll help you create it.',
+      timestamp: new Date()
+    }
+  ]);
+  const [currentInput, setCurrentInput] = useState('');
   const [currentTaskId, setCurrentTaskId] = useState<string | null>(null);
-  const [showPreview, setShowPreview] = useState(false);
+  const [generatedDocument, setGeneratedDocument] = useState<string | null>(null);
+  const chatEndRef = useRef<HTMLDivElement>(null);
 
   // Enhanced error handling and logging
-  const { 
-    errorState, 
-    loadingState, 
-    setError, 
-    clearError, 
+  const {
+    errorState,
+    loadingState,
+    setError,
+    clearError,
     setLoading,
     executeWithErrorHandling,
     logger,
     isRetryable,
-    getRecommendedAction 
+    getRecommendedAction
   } = useAgentErrorHandling();
 
-  const { data: templatesData, loading: templatesLoading } = useQuery<DocumentTemplatesQueryResponse>(GET_DOCUMENT_TEMPLATES_QUERY);
   const [generateDocument, { loading: generating }] = useMutation<GenerateDocumentMutationResponse>(GENERATE_DOCUMENT_MUTATION);
-  
+
   const { data: taskData } = useQuery<TaskQueryResponse>(GET_TASK_QUERY, {
     variables: { id: currentTaskId },
     skip: !currentTaskId,
     pollInterval: 2000,
   });
 
-  const templates = templatesData?.documentTemplates || [];
   const task = taskData?.task;
+
+  // Auto-scroll to bottom of chat
+  useEffect(() => {
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [chatMessages]);
 
   // Real-time task updates
   useEffect(() => {
@@ -74,40 +96,54 @@ export const DocumentGenerator = ({ onBack }: DocumentGeneratorProps) => {
     return unsubscribe;
   }, [currentTaskId, logger]);
 
-  const handleTemplateSelect = (template: DocumentTemplate) => {
-    setSelectedTemplate(template);
-    // Initialize form data with empty values
-    const initialData: Record<string, any> = {};
-    template.fields.forEach(field => {
-      initialData[field.name] = field.type === 'boolean' ? false : '';
-    });
-    setFormData(initialData);
-  };
+  // Update generated document when task completes
+  useEffect(() => {
+    if (task?.status === TaskStatus.COMPLETED && task.result) {
+      setGeneratedDocument(task.result.content || 'No content available');
+      setChatMessages(prev => [...prev, {
+        id: Date.now().toString(),
+        role: 'assistant',
+        content: 'Document generated successfully! You can view it on the right panel.',
+        timestamp: new Date()
+      }]);
+    }
+  }, [task]);
 
-  const handleFieldChange = (fieldName: string, value: any) => {
-    setFormData(prev => ({
-      ...prev,
-      [fieldName]: value
-    }));
-  };
+  const handleSendMessage = async () => {
+    if (!currentInput.trim()) return;
 
-  const handleGenerate = async () => {
-    if (!selectedTemplate) return;
+    const userMessage: ChatMessage = {
+      id: Date.now().toString(),
+      role: 'user',
+      content: currentInput,
+      timestamp: new Date()
+    };
+
+    setChatMessages(prev => [...prev, userMessage]);
+    setCurrentInput('');
+
+    // Add thinking message
+    const thinkingMessage: ChatMessage = {
+      id: (Date.now() + 1).toString(),
+      role: 'assistant',
+      content: 'Generating your document...',
+      timestamp: new Date()
+    };
+    setChatMessages(prev => [...prev, thinkingMessage]);
 
     const result = await executeWithErrorHandling(
       async () => {
-        // Use the new AI agent service instead of direct GraphQL
         return await aiAgentService.executeAgentTask(
           AgentType.DOCUMENT_GENERATOR,
           'generate',
           {
-            templateId: selectedTemplate.id,
-            fields: formData
+            prompt: currentInput,
+            type: 'chat_generation'
           }
         );
       },
       {
-        operationName: 'Generate Document',
+        operationName: 'Generate Document from Chat',
         context: 'DocumentGenerator',
         onSuccess: (result) => {
           setCurrentTaskId(result.taskId);
@@ -115,378 +151,238 @@ export const DocumentGenerator = ({ onBack }: DocumentGeneratorProps) => {
         },
         onError: (error) => {
           logger.log('error', `Document generation failed: ${error.message}`, 'DocumentGenerator');
+          setChatMessages(prev => prev.slice(0, -1)); // Remove thinking message
         }
       }
     );
   };
 
-  const handleRetry = async () => {
-    clearError();
-    await handleGenerate();
-  };
-
-  const renderField = (field: TemplateField) => {
-    const value = formData[field.name] || '';
-
-    switch (field.type) {
-      case 'text':
-        return (
-          <Input
-            placeholder={`Enter ${field.name}`}
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-            required={field.required}
-          />
-        );
-
-      case 'textarea':
-        return (
-          <textarea
-            className="w-full min-h-[100px] p-3 border rounded-md resize-y"
-            placeholder={`Enter ${field.name}`}
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-            required={field.required}
-          />
-        );
-
-      case 'select':
-        return (
-          <select
-            className="w-full p-2 border rounded-md"
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-            required={field.required}
-          >
-            <option value="">Select {field.name}</option>
-            {field.options?.map(option => (
-              <option key={option} value={option}>{option}</option>
-            ))}
-          </select>
-        );
-
-      case 'date':
-        return (
-          <Input
-            type="date"
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-            required={field.required}
-          />
-        );
-
-      case 'number':
-        return (
-          <Input
-            type="number"
-            placeholder={`Enter ${field.name}`}
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, parseFloat(e.target.value) || 0)}
-            required={field.required}
-          />
-        );
-
-      case 'boolean':
-        return (
-          <label className="flex items-center space-x-2">
-            <input
-              type="checkbox"
-              checked={value}
-              onChange={(e) => handleFieldChange(field.name, e.target.checked)}
-              className="rounded"
-            />
-            <span>{field.name}</span>
-          </label>
-        );
-
-      default:
-        return (
-          <Input
-            placeholder={`Enter ${field.name}`}
-            value={value}
-            onChange={(e) => handleFieldChange(field.name, e.target.value)}
-            required={field.required}
-          />
-        );
+  const handleKeyPress = (e: React.KeyboardEvent) => {
+    if (e.key === 'Enter' && !e.shiftKey) {
+      e.preventDefault();
+      handleSendMessage();
     }
   };
 
-  const isFormValid = () => {
-    if (!selectedTemplate) return false;
-    
-    return selectedTemplate.fields.every(field => {
-      if (!field.required) return true;
-      const value = formData[field.name];
-      return value !== '' && value !== null && value !== undefined;
-    });
+  const handleRetry = async () => {
+    clearError();
+    // Retry with the last user message
+    const lastUserMessage = chatMessages.filter(m => m.role === 'user').pop();
+    if (lastUserMessage) {
+      setCurrentInput(lastUserMessage.content);
+      await handleSendMessage();
+    }
   };
 
-  if (templatesLoading) {
-    return (
-      <div className="flex items-center justify-center h-64">
-        <Loader2 className="h-8 w-8 animate-spin" />
-      </div>
-    );
-  }
+  const handleDownload = () => {
+    if (!generatedDocument) return;
+
+    const blob = new Blob([generatedDocument], { type: 'text/plain' });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement('a');
+    a.href = url;
+    a.download = 'generated-document.txt';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    URL.revokeObjectURL(url);
+  };
 
   return (
-    <div className="space-y-6">
+    <div className="h-full flex flex-col">
       {/* Header */}
-      <div className="flex items-center space-x-4">
+      <div className="flex items-center space-x-4 p-6 border-b">
         <Button variant="ghost" size="sm" onClick={onBack}>
           <ArrowLeft className="h-4 w-4 mr-2" />
           Back
         </Button>
         <div>
-          <h1 className="text-3xl font-bold tracking-tight">Document Generator</h1>
+          <h1 className="text-3xl font-bold tracking-tight">AI Document Generator</h1>
           <p className="text-muted-foreground">
-            Create legal documents from AI-powered templates
+            Chat with AI to create legal documents
           </p>
         </div>
       </div>
 
       {/* Error Handling */}
       {errorState.hasError && (
-        <Card className="border-red-200 bg-red-50">
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2 text-red-700">
-              <AlertCircle className="h-5 w-5" />
-              <span>Error Occurred</span>
-            </CardTitle>
-            <CardDescription className="text-red-600">
-              {errorState.error?.message}
-            </CardDescription>
-          </CardHeader>
-          <CardContent>
-            <div className="space-y-3">
-              <p className="text-sm text-red-600">
-                {getRecommendedAction(errorState.error!)}
-              </p>
-              
-              {errorState.retryCount > 0 && (
-                <p className="text-xs text-muted-foreground">
-                  Retry attempts: {errorState.retryCount}
-                  {errorState.lastRetryAt && (
-                    <span> (last attempt: {new Date(errorState.lastRetryAt).toLocaleTimeString()})</span>
-                  )}
-                </p>
-              )}
-              
-              <div className="flex space-x-2">
-                {isRetryable && (
-                  <Button 
-                    size="sm" 
-                    variant="outline"
-                    onClick={handleRetry}
-                    disabled={loadingState.isLoading}
-                  >
-                    <RefreshCw className="h-4 w-4 mr-2" />
-                    Retry
-                  </Button>
-                )}
-                <Button size="sm" variant="ghost" onClick={clearError}>
-                  Dismiss
-                </Button>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
+        <div className="p-4 border-b border-red-200 bg-red-50">
+          <div className="flex items-center space-x-2 text-red-700 mb-2">
+            <AlertCircle className="h-5 w-5" />
+            <span className="font-medium">Error Occurred</span>
+          </div>
+          <p className="text-red-600 text-sm mb-3">{errorState.error?.message}</p>
+          <div className="flex space-x-2">
+            {isRetryable && (
+              <Button
+                size="sm"
+                variant="outline"
+                onClick={handleRetry}
+                disabled={loadingState.isLoading}
+              >
+                <RefreshCw className="h-4 w-4 mr-2" />
+                Retry
+              </Button>
+            )}
+            <Button size="sm" variant="ghost" onClick={clearError}>
+              Dismiss
+            </Button>
+          </div>
+        </div>
       )}
 
-      {/* Loading State */}
-      {loadingState.isLoading && (
-        <Card className="border-blue-200 bg-blue-50">
-          <CardContent className="pt-6">
-            <div className="flex items-center space-x-3">
-              <Loader2 className="h-5 w-5 animate-spin text-blue-600" />
-              <div>
-                <p className="font-medium text-blue-700">
-                  {loadingState.operation || 'Processing...'}
-                </p>
-                {loadingState.startedAt && (
-                  <p className="text-xs text-blue-600">
-                    Started: {new Date(loadingState.startedAt).toLocaleTimeString()}
-                  </p>
-                )}
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      )}
-
-      {/* Task Status */}
-      {currentTaskId && task && (
-        <Card>
-          <CardHeader>
-            <CardTitle className="flex items-center space-x-2">
-              {task.status === TaskStatus.PROCESSING && <Loader2 className="h-5 w-5 animate-spin" />}
-              {task.status === TaskStatus.COMPLETED && <CheckCircle className="h-5 w-5 text-green-500" />}
-              {task.status === TaskStatus.FAILED && <AlertCircle className="h-5 w-5 text-red-500" />}
-              <span>Document Generation {task.status}</span>
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            {task.status === TaskStatus.PROCESSING && (
-              <div className="space-y-2">
-                <div className="flex justify-between text-sm">
-                  <span>Progress</span>
-                  <span>{task.progress}%</span>
-                </div>
-                <div className="w-full bg-gray-200 rounded-full h-2">
-                  <div 
-                    className="bg-blue-600 h-2 rounded-full transition-all duration-300" 
-                    style={{ width: `${task.progress}%` }}
-                  />
-                </div>
-              </div>
-            )}
-            
-            {task.status === TaskStatus.COMPLETED && task.result && (
-              <div className="space-y-4">
-                <p className="text-green-600">Document generated successfully!</p>
-                <div className="flex space-x-2">
-                  <Button onClick={() => setShowPreview(true)}>
-                    <Eye className="h-4 w-4 mr-2" />
-                    Preview
-                  </Button>
-                  <Button variant="outline">
-                    <Download className="h-4 w-4 mr-2" />
-                    Download
-                  </Button>
-                </div>
-              </div>
-            )}
-            
-            {task.status === TaskStatus.FAILED && (
-              <p className="text-red-600">
-                Generation failed: {task.error || 'Unknown error'}
-              </p>
-            )}
-          </CardContent>
-        </Card>
-      )}
-
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-        {/* Template Selection */}
-        <div className="lg:col-span-1 space-y-4">
-          <Card>
-            <CardHeader>
-              <CardTitle>Document Templates</CardTitle>
-              <CardDescription>
-                Choose a template to get started
-              </CardDescription>
-            </CardHeader>
-            <CardContent className="space-y-2">
-              {templates.map((template: DocumentTemplate) => (
-                <Card 
-                  key={template.id}
-                  className={`cursor-pointer transition-colors ${
-                    selectedTemplate?.id === template.id 
-                      ? 'ring-2 ring-primary' 
-                      : 'hover:bg-muted'
+      {/* Main Content - Split Screen */}
+      <div className="flex-1 flex overflow-hidden">
+        {/* Left Side - Chat Interface */}
+        <div className="w-1/2 flex flex-col border-r">
+          {/* Chat Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-4">
+            {chatMessages.map((message) => (
+              <div
+                key={message.id}
+                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`max-w-[80%] rounded-lg p-3 ${
+                    message.role === 'user'
+                      ? 'bg-primary text-primary-foreground'
+                      : 'bg-muted'
                   }`}
-                  onClick={() => handleTemplateSelect(template)}
                 >
-                  <CardContent className="p-4">
-                    <div className="flex items-start space-x-3">
-                      <FileText className="h-5 w-5 mt-0.5 text-primary" />
-                      <div className="flex-1 min-w-0">
-                        <p className="font-medium truncate">{template.name}</p>
-                        <p className="text-sm text-muted-foreground">
-                          {template.description}
-                        </p>
-                        <Badge variant="secondary" className="mt-2">
-                          {template.category}
-                        </Badge>
-                      </div>
+                  <div className="flex items-start space-x-2">
+                    <div className="flex-shrink-0 mt-1">
+                      {message.role === 'user' ? (
+                        <User className="h-4 w-4" />
+                      ) : (
+                        <Bot className="h-4 w-4" />
+                      )}
                     </div>
-                  </CardContent>
-                </Card>
-              ))}
-            </CardContent>
-          </Card>
+                    <div className="flex-1">
+                      <p className="text-sm whitespace-pre-wrap">{message.content}</p>
+                      <p className="text-xs opacity-70 mt-1">
+                        {message.timestamp.toLocaleTimeString()}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            {/* Loading indicator */}
+            {loadingState.isLoading && (
+              <div className="flex justify-start">
+                <div className="bg-muted rounded-lg p-3 max-w-[80%]">
+                  <div className="flex items-center space-x-2">
+                    <Loader2 className="h-4 w-4 animate-spin" />
+                    <span className="text-sm">{loadingState.operation || 'Processing...'}</span>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            <div ref={chatEndRef} />
+          </div>
+
+          {/* Chat Input */}
+          <div className="p-4 border-t">
+            <div className="flex space-x-2">
+              <Input
+                value={currentInput}
+                onChange={(e) => setCurrentInput(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Describe the legal document you need..."
+                className="flex-1"
+                disabled={loadingState.isLoading}
+              />
+              <Button
+                onClick={handleSendMessage}
+                disabled={!currentInput.trim() || loadingState.isLoading}
+                size="icon"
+              >
+                <Send className="h-4 w-4" />
+              </Button>
+            </div>
+            <p className="text-xs text-muted-foreground mt-2">
+              Press Enter to send, Shift+Enter for new line
+            </p>
+          </div>
         </div>
 
-        {/* Form */}
-        <div className="lg:col-span-2">
-          {selectedTemplate ? (
-            <Card>
-              <CardHeader>
-                <CardTitle className="flex items-center space-x-2">
-                  <Wand2 className="h-5 w-5" />
-                  <span>{selectedTemplate.name}</span>
-                </CardTitle>
-                <CardDescription>
-                  {selectedTemplate.description}
-                </CardDescription>
-              </CardHeader>
-              <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {selectedTemplate.fields.map((field) => (
-                    <div key={field.name} className="space-y-2">
-                      <label className="text-sm font-medium">
-                        {field.name}
-                        {field.required && <span className="text-red-500 ml-1">*</span>}
-                      </label>
-                      {renderField(field)}
-                    </div>
-                  ))}
-                </div>
+        {/* Right Side - Document Viewer */}
+        <div className="w-1/2 flex flex-col">
+          <div className="p-4 border-b flex items-center justify-between">
+            <div className="flex items-center space-x-2">
+              <FileText className="h-5 w-5" />
+              <h2 className="text-lg font-semibold">Generated Document</h2>
+            </div>
+            {generatedDocument && (
+              <Button onClick={handleDownload} size="sm">
+                <Download className="h-4 w-4 mr-2" />
+                Download
+              </Button>
+            )}
+          </div>
 
-                <div className="flex justify-end space-x-2">
-                  <Button
-                    onClick={handleGenerate}
-                    disabled={!isFormValid() || generating}
-                  >
-                    {generating ? (
-                      <Loader2 className="h-4 w-4 mr-2 animate-spin" />
-                    ) : (
-                      <Wand2 className="h-4 w-4 mr-2" />
-                    )}
-                    Generate Document
-                  </Button>
-                </div>
-              </CardContent>
-            </Card>
-          ) : (
-            <Card>
-              <CardContent className="flex items-center justify-center h-64">
-                <div className="text-center">
-                  <FileText className="h-12 w-12 text-muted-foreground mx-auto mb-4" />
-                  <p className="text-muted-foreground">
-                    Select a template to begin document generation
+          <div className="flex-1 overflow-y-auto p-4">
+            {generatedDocument ? (
+              <div className="bg-white border rounded-lg p-6 shadow-sm">
+                <pre className="whitespace-pre-wrap font-sans text-sm leading-relaxed">
+                  {generatedDocument}
+                </pre>
+              </div>
+            ) : (
+              <div className="flex items-center justify-center h-full text-center">
+                <div>
+                  <FileText className="h-16 w-16 text-muted-foreground mx-auto mb-4" />
+                  <h3 className="text-lg font-medium text-muted-foreground mb-2">
+                    No Document Generated Yet
+                  </h3>
+                  <p className="text-sm text-muted-foreground">
+                    Start a conversation on the left to generate your legal document
                   </p>
                 </div>
-              </CardContent>
-            </Card>
+              </div>
+            )}
+          </div>
+
+          {/* Task Status */}
+          {currentTaskId && task && (
+            <div className="p-4 border-t">
+              <div className="flex items-center space-x-2 mb-2">
+                {task.status === TaskStatus.PROCESSING && <Loader2 className="h-4 w-4 animate-spin" />}
+                {task.status === TaskStatus.COMPLETED && <CheckCircle className="h-4 w-4 text-green-500" />}
+                {task.status === TaskStatus.FAILED && <AlertCircle className="h-4 w-4 text-red-500" />}
+                <span className="text-sm font-medium">
+                  {task.status === TaskStatus.PROCESSING && 'Generating...'}
+                  {task.status === TaskStatus.COMPLETED && 'Completed'}
+                  {task.status === TaskStatus.FAILED && 'Failed'}
+                </span>
+              </div>
+
+              {task.status === TaskStatus.PROCESSING && (
+                <div className="space-y-2">
+                  <div className="flex justify-between text-sm">
+                    <span>Progress</span>
+                    <span>{task.progress}%</span>
+                  </div>
+                  <div className="w-full bg-gray-200 rounded-full h-2">
+                    <div
+                      className="bg-blue-600 h-2 rounded-full transition-all duration-300"
+                      style={{ width: `${task.progress}%` }}
+                    />
+                  </div>
+                </div>
+              )}
+
+              {task.status === TaskStatus.FAILED && (
+                <p className="text-sm text-red-600">
+                  {task.error || 'Generation failed'}
+                </p>
+              )}
+            </div>
           )}
         </div>
       </div>
-
-      {/* Preview Modal */}
-      {showPreview && task?.result && (
-        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-          <Card className="w-full max-w-4xl max-h-[80vh] overflow-auto">
-            <CardHeader>
-              <CardTitle>Document Preview</CardTitle>
-              <div className="flex space-x-2">
-                <Button onClick={() => setShowPreview(false)} variant="outline">
-                  Close
-                </Button>
-                <Button>
-                  <Download className="h-4 w-4 mr-2" />
-                  Download
-                </Button>
-              </div>
-            </CardHeader>
-            <CardContent>
-              <div className="whitespace-pre-wrap font-mono text-sm bg-muted p-4 rounded">
-                {task.result.content || 'No content available'}
-              </div>
-            </CardContent>
-          </Card>
-        </div>
-      )}
     </div>
   );
 };

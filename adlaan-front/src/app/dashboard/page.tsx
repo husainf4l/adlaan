@@ -3,12 +3,68 @@
 import { useAuth } from "../../contexts/AuthContext";
 import { useRouter } from "next/navigation";
 import { useState, useEffect } from "react";
-import { Building2, Users, Globe, ArrowRight, Settings, FileText, BarChart3, User, Mail, Shield, Calendar } from "lucide-react";
+import { Building2, Users, Globe, ArrowRight, Settings, FileText, BarChart3, User, Mail, Shield, Calendar, Plus, Upload, Eye, AlertTriangle, TrendingUp, HardDrive, MessageSquare, Crown, Clock, CheckCircle, XCircle, FileCheck, UserPlus, UserMinus, FileSearch } from "lucide-react";
 import { Button } from "../../components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "../../components/ui/card";
-import { BentoGrid, type BentoItem } from "../../components/ui/bento-grid";
-import { Avatar, AvatarImage, AvatarFallback } from "../../components/ui/avatar";
 import { Badge } from "../../components/ui/badge";
+import { Progress } from "../../components/ui/progress";
+import { DashboardLayout } from "../../components/DashboardLayout";
+import { Avatar, AvatarImage, AvatarFallback } from "../../components/ui/avatar";
+
+// Mock data for the enhanced dashboard
+const mockData = {
+  company: {
+    name: "Papaya Trading",
+    plan: "Business Plan",
+    totalDocuments: 184,
+    totalEmployees: 12,
+    pendingContracts: 7,
+    storageUsed: 2.3,
+    storageTotal: 10,
+    lastLogin: "2 hours ago"
+  },
+  recentDocuments: [
+    { name: "Employment Contract - John Doe", type: "HR", createdBy: "Sarah Wilson", status: "Signed", dateModified: "2024-01-15" },
+    { name: "NDA - TechCorp Inc", type: "Legal", createdBy: "Mike Johnson", status: "Pending", dateModified: "2024-01-14" },
+    { name: "Sales Agreement - ABC Corp", type: "Sales", createdBy: "Emma Davis", status: "Draft", dateModified: "2024-01-13" },
+    { name: "Partnership Agreement", type: "Legal", createdBy: "Alex Chen", status: "Signed", dateModified: "2024-01-12" },
+    { name: "Vendor Contract - XYZ Ltd", type: "Procurement", createdBy: "Lisa Brown", status: "Pending", dateModified: "2024-01-11" },
+    { name: "Service Agreement - DEF Inc", type: "Legal", createdBy: "Tom Wilson", status: "Draft", dateModified: "2024-01-10" },
+    { name: "Consulting Agreement", type: "Legal", createdBy: "Anna Lee", status: "Signed", dateModified: "2024-01-09" }
+  ],
+  employeeActivity: {
+    activeEmployees: 12,
+    pendingHRDocuments: 3,
+    recentlyHired: 2,
+    recentlyExited: 1,
+    recentActions: [
+      { action: "New employee added", employee: "John Doe", date: "2024-01-15", type: "hire" },
+      { action: "Contract renewed", employee: "Sarah Wilson", date: "2024-01-14", type: "renewal" },
+      { action: "Employee terminated", employee: "Mike Johnson", date: "2024-01-13", type: "termination" },
+      { action: "Promotion recorded", employee: "Emma Davis", date: "2024-01-12", type: "promotion" }
+    ]
+  },
+  storage: {
+    totalDocuments: 184,
+    usedStorage: 2.3,
+    totalStorage: 10,
+    mostActiveFolder: "HR / Contracts"
+  },
+  recentActivity: [
+    { user: "Sarah Wilson", action: "created a Sales Agreement", time: "2 hours ago", type: "create" },
+    { user: "Mike Johnson", action: "analyzed NDA.pdf — 1 risk detected", time: "4 hours ago", type: "analyze" },
+    { user: "Emma Davis", action: "added new employee John Doe", time: "6 hours ago", type: "employee" },
+    { user: "Alex Chen", action: "deleted old contract version", time: "1 day ago", type: "delete" },
+    { user: "Lisa Brown", action: "uploaded Vendor Contract.pdf", time: "1 day ago", type: "upload" },
+    { user: "Tom Wilson", action: "signed Partnership Agreement", time: "2 days ago", type: "sign" }
+  ],
+  aiAssistantQueries: [
+    "Summarize my last 5 HR contracts",
+    "Generate a Sales Agreement for a new supplier",
+    "Review NDA for potential risks",
+    "Create employment contract template"
+  ]
+};
 
 export default function Dashboard() {
   const { user, company, logout, authLoading } = useAuth();
@@ -54,65 +110,29 @@ export default function Dashboard() {
     router.push("/");
   };
 
-  // Create dashboard items for BentoGrid
-  const dashboardItems: BentoItem[] = [
-    {
-      title: user.name,
-      meta: user.role,
-      description: `Welcome back! Your account is active with ${user.role} privileges.`,
-      icon: <User className="w-4 h-4 text-blue-500" />,
-      status: "Active",
-      tags: ["Admin", "Verified"],
-      colSpan: 2,
-      hasPersistentHover: true,
-    },
-    {
-      title: company.name,
-      meta: company.description || "Legal Services",
-      description: `Company ID: ${company.id} • Established in your workspace`,
-      icon: <Building2 className="w-4 h-4 text-emerald-500" />,
-      status: "Active",
-      tags: ["Company", "Legal"],
-    },
-    {
-      title: "Contact Information",
-      meta: company.email || "Not set",
-      description: company.phone ? `Phone: ${company.phone}` : "Phone not configured",
-      icon: <Mail className="w-4 h-4 text-purple-500" />,
-      status: company.email ? "Configured" : "Setup needed",
-      tags: ["Contact", "Communication"],
-    },
-    {
-      title: "Company Address",
-      meta: company.address || "Not set",
-      description: company.website ? `Website: ${company.website}` : "Website not configured",
-      icon: <Globe className="w-4 h-4 text-orange-500" />,
-      status: company.address ? "Complete" : "Setup needed",
-      tags: ["Location", "Address"],
-      colSpan: 2,
-    },
-    {
-      title: "Case Management",
-      meta: "0 active cases",
-      description: "Start managing legal cases with AI-powered assistance",
-      icon: <FileText className="w-4 h-4 text-red-500" />,
-      status: "Ready",
-      tags: ["Cases", "Legal", "AI"],
-      cta: "Manage Cases →",
-    },
-    {
-      title: "Team Analytics",
-      meta: "1 member",
-      description: "Monitor team performance and case outcomes",
-      icon: <BarChart3 className="w-4 h-4 text-cyan-500" />,
-      status: "Live",
-      tags: ["Analytics", "Performance"],
-      cta: "View Reports →",
-    },
-  ];
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case 'signed': return 'text-green-600 bg-green-50 border-green-200';
+      case 'pending': return 'text-yellow-600 bg-yellow-50 border-yellow-200';
+      case 'draft': return 'text-blue-600 bg-blue-50 border-blue-200';
+      default: return 'text-gray-600 bg-gray-50 border-gray-200';
+    }
+  };
+
+  const getActivityIcon = (type: string) => {
+    switch (type) {
+      case 'create': return <Plus className="w-4 h-4 text-green-600" />;
+      case 'analyze': return <FileSearch className="w-4 h-4 text-blue-600" />;
+      case 'employee': return <UserPlus className="w-4 h-4 text-purple-600" />;
+      case 'delete': return <XCircle className="w-4 h-4 text-red-600" />;
+      case 'upload': return <Upload className="w-4 h-4 text-orange-600" />;
+      case 'sign': return <CheckCircle className="w-4 h-4 text-green-600" />;
+      default: return <FileText className="w-4 h-4 text-gray-600" />;
+    }
+  };
 
   return (
-    <div className="min-h-screen bg-background">
+    <DashboardLayout>
       {/* Header */}
       <header className="border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
         <div className="container mx-auto px-4 sm:px-6 lg:px-8">
@@ -147,160 +167,269 @@ export default function Dashboard() {
       </header>
 
       {/* Main Content */}
-      <main className="container mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="mb-8">
-          <div className="flex items-center gap-2 mb-2">
-            <h2 className="text-3xl font-bold text-foreground">Dashboard</h2>
-            <Badge variant="outline" className="text-green-600 border-green-600">
-              <div className="w-2 h-2 bg-green-600 rounded-full mr-2"></div>
-              Live
-            </Badge>
-          </div>
-          <p className="text-muted-foreground">
-            Manage your legal practice with AI-powered tools and insights
-          </p>
-        </div>
-
-        {/* Bento Grid Dashboard */}
-        <BentoGrid items={dashboardItems} />
-
-        {/* Quick Actions Section */}
-        <div className="mt-12">
-          <h3 className="text-2xl font-bold text-foreground mb-6">Quick Actions</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 hover:border-primary/50" onClick={() => router.push("/dashboard/agents")}>
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center text-lg">
-                  <Settings className="h-5 w-5 mr-2 text-primary" />
-                  AI Agents
-                </CardTitle>
-                <CardDescription>
-                  Access AI-powered legal assistants and automation tools
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                  Launch Agents
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 hover:border-primary/50" onClick={() => router.push("/cases")}>
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center text-lg">
-                  <FileText className="h-5 w-5 mr-2 text-primary" />
-                  Manage Cases
-                </CardTitle>
-                <CardDescription>
-                  Create and manage legal cases for your firm
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                  Open Cases
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 hover:border-primary/50" onClick={() => router.push("/analytics")}>
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center text-lg">
-                  <BarChart3 className="h-5 w-5 mr-2 text-primary" />
-                  Analytics
-                </CardTitle>
-                <CardDescription>
-                  View reports and insights about your firm&apos;s performance
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                  View Analytics
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 hover:border-primary/50" onClick={() => router.push("/team")}>
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center text-lg">
-                  <Users className="h-5 w-5 mr-2 text-primary" />
-                  Team Management
-                </CardTitle>
-                <CardDescription>
-                  Manage team members and permissions
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                  Manage Team
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              </CardContent>
-            </Card>
-
-            <Card className="cursor-pointer hover:shadow-lg transition-all duration-300 hover:scale-105 border-2 hover:border-primary/50" onClick={() => router.push("/documents")}>
-              <CardHeader className="pb-3">
-                <CardTitle className="flex items-center text-lg">
-                  <FileText className="h-5 w-5 mr-2 text-primary" />
-                  Documents
-                </CardTitle>
-                <CardDescription>
-                  Store and manage your files and documents
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <Button className="w-full bg-gradient-to-r from-primary to-primary/80 hover:from-primary/90 hover:to-primary/70">
-                  Open Drive
-                  <ArrowRight className="h-4 w-4 ml-2" />
-                </Button>
-              </CardContent>
-            </Card>
+      <main className="flex-1 overflow-y-auto p-6 space-y-8">
+        {/* Header Section - Quick Summary */}
+        <div className="bg-gradient-to-r from-primary/5 to-primary/10 rounded-lg p-6 border">
+          <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+            <div>
+              <h2 className="text-2xl font-bold text-foreground mb-2">
+                {mockData.company.name} – {mockData.company.plan}
+              </h2>
+              <div className="grid grid-cols-2 md:grid-cols-5 gap-4 text-sm">
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">{mockData.company.totalDocuments}</div>
+                  <div className="text-muted-foreground">Total Documents</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-primary">{mockData.company.totalEmployees}</div>
+                  <div className="text-muted-foreground">Total Employees</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-orange-600">{mockData.company.pendingContracts}</div>
+                  <div className="text-muted-foreground">Pending Contracts</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-blue-600">{mockData.company.storageUsed} GB</div>
+                  <div className="text-muted-foreground">Storage Used</div>
+                </div>
+                <div className="text-center">
+                  <div className="text-2xl font-bold text-green-600">{mockData.company.lastLogin}</div>
+                  <div className="text-muted-foreground">Last Login</div>
+                </div>
+              </div>
+            </div>
+            <Button size="lg" className="bg-primary hover:bg-primary/90">
+              <Plus className="w-4 h-4 mr-2" />
+              Create Contract
+            </Button>
           </div>
         </div>
 
-        {/* Recent Activity */}
-        <div className="mt-12">
-          <h3 className="text-2xl font-bold text-foreground mb-6">Recent Activity</h3>
-          <Card className="border-2">
-            <CardHeader className="bg-gradient-to-r from-muted/50 to-muted/10">
+        {/* Recent Documents */}
+        <Card>
+          <CardHeader className="flex flex-row items-center justify-between">
+            <div>
               <CardTitle className="flex items-center">
-                <Calendar className="h-5 w-5 mr-2 text-primary" />
-                Getting Started
+                <FileText className="w-5 h-5 mr-2" />
+                Recent Documents
               </CardTitle>
-              <CardDescription>
-                Welcome to your legal AI platform dashboard
-              </CardDescription>
+              <CardDescription>Latest files and contracts in your workspace</CardDescription>
+            </div>
+            <div className="flex gap-2">
+              <Button variant="outline" size="sm">
+                <Upload className="w-4 h-4 mr-2" />
+                Upload File
+              </Button>
+              <Button variant="outline" size="sm" onClick={() => router.push("/dashboard/documents")}>
+                <Eye className="w-4 h-4 mr-2" />
+                View All Documents
+              </Button>
+            </div>
+          </CardHeader>
+          <CardContent>
+            <div className="overflow-x-auto">
+              <table className="w-full">
+                <thead>
+                  <tr className="border-b">
+                    <th className="text-left p-3 font-medium">Document Name</th>
+                    <th className="text-left p-3 font-medium">Type</th>
+                    <th className="text-left p-3 font-medium">Created By</th>
+                    <th className="text-left p-3 font-medium">Status</th>
+                    <th className="text-left p-3 font-medium">Date Modified</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {mockData.recentDocuments.map((doc, index) => (
+                    <tr key={index} className="border-b hover:bg-muted/50">
+                      <td className="p-3">
+                        <div className="flex items-center">
+                          <FileText className="w-4 h-4 mr-2 text-muted-foreground" />
+                          {doc.name}
+                        </div>
+                      </td>
+                      <td className="p-3">
+                        <Badge variant="outline">{doc.type}</Badge>
+                      </td>
+                      <td className="p-3">{doc.createdBy}</td>
+                      <td className="p-3">
+                        <Badge className={getStatusColor(doc.status)}>{doc.status}</Badge>
+                      </td>
+                      <td className="p-3 text-muted-foreground">{doc.dateModified}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </CardContent>
+        </Card>
+
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Employee Activity Summary */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <Users className="w-5 h-5 mr-2 text-blue-600" />
+                Employee Activity Summary
+              </CardTitle>
+              <CardDescription>Recent HR actions and workforce metrics</CardDescription>
             </CardHeader>
-            <CardContent className="pt-6">
-              <div className="space-y-4">
-                <div className="flex items-center space-x-4 p-3 rounded-lg bg-green-50 dark:bg-green-950/20 border border-green-200 dark:border-green-800">
-                  <div className="w-3 h-3 bg-green-500 rounded-full"></div>
-                  <div>
-                    <p className="text-sm font-medium text-green-900 dark:text-green-100">Company setup completed</p>
-                    <p className="text-xs text-green-600 dark:text-green-400">Just now</p>
-                  </div>
+            <CardContent className="space-y-6">
+              {/* Metrics */}
+              <div className="grid grid-cols-2 gap-4">
+                <div className="text-center p-4 bg-green-50 dark:bg-green-950/20 rounded-lg">
+                  <div className="text-2xl font-bold text-green-600">{mockData.employeeActivity.activeEmployees}</div>
+                  <div className="text-sm text-muted-foreground">Active Employees</div>
                 </div>
-                <div className="flex items-center space-x-4 p-3 rounded-lg bg-blue-50 dark:bg-blue-950/20 border border-blue-200 dark:border-blue-800">
-                  <div className="w-3 h-3 bg-blue-500 rounded-full"></div>
-                  <div>
-                    <p className="text-sm font-medium text-blue-900 dark:text-blue-100">Account created successfully</p>
-                    <p className="text-xs text-blue-600 dark:text-blue-400">Just now</p>
-                  </div>
+                <div className="text-center p-4 bg-yellow-50 dark:bg-yellow-950/20 rounded-lg">
+                  <div className="text-2xl font-bold text-yellow-600">{mockData.employeeActivity.pendingHRDocuments}</div>
+                  <div className="text-sm text-muted-foreground">Pending HR Documents</div>
                 </div>
-                <div className="flex items-center space-x-4 p-3 rounded-lg bg-purple-50 dark:bg-purple-950/20 border border-purple-200 dark:border-purple-800">
-                  <div className="w-3 h-3 bg-purple-500 rounded-full"></div>
-                  <div>
-                    <p className="text-sm font-medium text-purple-900 dark:text-purple-100">ADMIN role assigned</p>
-                    <p className="text-xs text-purple-600 dark:text-purple-400">Just now</p>
-                  </div>
+                <div className="text-center p-4 bg-blue-50 dark:bg-blue-950/20 rounded-lg">
+                  <div className="text-2xl font-bold text-blue-600">+{mockData.employeeActivity.recentlyHired}</div>
+                  <div className="text-sm text-muted-foreground">Recently Hired</div>
+                </div>
+                <div className="text-center p-4 bg-red-50 dark:bg-red-950/20 rounded-lg">
+                  <div className="text-2xl font-bold text-red-600">-{mockData.employeeActivity.recentlyExited}</div>
+                  <div className="text-sm text-muted-foreground">Recently Exited</div>
+                </div>
+              </div>
+
+              {/* Recent Actions */}
+              <div>
+                <h4 className="font-medium mb-3">Recent Actions</h4>
+                <div className="space-y-3">
+                  {mockData.employeeActivity.recentActions.map((action, index) => (
+                    <div key={index} className="flex items-center space-x-3 p-3 rounded-lg bg-muted/30">
+                      {action.type === 'hire' && <UserPlus className="w-4 h-4 text-green-600" />}
+                      {action.type === 'renewal' && <FileCheck className="w-4 h-4 text-blue-600" />}
+                      {action.type === 'termination' && <UserMinus className="w-4 h-4 text-red-600" />}
+                      {action.type === 'promotion' && <TrendingUp className="w-4 h-4 text-purple-600" />}
+                      <div>
+                        <p className="text-sm font-medium">{action.action}</p>
+                        <p className="text-xs text-muted-foreground">{action.employee} • {action.date}</p>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             </CardContent>
           </Card>
+
+          {/* Storage & Organization Summary */}
+          <Card>
+            <CardHeader>
+              <CardTitle className="flex items-center">
+                <HardDrive className="w-5 h-5 mr-2 text-cyan-600" />
+                Storage & Organization
+              </CardTitle>
+              <CardDescription>Document storage usage and organization insights</CardDescription>
+            </CardHeader>
+            <CardContent className="space-y-6">
+              <div className="space-y-4">
+                <div>
+                  <div className="flex justify-between text-sm mb-2">
+                    <span>Storage Used</span>
+                    <span>{mockData.storage.usedStorage} GB / {mockData.storage.totalStorage} GB</span>
+                  </div>
+                  <Progress value={(mockData.storage.usedStorage / mockData.storage.totalStorage) * 100} className="h-2" />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div className="text-center p-4 bg-muted/30 rounded-lg">
+                    <div className="text-2xl font-bold">{mockData.storage.totalDocuments}</div>
+                    <div className="text-sm text-muted-foreground">Total Documents</div>
+                  </div>
+                  <div className="text-center p-4 bg-muted/30 rounded-lg">
+                    <div className="text-lg font-medium">{mockData.storage.mostActiveFolder}</div>
+                    <div className="text-sm text-muted-foreground">Most Active Folder</div>
+                  </div>
+                </div>
+              </div>
+              <Button variant="outline" className="w-full">
+                <HardDrive className="w-4 h-4 mr-2" />
+                View Cloud Storage
+              </Button>
+            </CardContent>
+          </Card>
         </div>
+
+        {/* Recent Activity Log */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <Clock className="w-5 h-5 mr-2 text-orange-600" />
+              Recent Activity Log
+            </CardTitle>
+            <CardDescription>Chronological feed of recent system actions</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="space-y-4">
+              {mockData.recentActivity.map((activity, index) => (
+                <div key={index} className="flex items-start space-x-4 p-4 rounded-lg bg-muted/30 border-l-4 border-l-primary/20">
+                  <div className="mt-1">
+                    {getActivityIcon(activity.type)}
+                  </div>
+                  <div className="flex-1">
+                    <p className="text-sm">
+                      <span className="font-medium">{activity.user}</span> {activity.action}
+                    </p>
+                    <p className="text-xs text-muted-foreground">{activity.time}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* AI Assistant Shortcut */}
+        <Card className="bg-gradient-to-r from-purple-50 to-blue-50 dark:from-purple-950/20 dark:to-blue-950/20 border-purple-200 dark:border-purple-800">
+          <CardHeader>
+            <CardTitle className="flex items-center">
+              <MessageSquare className="w-5 h-5 mr-2 text-purple-600" />
+              AI Assistant
+            </CardTitle>
+            <CardDescription>Ask Adlaan AI for help with your legal documents and processes</CardDescription>
+          </CardHeader>
+          <CardContent>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              {mockData.aiAssistantQueries.map((query, index) => (
+                <Button
+                  key={index}
+                  variant="outline"
+                  className="justify-start h-auto p-4 text-left"
+                  onClick={() => router.push("/dashboard/ai")}
+                >
+                  <MessageSquare className="w-4 h-4 mr-3 text-purple-600" />
+                  <span className="text-sm">{query}</span>
+                </Button>
+              ))}
+            </div>
+            <Button className="w-full bg-purple-600 hover:bg-purple-700">
+              <MessageSquare className="w-4 h-4 mr-2" />
+              Open AI Assistant
+            </Button>
+          </CardContent>
+        </Card>
+
+        {/* Subscription/Plan Reminder */}
+        <Card className="bg-gradient-to-r from-orange-50 to-red-50 dark:from-orange-950/20 dark:to-red-950/20 border-orange-200 dark:border-orange-800">
+          <CardContent className="p-6">
+            <div className="flex items-center justify-between">
+              <div className="flex items-center space-x-3">
+                <Crown className="w-6 h-6 text-orange-600" />
+                <div>
+                  <h3 className="font-medium">Storage Usage Alert</h3>
+                  <p className="text-sm text-muted-foreground">
+                    You&apos;re at 85% of your document limit — Consider upgrading your plan
+                  </p>
+                </div>
+              </div>
+              <Button variant="outline" className="border-orange-300 text-orange-700 hover:bg-orange-50">
+                Upgrade Plan
+              </Button>
+            </div>
+          </CardContent>
+        </Card>
       </main>
-    </div>
+    </DashboardLayout>
   );
 }

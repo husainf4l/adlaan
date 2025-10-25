@@ -1,6 +1,6 @@
 import { NextRequest } from 'next/server';
 
-const ADLAAN_AGENT_BASE_URL = process.env.ADLAAN_AGENT_URL || 'http://adlaan.com/api';
+const ADLAAN_AGENT_BASE_URL = process.env.NEXT_PUBLIC_AGENTS_URL || 'http://adlaan.com/api';
 
 // Store active connections
 const connections = new Set<{
