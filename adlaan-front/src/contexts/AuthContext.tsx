@@ -2,7 +2,7 @@
 
 import { createContext, useContext, useState, useEffect, ReactNode } from "react";
 import { client } from "../lib/apollo-client";
-import { LOGIN_MUTATION, REGISTER_MUTATION, CREATE_COMPANY_MUTATION, ME_QUERY } from "../lib/graphql";
+import { LOGIN_MUTATION, REGISTER_MUTATION, CREATE_COMPANY_MUTATION, UPDATE_COMPANY_MUTATION, ME_QUERY } from "../lib/graphql";
 
 interface User {
   id: string;
@@ -34,6 +34,7 @@ interface AuthContextType {
   logout: () => void;
   updateUser: (name: string, email: string) => void;
   createCompany: (name: string, description?: string, address?: string, phone?: string, email?: string, website?: string) => Promise<void>;
+  updateCompany: (id: string, name: string, description?: string, address?: string, phone?: string, email?: string, website?: string) => Promise<void>;
   isAuthenticated: boolean;
   needsCompanySetup: boolean;
   loading: boolean;
@@ -194,7 +195,38 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     }
   };
 
+  const updateCompany = async (id: string, name: string, description?: string, address?: string, phone?: string, email?: string, website?: string) => {
+    if (!user) throw new Error("Authentication required");
 
+    setLoading(true);
+    setError(null);
+
+    try {
+      const { data }: { data: any } = await client.mutate({
+        mutation: UPDATE_COMPANY_MUTATION,
+        variables: {
+          input: {
+            id,
+            name,
+            description,
+            address,
+            phone,
+            email,
+            website,
+          },
+        },
+      });
+
+      const { company: companyData } = data.updateCompany;
+      setCompanyState(companyData);
+
+    } catch (err: any) {
+      setError(err.message || "Failed to update company");
+      throw err;
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const needsCompanySetup = !!user && !company;
 
@@ -208,6 +240,7 @@ export function AuthProvider({ children }: { children: ReactNode }) {
         logout,
         updateUser,
         createCompany,
+        updateCompany,
         isAuthenticated: !!user,
         needsCompanySetup,
         loading,

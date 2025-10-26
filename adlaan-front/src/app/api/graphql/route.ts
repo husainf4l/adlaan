@@ -82,6 +82,24 @@ export async function POST(request: NextRequest) {
         return Response.json(mockCreateCompanyResponse, { status: 200 });
       }
 
+      // Check if this is an updateCompany mutation
+      if (body.query && body.query.includes('mutation UpdateCompany')) {
+        const mockUpdateCompanyResponse = {
+          data: {
+            updateCompany: {
+              id: body.variables?.input?.id || 'mock-company-id',
+              name: body.variables?.input?.name || 'Updated Mock Company',
+              description: body.variables?.input?.description || 'Updated mock company description',
+              address: body.variables?.input?.address || 'Updated mock address',
+              phone: body.variables?.input?.phone || '123-456-7890',
+              email: body.variables?.input?.email || 'company@example.com',
+              website: body.variables?.input?.website || 'https://example.com'
+            }
+          }
+        };
+        return Response.json(mockUpdateCompanyResponse, { status: 200 });
+      }
+
       // Check if this is a register mutation
       if (body.query && body.query.includes('mutation Register')) {
         const mockRegisterResponse = {
